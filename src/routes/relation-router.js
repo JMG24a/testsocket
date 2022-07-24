@@ -70,7 +70,7 @@ const putRelation = async (req, res) => {
 
 const deleteRelation = async (req, res) => {
   const {id} = req.params;
-  const isDelete = await relationsController.deleteRelations(id)
+  const isDelete = await relationsController.deleteRelation(id)
 
   res.status(200).json({
     msg: "Eliminado con exito",

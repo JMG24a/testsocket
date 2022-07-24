@@ -4,7 +4,7 @@ const passport = require('passport');
 const userController = require('../controllers/user-controller');
 //middleware
 const { validatorRoles } = require('../../auth/middleware/roles');
-const { isLoggedIn } = require('../../auth/middleware/login');
+// const { isLoggedIn } = require('../../auth/middleware/login');
 
 const router = Router();
 
@@ -96,26 +96,29 @@ const login = async (req, res) => {
   });
 }
 
-const google = async (req, res) => {
-  const user = req.user;
-  const result = await userController.AuthGoogle(user)
+// const google = async (req, res) => {
+//   const user = req.user;
+//   const result = await userController.AuthGoogle(user)
 
-  res.status(200).json({
-    msg: "Login Success",
-    success: {
-      user: result.user,
-      token: result.jwt
-    }
-  });
-};
+//   res.status(200).json({
+//     msg: "Login Success",
+//     success: {
+//       user: result.user,
+//       token: result.jwt
+//     }
+//   });
+// };
 
-router.get("/", passport.authenticate('jwt', {session: false}), validatorRoles(['admin']), getUsers);
+router.get("/",
+  // passport.authenticate('jwt', {session: false}),
+  // validatorRoles(['admin']),
+getUsers);
 router.get("/:id", getUser);
 router.post("/", postUser);
 router.put("/:id", putUser);
 router.delete("/:id", deleteUser);
 //auth
 router.post("/login", passport.authenticate('local', {session: false}), login);
-router.get('/auth/google', isLoggedIn, google)
+// router.get('/auth/google', isLoggedIn, google)
 
 module.exports = router

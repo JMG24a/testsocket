@@ -1,11 +1,11 @@
 const VehicleModel = require("../../database/models/Vehicles");
 
-const getProperties = async () => {
+const getVehicles = async () => {
   const vehicle = await VehicleModel.find();
   return vehicle
 };
 
-const getProperty = async (id) => {
+const getVehicle = async (id) => {
   if(!id){
     return 'La propiedad no fue encontrada'
   }
@@ -13,7 +13,7 @@ const getProperty = async (id) => {
   return vehicle
 };
 
-const postProperty = async (body) => {
+const postVehicle = async (body) => {
   try {
     const vehicle = new VehicleModel(body);
     const newVehicle =  await vehicle.save();
@@ -29,7 +29,7 @@ const postProperty = async (body) => {
   }
 };
 
-const putProperty = async (id, body) => {
+const putVehicle = async (id, body) => {
   const vehicle = await getProperty(id);
 
   if (typeof vehicle === 'string') {
@@ -40,15 +40,15 @@ const putProperty = async (id, body) => {
   return newVehicle
 };
 
-const deleteProperty = async (id) => {
+const deleteVehicle = async (id) => {
   const deleteVehicle = await VehicleModel.findByIdAndDelete(id);
   return deleteVehicle ? true : false;
 };
 
 module.exports = {
-  getProperties,
-  getProperty,
-  postProperty,
-  putProperty,
-  deleteProperty
+  getVehicles,
+  getVehicle,
+  postVehicle,
+  putVehicle,
+  deleteVehicle
 }

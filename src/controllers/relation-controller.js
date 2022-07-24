@@ -1,11 +1,11 @@
 const RelationsModel = require("../../database/models/Relations");
 
-const getProperties = async () => {
+const getRelations = async () => {
   const relation = await RelationsModel.find();
   return relation
 };
 
-const getProperty = async (id) => {
+const getRelation = async (id) => {
   if(!id){
     return 'La propiedad no fue encontrada'
   }
@@ -13,7 +13,7 @@ const getProperty = async (id) => {
   return relation
 };
 
-const postProperty = async (body) => {
+const postRelation = async (body) => {
   try {
     const relation = new RelationsModel(body);
     const newRelation =  await relation.save();
@@ -29,7 +29,7 @@ const postProperty = async (body) => {
   }
 };
 
-const putProperty = async (id, body) => {
+const putRelation= async (id, body) => {
   const relation = await getProperty(id);
 
   if (typeof relation === 'string') {
@@ -40,15 +40,16 @@ const putProperty = async (id, body) => {
   return newRelation
 };
 
-const deleteProperty = async (id) => {
+const deleteRelation = async (id) => {
   const deleteRelation = await RelationsModel.findByIdAndDelete(id);
+  console.log('S: ',deleteRelation)
   return deleteRelation ? true : false;
 };
 
 module.exports = {
-  getProperties,
-  getProperty,
-  postProperty,
-  putProperty,
-  deleteProperty
+  getRelations,
+  getRelation,
+  postRelation,
+  putRelation,
+  deleteRelation
 }

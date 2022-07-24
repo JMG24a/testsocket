@@ -109,10 +109,7 @@ const login = async (req, res) => {
 //   });
 // };
 
-router.get("/",
-  // passport.authenticate('jwt', {session: false}),
-  // validatorRoles(['admin']),
-getUsers);
+router.get("/", passport.authenticate('jwt', {session: false}), validatorRoles(['admin']), getUsers);
 router.get("/:id", getUser);
 router.post("/", postUser);
 router.put("/:id", putUser);

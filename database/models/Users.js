@@ -1,49 +1,34 @@
 const { Schema, model } = require("mongoose");
 
 const UserSchema = Schema({
-  fechaCreacion: {
-    type: String,
-  },
-  correo: {
+  email: {
     type: String,
   },
   password: {
     type: String,
   },
+  name: {
+    type: String,
+  },
+  lastName: {
+    type: String,
+  },
+  secondLastName: {
+    type: String,
+  },
+  phone: {
+    type: String,
+  },
+  cellPhone: {
+    type: String,
+  },
+  photo: {
+    type: String,
+  },
+  address: {
+    type: String,
+  },
   token: {
-    type: String,
-  },
-  nombre: {
-    type: String,
-  },
-  primerApellido: {
-    type: String,
-  },
-  segundoApellido: {
-    type: String,
-  },
-  telefono: {
-    type: String,
-  },
-  celular: {
-    type: String,
-  },
-  imagen: {
-    type: String,
-  },
-  direccion: {
-    type: String,
-  },
-  formulariosDiligenciados: {
-    type: String,
-  },
-  vehiculos: {
-    type: String,
-  },
-  propiedades: {
-    type: String,
-  },
-  personasAdicionales: {
     type: String,
   },
 });

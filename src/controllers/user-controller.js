@@ -24,34 +24,29 @@ const getUserByEmail = async (id) => {
 };
 
 const postUser = async (body) => {
-  try {
-    const isUser = await getUserByEmail(body.email)
+  const isUser = await getUserByEmail(body.email)
 
-    if(isUser[0]?.email){
-      return 'Este usuario ya existe'
-    }
-
-    if(body.password){
-      const password = await security(body.password)
-      body.password = password;
-    }
-
-    const user = new UsersModel(body);
-    console.log(user)
-    const newUser =  await user.save();
-
-    const userInfo ={
-      id: newUser._id,
-      name: newUser.name,
-      email: newUser.email,
-      lastName: newUser.lastName,
-      secondLastName: newUser.secondLastName,
-      photo: newUser.photo,
-    }
-    return userInfo
-  }catch(e){
-    throw new Error ('El usuario no pudo ser creado')
+  if(isUser[0]?.email){
+    return 'Este usuario ya existe'
   }
+
+  if(body.password){
+    const password = await security(body.password)
+    body.password = password;
+  }
+
+  const user = new UsersModel(body);
+  const newUser =  await user.save();
+
+  const userInfo ={
+    id: newUser._id,
+    name: newUser.name,
+    email: newUser.email,
+    lastName: newUser.lastName,
+    secondLastName: newUser.secondLastName,
+    photo: newUser.photo,
+  }
+  return userInfo
 };
 
 const putUser = async (id, body) => {

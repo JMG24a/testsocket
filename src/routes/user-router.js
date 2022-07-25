@@ -37,10 +37,10 @@ const postUser = async (req, res) => {
       user: newUser
     });
   } catch (error) {
+    console.error(error)
     res.status(500).json({
       ok: false,
       msg: "Error en la peticion",
-      error,
     });
   }
 };
@@ -85,15 +85,23 @@ const deleteUser = async (req, res) => {
 
 const login = async (req, res) => {
   const user = req.user;
-  const token = await userController.signToken(user[0])
-
-  res.status(200).json({
-    msg: "Login Success",
-    success: {
-      user: user[0],
-      token
-    }
-  });
+  if(typeof user === 'string'){
+    res.status(401).json({
+      msg: "Login Error",
+      success: {
+        user: 'contraceña o usuario invalido',
+      }
+    });
+  }else{
+    const token = await userController.signToken(user[0])
+    res.status(200).json({
+      msg: "Login Success",
+      success: {
+        user: user[0],
+        token
+      }
+    });
+  }
 }
 
 // const google = async (req, res) => {

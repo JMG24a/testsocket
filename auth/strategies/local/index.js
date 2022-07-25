@@ -6,11 +6,7 @@ const local_auth = new Strategy(
   async(username, password, done)=>{
     try{
       const user = await login(username,password)
-      if(typeof user === 'string'){
-        done(err,false)
-      }else{
-        done(null,user)
-      }
+      done(null,user)
     }catch(err){
       done(err,false)
     }

@@ -1,8 +1,11 @@
 const express = require("express");
-const appRouter = require('./src/routes/index');
+const appRouter = require('./src/routes/index')
 const cors = require("cors");
 const { dbConnection } = require("./database/config");
+const passport = require("passport");
+const { passport_sessions } = require('./auth')
 require("dotenv").config();
+const { isLoggedIn } = require('./auth/middleware/login')
 
 // Crear el servidor de express
 const app = express();

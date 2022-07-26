@@ -92,17 +92,17 @@ const AuthGoogle = async (user) => {
       lastName: user._json.family_name,
       photo: user._json.picture,
     }
+
     const response = await postUser(userInfo);
     const jwt = await signToken(response)
-    console.log('RESPONSE: ',response)
     return {
       user: response,
       jwt
     }
   }else{
-    const jwt = await signToken(isAuth)
+    const jwt = await signToken(isAuth[0])
     return {
-      user: isAuth,
+      user: isAuth[0],
       jwt
     }
   }

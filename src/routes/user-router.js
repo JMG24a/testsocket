@@ -105,22 +105,21 @@ const login = async (req, res) => {
   }
 }
 
-// const google = async (req, res) => {
-//   const user = req.user;
-//   const result = await userController.AuthGoogle(user)
+const google = async (req, res) => {
+  const user = req.user;
+  const result = await userController.AuthGoogle(user)
 
-//   res.status(200).json({
-//     msg: "Login Success",
-//     success: {
-//       user: result.user,
-//       token: result.jwt
-//     }
-//   });
-// };
+  res.status(200).json({
+    msg: "Login Success",
+    success: {
+      user: result.user,
+      token: result.jwt
+    }
+  });
+};
 
 router.get("/",
-  // passport.authenticate('jwt', {session: false}),
-  // validatorRoles(['admin']),
+// passport.authenticate('jwt', {session: false}), validatorRoles(['admin']),
 getUsers);
 router.get("/:id", getUser);
 router.post("/", postUser);

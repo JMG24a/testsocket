@@ -18,6 +18,29 @@ dbConnection();
 
 //middleware
 require('./auth')
+passport_sessions(app)
+
+//google session
+app.get('/google/callback',
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/api/v1/users/auth/google')
+  }
+);
+
+app.get('/home', isLoggedIn, (req,res) => {
+  res.json({session: true})
+});
+
+app.get("/auth/google",
+  passport.authenticate('google', { scope: ['email', 'profile'] })
+);
+
+app.get("/logout",(req, res) =>{
+  req.session.destroy();
+  res.json({logout: true})
+});
 
 // Rutas
 appRouter(app)

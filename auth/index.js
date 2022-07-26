@@ -1,3 +1,4 @@
+const session = require("express-session")
 const passport = require('passport');
 const local_auth = require('./strategies/local')
 const JWT_auth = require('./strategies/jwt')
@@ -21,3 +22,4 @@ function passport_sessions (app){
 }
 
 module.exports = {passport_sessions}
+

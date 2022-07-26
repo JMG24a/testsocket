@@ -4,7 +4,7 @@ const passport = require('passport');
 const userController = require('../controllers/user-controller');
 //middleware
 const { validatorRoles } = require('../../auth/middleware/roles');
-// const { isLoggedIn } = require('../../auth/middleware/login');
+const { isLoggedIn } = require('../../auth/middleware/login');
 
 const router = Router();
 
@@ -37,11 +37,10 @@ const postUser = async (req, res) => {
       user: newUser
     });
   } catch (error) {
-    console.error(error)
     res.status(500).json({
       ok: false,
       msg: "Error en la peticion",
-      user: 'Error en la informacion del usuario'
+      error,
     });
   }
 };
@@ -127,6 +126,6 @@ router.put("/:id", putUser);
 router.delete("/:id", deleteUser);
 //auth
 router.post("/login", passport.authenticate('local', {session: false}), login);
-// router.get('/auth/google', isLoggedIn, google)
+router.get('/auth/google', isLoggedIn, google)
 
 module.exports = router

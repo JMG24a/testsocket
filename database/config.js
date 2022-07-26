@@ -1,12 +1,13 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
+require('dotenv').config();
 
 const dbConnection = async () => {
   try {
-    await mongoose.connect("mongodb+srv://formuapp:Alejandro92!@cluster0.7elnkb7.mongodb.net");
-    console.log("DB Online");
+    await mongoose.connect(process.env.DBCNN);
+    console.log('DB Online');
   } catch (error) {
     console.log(error);
-    throw new Error("Error a la hora de inicializar la DB");
+    throw new Error('Error a la hora de inicializar la DB');
   }
 };
 

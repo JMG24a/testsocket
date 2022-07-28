@@ -108,13 +108,15 @@ const google = async (req, res) => {
   const user = req.user;
   const result = await userController.AuthGoogle(user)
 
-  res.status(200).json({
-    msg: "Login Success",
-    success: {
-      user: result.user,
-      token: result.jwt
-    }
-  });
+  // res.status(200).json({
+  //   msg: "Login Success",
+  //   success: {
+  //     user: result.user,
+  //     token: result.jwt
+  //   }
+  // });
+
+  res.redirect('http://localhost:3000/login')
 };
 
 router.get("/",

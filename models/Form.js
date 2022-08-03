@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model, models } = require("mongoose");
 
 const formSchema = Schema({
   form_id      : { type: String, required: true, },
@@ -16,6 +16,6 @@ formSchema.method("toJSON", function () {
   return object;
 });
 
-const Form = mongoose.models.Form || model("Form", formSchema);
+const Form = models.Form || model("Form", formSchema);
 
 module.exports = Form;

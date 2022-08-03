@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const relationsSchema = Schema({
+const relationSchema = Schema({
   title: {
     type: String,
     required: true,
@@ -23,10 +23,10 @@ const relationsSchema = Schema({
   },
 });
 
-relationsSchema.method("toJSON", function () {
+relationSchema.method("toJSON", function () {
   const { __v, _id, ...object } = this.toObject();
   object.id = _id;
   return object;
 });
 
-module.exports = model("Relations", relationsSchema);
+module.exports = model("Relation", relationSchema);

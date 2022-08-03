@@ -1,5 +1,5 @@
 const { Strategy } = require('passport-local');
-const { login } = require('../../../src/controllers/user-controller');
+const { login } = require('../../../controllers/user-controller');
 
 const local_auth = new Strategy(
   {usernameField:'email', passwordField: 'password'},

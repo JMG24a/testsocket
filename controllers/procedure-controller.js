@@ -1,4 +1,4 @@
-const ProceduresModel = require("../../database/models/Procedures");
+const ProceduresModel = require("../models/Procedures");
 
 const getProcedures = async () => {
   const procedure = await ProceduresModel.find();

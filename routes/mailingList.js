@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const router = Router();
-const MailingListModel = require('../../database/models/MailingList');
+const MailingListModel = require('../models/MailingList');
 
 const getMailingList = async (req, res) => {
   const mailingList = await MailingListModel.find();

@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model, models } = require('mongoose');
 
 const mailingListSchema = new Schema({
   name: { type: String, },
@@ -12,6 +12,6 @@ mailingListSchema.method('toJSON', function () {
   return object;
 });
 
-const MailingList = mongoose.models.MailingList || model("MailingList", mailingListSchema);
+const MailingList = models.MailingList || model("MailingList", mailingListSchema);
 
 module.exports = MailingList;

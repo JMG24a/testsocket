@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model, models } = require("mongoose");
 
 const vehicleSchema = new Schema({
   name        : { type: String },
@@ -23,6 +23,6 @@ vehicleSchema.method("toJSON", function () {
   return object;
 });
 
-const Vehicle = mongoose.models.Vehicle || model("Vehicle", vehicleSchema);
+const Vehicle = models.Vehicle || model("Vehicle", vehicleSchema);
 
 module.exports = Vehicle;

@@ -3,8 +3,8 @@ const passport = require('passport');
 //services
 const userController = require('../controllers/user-controller');
 //middleware
-const { validatorRoles } = require('../../auth/middleware/roles');
-const { isLoggedIn } = require('../../auth/middleware/login');
+const { validatorRoles } = require('../auth/middleware/roles');
+const { isLoggedIn } = require('../auth/middleware/login');
 
 const router = Router();
 

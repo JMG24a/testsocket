@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model, models } = require("mongoose");
 
 const promotionSchema = Schema({
     issueDate   : { type: String },
@@ -14,6 +14,6 @@ promotionSchema.method("toJSON", function () {
   return object;
 });
 
-const Promotion = mongoose.models.Promotion || model("Promotion", promotionSchema);
+const Promotion = models.Promotion || model("Promotion", promotionSchema);
 
 module.exports = Promotion;

@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model, models } = require("mongoose");
 
 const marketingSurveySchema = new Schema({
     state: { type: Boolean },
@@ -14,6 +14,6 @@ marketingSurveySchema.method("toJSON", function () {
     return object;
 });
 
-const MarketingSurvey = mongoose.models.MarketingSurvey || model("MarketingSurvey", marketingSurveySchema);
+const MarketingSurvey = models.MarketingSurvey || model("MarketingSurvey", marketingSurveySchema);
 
 module.exports = MarketingSurvey;

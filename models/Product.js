@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model, models } = require("mongoose");
 
 const productSchema = Schema({
   name           : { type: String },
@@ -14,6 +14,6 @@ productSchema.method("toJSON", function () {
   return object;
 });
 
-const Product = mongoose.models.Product || model("Product", productSchema);
+const Product = models.Product || model("Product", productSchema);
 
 module.exports = Product;

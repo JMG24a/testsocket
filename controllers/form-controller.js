@@ -1,54 +1,85 @@
-const FormModel = require("..//models/Form");
+const { request, response } = require('express');
+const { isValidObjectId } = require('mongoose');
 
-const getForms = async () => {
-  const form = await FormModel.find();
-  return form
-};
+const Form = require('../models/Form');
 
-const getForm = async (id) => {
-  if(!id){
-    return 'La propiedad no fue encontrada'
-  }
-  const form = await FormModel.find({user: id});
-  return form
-};
+const getAllForms = async (req, res = response) => {
+    try {
+        const forms = await Form.find();
 
-const postForm = async (body) => {
-  try {
-    const form = new FormModel(body);
-    const newForm =  await form.save();
-
-    const formInfo ={
-      title: newForm.title,
-      type: newForm.type,
+        res.status(200).json({
+            ok: true,
+            forms
+        });
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            message: 'No se pudo acceder a los formularios, contacte un administrador.',
+            errorDescription: error.message
+        });
     }
-
-    return formInfo
-  }catch(e){
-    throw new Error ('El usuario no pudo ser creado')
-  }
 };
 
-const putForm = async (id, body) => {
-  const form = await getProperty(id);
+const getFormById = async (req = request, res = response) => {
+    const { formId } = req.params;
 
-  if (typeof form === 'string') {
-    return form
-  }
+    if(!isValidObjectId(formId)) return res.status(404).json({
+        ok: false,
+        message: 'No pudimos encontrar ningún formulario con ese Id.'
+    });
 
-  const newForm = await FormModel.findByIdAndUpdate(id, body, { new: true });
-  return newForm
+    try {
+        const form = await Form.find({ '_id': formId });
+        
+        res.status(200).json({
+            ok: true,
+            form
+        });
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            message: 'No se pudo acceder al formulario, contacte un administrador.',
+            errorDescription: error.message
+        });
+    }
 };
 
-const deleteForm = async (id) => {
-  const deleteProperty = await FormModel.findByIdAndDelete(id);
-  return deleteProperty ? true : false;
-};
+// const postForm = async (body) => {
+//   try {
+//     const form = new FormModel(body);
+//     const newForm =  await form.save();
+
+//     const formInfo ={
+//       title: newForm.title,
+//       type: newForm.type,
+//     }
+
+//     return formInfo
+//   }catch(e){
+//     throw new Error ('El usuario no pudo ser creado')
+//   }
+// };
+
+// const putForm = async (id, body) => {
+//   const form = await getProperty(id);
+
+//   if (typeof form === 'string') {
+//     return form
+//   }
+
+//   const newForm = await FormModel.findByIdAndUpdate(id, body, { new: true });
+//   return newForm
+// };
+
+// const deleteForm = async (id) => {
+//   const deleteProperty = await FormModel.findByIdAndDelete(id);
+//   return deleteProperty ? true : false;
+// };
 
 module.exports = {
-  getForms,
-  getForm,
-  postForm,
-  putForm,
-  deleteForm
+  getAllForms,
+  getFormById,
+//   postForm,
+//   putForm,
+//   deleteForm
 }

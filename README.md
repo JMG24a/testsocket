@@ -1,7 +1,7 @@
 # Formu Api
 
 ## Levantar el proyecto de forma local
-* Descagrar paquetes npm
+* Descagrar paquetes `npm`
 
     Debe descargar las dependencias que el proyecto necesita con:
     ```

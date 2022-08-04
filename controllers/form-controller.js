@@ -23,13 +23,18 @@ const getAllForms = async (req, res = response) => {
 const getFormById = async (req = request, res = response) => {
     const { formId } = req.params;
 
-    if(!isValidObjectId(formId)) return res.status(404).json({
+    if(!isValidObjectId(formId)) return res.status(400).json({
         ok: false,
-        message: 'No pudimos encontrar ningún formulario con ese Id.'
+        message: 'Id de formulario inválido.'
     });
 
     try {
-        const form = await Form.find({ '_id': formId });
+        const form = await Form.findOne({ '_id': formId });
+
+        if(!form) return res.status(404).json({
+            ok: false,
+            message: 'No pudimos encontrar ningún formulario con ese Id.'
+        });
         
         res.status(200).json({
             ok: true,

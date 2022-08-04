@@ -3,8 +3,8 @@ const { getAllForms, getFormById } = require('../controllers/form-controller')
 
 const router = Router();
 
-router.get('/forms', getAllForms);
-router.get('/forms/:formId', getFormById);
+router.get('/', getAllForms);
+router.get('/:formId', getFormById);
 
 module.exports = router;
 // router.post("/", postForm);

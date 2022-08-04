@@ -1,6 +1,6 @@
 const { Schema, model, models } = require("mongoose");
 
-const formSchema = Schema({
+const formSchema = new Schema({
   appAvailable  : { type: Boolean },
   webAvailable  : { type: Boolean },
   title         : { type: String },

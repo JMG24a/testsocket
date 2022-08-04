@@ -29,7 +29,7 @@ const getFormById = async (req = request, res = response) => {
     });
 
     try {
-        const form = await Form.findOne({ '_id': formId });
+        const form = await Form.findById(formId);
 
         if(!form) return res.status(404).json({
             ok: false,
@@ -49,42 +49,87 @@ const getFormById = async (req = request, res = response) => {
     }
 };
 
-// const postForm = async (body) => {
-//   try {
-//     const form = new FormModel(body);
-//     const newForm =  await form.save();
+const createNewForm = async (req = request, res = response) => {
+    try {
+        const newForm = new Form(req.body);
+        await newForm.save();
 
-//     const formInfo ={
-//       title: newForm.title,
-//       type: newForm.type,
-//     }
+        res.status(201).json({
+            ok: true,
+            form: newForm
+        });
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            message: 'No se pudo crear el nuevo formulario, contacte un administrador.',
+            errorDescription: error.message
+        });
+    }
+}
 
-//     return formInfo
-//   }catch(e){
-//     throw new Error ('El usuario no pudo ser creado')
-//   }
-// };
+const updateFormById = async(req = request, res = response) => {
+    const { formId } = req.params;
 
-// const putForm = async (id, body) => {
-//   const form = await getProperty(id);
+    if(!isValidObjectId(formId)) return res.status(400).json({
+        ok: false,
+        message: 'Id de formulario inválido.'
+    });
 
-//   if (typeof form === 'string') {
-//     return form
-//   }
+    try {
+        const form = await Form.findById(formId);
 
-//   const newForm = await FormModel.findByIdAndUpdate(id, body, { new: true });
-//   return newForm
-// };
+        if(!form) return res.status(404).json({
+            ok: false,
+            message: 'El formulario que trata de actualizar no existe.'
+        });
 
-// const deleteForm = async (id) => {
-//   const deleteProperty = await FormModel.findByIdAndDelete(id);
-//   return deleteProperty ? true : false;
-// };
+        const updatedForm = await Form.findByIdAndUpdate(formId, req.body, { new: true });
+        
+        res.status(200).json({
+            ok: true,
+            newForm: updatedForm
+        });
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            message: 'No se pudo actualizar el formulario, contacte un administrador.',
+            errorDescription: error.message
+        });
+    }
+}
+
+const deleteFormById = async(req = request, res = response) => {
+    const { formId } = req.params;
+
+    if(!isValidObjectId(formId)) return res.status(400).json({
+        ok: false,
+        message: 'Id de formulario inválido.'
+    });
+
+    try {
+        const form = await Form.findById(formId);
+
+        if(!form) return res.status(404).json({
+            ok: false,
+            message: 'El formulario no existe.'
+        });
+
+        await Form.findByIdAndDelete(formId);
+        
+        res.status(200).json({ ok: true });
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            message: 'No se pudo eliminar el formulario, contacte un administrador.',
+            errorDescription: error.message
+        });
+    }
+}
 
 module.exports = {
-  getAllForms,
-  getFormById,
-//   postForm,
-//   putForm,
-//   deleteForm
+    getAllForms,
+    getFormById,
+    createNewForm,
+    updateFormById,
+    deleteFormById
 }

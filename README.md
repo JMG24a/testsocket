@@ -46,7 +46,32 @@ Los endpoints de formularios regresan un JSON con la información y un valor `ok
         form: {...}
     }
     ```
-<!-- #### POST
----
+
+#### POST
+* Crear un nuevo formulario: `/forms` (mandando el nuevo form directamente en el body)
+    ```
+    {
+        ok: true,
+        form: {...}
+    }
+    ``` 
+
+#### PUT
+* Actualizar un formulario por su id: `/forms/[formId]` (mandando el nuevo form directamente en el body)
+    ```
+    {
+        ok: true,
+        newForm: {...}
+    }
+    ```
+
+#### DELETE
+* Eliminar un formulario por su id: `/forms/[formId]`
+    ```
+    {
+        ok: true
+    }
+    ```
+<!-- ---
 
 ### **End-points de USUARIOS** -->

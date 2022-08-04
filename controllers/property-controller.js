@@ -1,4 +1,4 @@
-const PropertyModel = require("../../database/models/Property");
+const PropertyModel = require("../models/Property");
 
 const getProperties = async () => {
   const property = await PropertyModel.find();

@@ -1,6 +1,6 @@
-const UsersModel = require("../../database/models/Users");
-const { security, security_confirm } = require('../../auth/middleware/security')
-const { createJWT } = require('../../auth/tokens')
+const UsersModel = require("../models/User");
+const { security, security_confirm } = require('../auth/middleware/security')
+const { createJWT } = require('../auth/tokens')
 
 const getUsers = async () => {
   const users = await UsersModel.find();

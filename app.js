@@ -1,5 +1,5 @@
 const express = require("express");
-const appRouter = require('./src/routes/index')
+const appRouter = require('./routes/index')
 const cors = require("cors");
 const { dbConnection } = require("./database/config");
 const passport = require("passport");

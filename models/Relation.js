@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const vehiclesSchema = Schema({
+const relationSchema = Schema({
   title: {
     type: String,
     required: true,
@@ -23,10 +23,10 @@ const vehiclesSchema = Schema({
   },
 });
 
-vehiclesSchema.method("toJSON", function () {
+relationSchema.method("toJSON", function () {
   const { __v, _id, ...object } = this.toObject();
   object.id = _id;
   return object;
 });
 
-module.exports = model("Vehicles", vehiclesSchema);
+module.exports = model("Relation", relationSchema);

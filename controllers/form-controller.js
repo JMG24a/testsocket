@@ -1,4 +1,4 @@
-const FormModel = require("../../database/models/Form");
+const FormModel = require("..//models/Form");
 
 const getForms = async () => {
   const form = await FormModel.find();

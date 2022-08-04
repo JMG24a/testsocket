@@ -1,6 +1,6 @@
 const { Schema, model, models } = require("mongoose");
 
-const promotionSchema = Schema({
+const promotionSchema = new Schema({
     issueDate   : { type: String },
     expiringDate: { type: String },
     couponCode  : { type: String },

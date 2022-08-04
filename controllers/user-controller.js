@@ -114,14 +114,28 @@ const signToken = async(user) =>{
       id: user?.id,
       email: user?.email
     },
-    role: "premium"
+    role: "basic"
   }
   const jwt = createJWT(payload)
   return jwt
 }
 
-const refresh = async() => {
+const refresh = async(token) => {
+  const user = await getUserByEmail(token.sub.email)
 
+  const userInfo = {
+    email: user[0].email,
+    name: user[0].name,
+    lastName: user[0].fistLastName,
+    secondLastName: user[0].secondLastName,
+    photo: user[0].photo,
+  }
+
+  const jwt = await signToken(user[0])
+  return {
+    user: userInfo,
+    token: jwt
+  }
 }
 
 module.exports = {

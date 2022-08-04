@@ -5,6 +5,7 @@ const userController = require('../controllers/user-controller');
 //middleware
 const { validatorRoles } = require('../auth/middleware/roles');
 const { isLoggedIn } = require('../auth/middleware/login');
+const { validateToken } = require('../auth/middleware/jwt');
 
 const router = Router();
 
@@ -105,15 +106,12 @@ const login = async (req, res) => {
 }
 
 const refresh = async (req, res) => {
-  console.log('LL: ', req)
-  const user = await userController.refresh()
+  const token = req.myPayload
+  const success = await userController.refresh(token)
 
   res.status(200).json({
     msg: "",
-    success: {
-      user: user[0],
-      token
-    }
+    success
   })
 }
 
@@ -141,7 +139,7 @@ router.put("/:id", putUser);
 router.delete("/:id", deleteUser);
 //auth
 router.post("/login", passport.authenticate('local', {session: false}), login);
-router.post("/refresh", passport.authenticate('jwt', {session: false}), refresh);
+router.post("/refresh", passport.authenticate('jwt', {session: false}), validateToken ,refresh);
 router.get('/auth/google', isLoggedIn, google)
 
 module.exports = router

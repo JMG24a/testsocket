@@ -104,6 +104,19 @@ const login = async (req, res) => {
   }
 }
 
+const refresh = async (req, res) => {
+  console.log('LL: ', req)
+  const user = await userController.refresh()
+
+  res.status(200).json({
+    msg: "",
+    success: {
+      user: user[0],
+      token
+    }
+  })
+}
+
 const google = async (req, res) => {
   const user = req.user;
   const result = await userController.AuthGoogle(user)
@@ -128,6 +141,7 @@ router.put("/:id", putUser);
 router.delete("/:id", deleteUser);
 //auth
 router.post("/login", passport.authenticate('local', {session: false}), login);
+router.post("/refresh", passport.authenticate('jwt', {session: false}), refresh);
 router.get('/auth/google', isLoggedIn, google)
 
 module.exports = router

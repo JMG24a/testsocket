@@ -114,10 +114,14 @@ const signToken = async(user) =>{
       id: user?.id,
       email: user?.email
     },
-    role: "admin"
+    role: "premium"
   }
   const jwt = createJWT(payload)
   return jwt
+}
+
+const refresh = async() => {
+
 }
 
 module.exports = {
@@ -128,5 +132,6 @@ module.exports = {
   deleteUser,
   login,
   signToken,
-  AuthGoogle
+  AuthGoogle,
+  refresh
 }

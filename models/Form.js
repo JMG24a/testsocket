@@ -19,17 +19,27 @@ const formSchema = new Schema({
     completed  : { type: Boolean },
     globalAlert: { type: String },
     formDiagram: {
-      title       : { type: String },
-      background  : { type: String },
-      showSwitch  : { type: Boolean },
-      switchLabel : { type: String },
-      formMaxWidth: { type: String },
+      title        : { type: String },
+      background   : { type: String },
+      formMaxWidth : { type: String },
+      showSwitch   : { type: Boolean },
+      switchLabel  : { type: String },
+      description  : { type: String },
+      alert        : { type: String },
+      interestLinks: [{
+        name: { type: String },
+        link: { type: String }
+      }],
       nodes: [{
         inputSize: { type: String },
         labelName: { type: String },
         name     : { type: String },
         tooltip  : { type: String },
-        input    : { type: String, required: true },
+        input    : { 
+          type      : { type: String },
+          options   : [String],
+          isRequired: Boolean
+        },
       }]
     }
   }]

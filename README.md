@@ -27,7 +27,7 @@
     ```
     npm start
     ```
-## API
+## API: /api/v1
 ### **Endpoints de FORMULARIOS**
 Los endpoints de formularios regresan un JSON con la información y un valor `ok: true` sí todo sale bien. El valor es `false` si hay algún problema y además contienen un `message` y un `errorDescription` (en caso de ocurrir un problema).
 

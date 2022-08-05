@@ -3,7 +3,7 @@ const  { config } = require('../../config/config')
 
 const secret = config.tokenKey
 
-const createJWT = (payload, options={expiresIn: '30min'}) => {
+const createJWT = (payload, options={expiresIn: '2h'}) => {
   return JWT.sign(payload, secret, options)
 }
 

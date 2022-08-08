@@ -123,6 +123,10 @@ const signToken = async(user) =>{
 const refresh = async(token) => {
   const user = await getUserByEmail(token.sub.email)
 
+  if(user.length < 0 ){
+    return 'usuario no encontrado'
+  }
+
   const userInfo = {
     email: user[0].email,
     name: user[0].name,

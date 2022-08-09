@@ -11,7 +11,12 @@ const getUser = async (id) => {
   if(!id){
     return 'El usuario no fue encontrado'
   }
-  const user = await UsersModel.findById(id);
+  const user = await UsersModel.findById(id)
+  // .populate({
+  //   path: 'Form',
+  //   select:
+  //     'title',
+  // }).exec();
   return user
 };
 
@@ -127,17 +132,11 @@ const refresh = async(token) => {
     return 'usuario no encontrado'
   }
 
-  const userInfo = {
-    email: user[0].email,
-    name: user[0].name,
-    lastName: user[0].fistLastName,
-    secondLastName: user[0].secondLastName,
-    photo: user[0].photo,
-  }
+  user[0].password = null
 
   const jwt = await signToken(user[0])
   return {
-    user: userInfo,
+    user: user[0],
     token: jwt
   }
 }

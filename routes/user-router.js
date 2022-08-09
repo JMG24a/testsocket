@@ -5,7 +5,7 @@ const User = require('../models/User');
 //services
 const userController = require('../controllers/user-controller');
 //middleware
-const { validatorRoles } = require('../auth/middleware/roles');
+// const { validatorRoles } = require('../auth/middleware/roles');
 const { isLoggedIn } = require('../auth/middleware/login');
 const { validateToken } = require('../auth/middleware/jwt');
 
@@ -35,11 +35,19 @@ const postUser = async (req, res) => {
   const body = req.body;
   try {
     const newUser = await userController.postUser(body);
-    res.status(201).json({
-      ok: true,
-      msg: 'Creado',
-      user: newUser,
-    });
+    if(typeof newUser === 'string'){
+      res.status(201).json({
+        ok: false,
+        msg: 'Error',
+        success: newUser,
+      });
+    }else{
+      res.status(201).json({
+        ok: true,
+        msg: 'Creado',
+        success: newUser,
+      });
+    }
   } catch (error) {
     res.status(500).json({
       ok: false,

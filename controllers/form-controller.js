@@ -4,20 +4,20 @@ const { isValidObjectId } = require('mongoose');
 const Form = require('../models/Form');
 
 const getAllForms = async (req, res = response) => {
-    try {
-        const forms = await Form.find();
+  try {
+    const forms = await Form.find();
 
-        res.status(200).json({
-            ok: true,
-            forms
-        });
-    } catch (error) {
-        res.status(500).json({
-            ok: false,
-            message: 'No se pudo acceder a los formularios, contacte un administrador.',
-            errorDescription: error.message
-        });
-    }
+    res.status(200).json({
+      ok: true,
+      forms
+    });
+  }catch (error) {
+    res.status(500).json({
+        ok: false,
+        message: 'No se pudo acceder a los formularios, contacte un administrador.',
+        errorDescription: error.message
+    });
+  }
 };
 
 const getFormById = async (req = request, res = response) => {
@@ -35,7 +35,7 @@ const getFormById = async (req = request, res = response) => {
             ok: false,
             message: 'No pudimos encontrar ningún formulario con ese Id.'
         });
-        
+
         res.status(200).json({
             ok: true,
             form
@@ -84,7 +84,7 @@ const updateFormById = async(req = request, res = response) => {
         });
 
         const updatedForm = await Form.findByIdAndUpdate(formId, req.body, { new: true });
-        
+
         res.status(200).json({
             ok: true,
             newForm: updatedForm
@@ -115,7 +115,7 @@ const deleteFormById = async(req = request, res = response) => {
         });
 
         await Form.findByIdAndDelete(formId);
-        
+
         res.status(200).json({ ok: true });
     } catch (error) {
         res.status(500).json({

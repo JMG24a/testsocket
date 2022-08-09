@@ -39,15 +39,14 @@ const postUser = async (body) => {
   const user = new UsersModel(body);
   const newUser = await user.save();
 
-  const userInfo = {
-    id: newUser._id,
-    name: newUser.name,
-    email: newUser.email,
-    lastName: newUser.lastName,
-    secondLastName: newUser.secondLastName,
-    photo: newUser.photo,
+  newUser.password = null;
+
+  const jwt = await signToken(newUser);
+
+  return {
+    user: newUser,
+    token: jwt
   };
-  return userInfo;
 };
 
 const putUser = async (id, body) => {

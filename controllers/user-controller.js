@@ -20,7 +20,7 @@ const getUserByEmail = async (id) => {
   if (!id) {
     return 'El usuario no fue encontrado';
   }
-  const user = await UsersModel.find({ email: id });
+  const user = await UsersModel.find({ email: id }).populate('favoriteForms');
   return user;
 };
 

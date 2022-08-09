@@ -3,13 +3,30 @@ const { isValidObjectId } = require('mongoose');
 
 const Form = require('../models/Form');
 
-const getAllForms = async (req, res = response) => {
+const getAllForms = async (req = request, res = response) => {
+  const {query} = req.query;
   try {
     const forms = await Form.find();
 
+    let formFilters = forms;
+
+    if(query !== undefined){
+      const filter = forms.filter(item => {
+        const keys = item.keywords.split(", ");
+        const result = keys.map(item => item.includes(query));
+        const isTrue = result.filter(item => item === true)
+        if(isTrue.length > 0){
+          return true
+        }else{
+          return false
+        }
+      })
+      formFilters = filter;
+    }
+    console.log('S: ',formFilters)
     res.status(200).json({
       ok: true,
-      forms
+      forms: formFilters
     });
   }catch (error) {
     res.status(500).json({

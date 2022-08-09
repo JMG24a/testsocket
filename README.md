@@ -31,7 +31,7 @@
 ### **Endpoints de FORMULARIOS**
 Los endpoints de formularios regresan un JSON con la información y un valor `ok: true` sí todo sale bien. El valor es `false` si hay algún problema y además contienen un `message` y un `errorDescription` (en caso de ocurrir un problema).
 
-#### GET
+#### GET 
 * Obtener todos los formularios registrados: `/forms`
     ```
     {
@@ -39,7 +39,7 @@ Los endpoints de formularios regresan un JSON con la información y un valor `ok
         forms: [...]
     }
     ```
-* Obtener formulario por id: `/forms/[formId]`
+* Obtener formulario por id: `/forms/[formId]` (Bearer token)
     ```
     {
         ok: true,
@@ -47,7 +47,7 @@ Los endpoints de formularios regresan un JSON con la información y un valor `ok
     }
     ```
 
-#### POST
+#### POST (Bearer token)
 * Crear un nuevo formulario: `/forms` (mandando el nuevo form directamente en el body)
     ```
     {
@@ -56,7 +56,7 @@ Los endpoints de formularios regresan un JSON con la información y un valor `ok
     }
     ``` 
 
-#### PUT
+#### PUT (Bearer token)
 * Actualizar un formulario por su id: `/forms/[formId]` (mandando el nuevo form directamente en el body)
     ```
     {
@@ -65,7 +65,7 @@ Los endpoints de formularios regresan un JSON con la información y un valor `ok
     }
     ```
 
-#### DELETE
+#### DELETE (Bearer token)
 * Eliminar un formulario por su id: `/forms/[formId]`
     ```
     {

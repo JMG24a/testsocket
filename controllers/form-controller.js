@@ -23,7 +23,7 @@ const getAllForms = async (req = request, res = response) => {
       })
       formFilters = filter;
     }
-    console.log('S: ',formFilters)
+
     res.status(200).json({
       ok: true,
       forms: formFilters

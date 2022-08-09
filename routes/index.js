@@ -7,6 +7,7 @@ const relationRouter = require('./relation-router');
 const formRouter = require('./form-router');
 const mailingList = require('./mailingList');
 const supportTicket = require('./support-ticket');
+const faqRouter = require('./faq');
 
 const appRouter = (app) => {
   const routerV1 = Router();
@@ -19,6 +20,7 @@ const appRouter = (app) => {
   routerV1.use('/forms', formRouter);
   routerV1.use('/mailingList', mailingList);
   routerV1.use('/supportTicket', supportTicket);
+  routerV1.use('/faq', faqRouter);
 
   //V2
 };

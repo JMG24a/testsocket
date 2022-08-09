@@ -1,5 +1,7 @@
 const { Router } = require('express');
 const passport = require('passport');
+const User = require('../models/User');
+
 //services
 const userController = require('../controllers/user-controller');
 //middleware
@@ -10,21 +12,22 @@ const { validateToken } = require('../auth/middleware/jwt');
 const router = Router();
 
 const getUsers = async (req, res) => {
-  const users = await userController.getUsers()
+  const users = await userController.getUsers();
 
   res.status(200).json({
-    msg: "Listado de clientes",
+    msg: 'Listado de clientes',
     users,
   });
 };
 
 const getUser = async (req, res) => {
-  const {id} = req.params;
-  const user = await userController.getUser(id)
+  const { id } = req.params;
+
+  const user = await userController.getUser(id);
 
   res.status(200).json({
-    msg: "Cliente",
-    user
+    msg: 'Cliente',
+    user,
   });
 };
 
@@ -34,13 +37,13 @@ const postUser = async (req, res) => {
     const newUser = await userController.postUser(body);
     res.status(201).json({
       ok: true,
-      msg: "Creado",
-      user: newUser
+      msg: 'Creado',
+      user: newUser,
     });
   } catch (error) {
     res.status(500).json({
       ok: false,
-      msg: "Error en la peticion",
+      msg: 'Error en la peticion',
       error,
     });
   }
@@ -51,73 +54,73 @@ const putUser = async (req, res) => {
   const body = req.body;
 
   try {
-    const newUser = await userController.putUser(id, body)
+    const newUser = await userController.putUser(id, body);
 
     if (typeof newUser === 'string') {
       res.status(404).json({
         ok: false,
-        msg: "No Encontrado",
+        msg: 'No Encontrado',
       });
     }
 
     res.status(200).json({
       ok: true,
-      msg: "Actualizado Correctamente",
+      msg: 'Actualizado Correctamente',
       newUser,
     });
   } catch (error) {
     res.status(501).json({
       ok: false,
-      msg: "Error en la peticion",
+      msg: 'Error en la peticion',
       error,
     });
   }
 };
 
 const deleteUser = async (req, res) => {
-  const {id} = req.params;
-  const isDelete = await userController.deleteUser(id)
+  const { id } = req.params;
+  const isDelete = await userController.deleteUser(id);
 
   res.status(200).json({
-    msg: "Listado de clientes",
-    success: isDelete
+    msg: 'Listado de clientes',
+    success: isDelete,
   });
 };
 
 const login = async (req, res) => {
   const user = req.user;
-  if(typeof user === 'string'){
+  if (typeof user === 'string') {
     res.status(401).json({
-      msg: "Login Error",
+      msg: 'Login Error',
       success: {
         user: 'contraceña o usuario invalido',
-      }
+      },
     });
-  }else{
-    const token = await userController.signToken(user[0])
+  } else {
+    const token = await userController.signToken(user[0]);
     res.status(200).json({
-      msg: "Login Success",
+      msg: 'Login Success',
       success: {
         user: user[0],
-        token
-      }
+        token,
+      },
     });
   }
-}
+};
 
 const refresh = async (req, res) => {
-  const token = req.myPayload
-  const success = await userController.refresh(token)
+  const token = req.myPayload;
+  const success = await userController.refresh(token);
 
   res.status(200).json({
-    msg: "",
-    success
-  })
-}
+    msg: '',
+    success,
+  });
+};
 
 const google = async (req, res) => {
   const user = req.user;
-  const result = await userController.AuthGoogle(user)
+  const result = await userController.AuthGoogle(user);
 
   // res.status(200).json({
   //   msg: "Login Success",
@@ -127,19 +130,30 @@ const google = async (req, res) => {
   //   }
   // });
 
-  res.redirect('http://localhost:3000/login')
+  res.redirect('http://localhost:3000/login');
 };
 
-router.get("/",
-// passport.authenticate('jwt', {session: false}), validatorRoles(['admin']),
-getUsers);
-router.get("/:id", getUser);
-router.post("/", postUser);
-router.put("/:id", putUser);
-router.delete("/:id", deleteUser);
+router.get(
+  '/',
+  // passport.authenticate('jwt', {session: false}), validatorRoles(['admin']),
+  getUsers
+);
+router.get('/:id', getUser);
+router.post('/', postUser);
+router.put('/:id', putUser);
+router.delete('/:id', deleteUser);
 //auth
-router.post("/login", passport.authenticate('local', {session: false}), login);
-router.post("/refresh", passport.authenticate('jwt', {session: false}), validateToken ,refresh);
-router.get('/auth/google', isLoggedIn, google)
+router.post(
+  '/login',
+  passport.authenticate('local', { session: false }),
+  login
+);
+router.post(
+  '/refresh',
+  passport.authenticate('jwt', { session: false }),
+  validateToken,
+  refresh
+);
+router.get('/auth/google', isLoggedIn, google);
 
-module.exports = router
+module.exports = router;

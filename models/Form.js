@@ -45,6 +45,10 @@ const formSchema = new Schema(
                 options: [String],
                 isRequired: Boolean,
               },
+              autoCompleted: {
+                name: { type: String },
+                address: { type: String }
+              }
             },
           ],
         },

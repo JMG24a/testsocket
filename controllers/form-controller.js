@@ -2,6 +2,7 @@ const { request, response } = require('express');
 const { isValidObjectId } = require('mongoose');
 
 const Form = require('../models/Form');
+const ModelUser = require('../models/User');
 
 const getAllForms = async (req = request, res = response) => {
   const {query} = req.query;
@@ -143,10 +144,20 @@ const deleteFormById = async(req = request, res = response) => {
     }
 }
 
+const getAutocompleted = async(req = request, res = response) =>{
+  const body = req.body;
+  const token = req.myPayload;
+  const {sub: {email}} = token
+  const user = await ModelUser.findOne({email: email})
+
+
+}
+
 module.exports = {
-    getAllForms,
-    getFormById,
-    createNewForm,
-    updateFormById,
-    deleteFormById
+  getAllForms,
+  getFormById,
+  createNewForm,
+  updateFormById,
+  deleteFormById,
+  getAutocompleted
 }

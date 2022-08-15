@@ -5,7 +5,8 @@ const {
   getFormById,
   createNewForm,
   updateFormById,
-  deleteFormById
+  deleteFormById,
+  getAutocompleted
 } = require('../controllers/form-controller')
 const { validatorRoles } = require('../auth/middleware/roles');
 
@@ -40,6 +41,13 @@ router.delete(
   passport.authenticate('jwt', {session: false}),
   validatorRoles(['admin']),
   deleteFormById
+);
+
+router.post(
+  '/:formId',
+  passport.authenticate('jwt', {session: false}),
+  validatorRoles(['premium','basic','admin']),
+  getAutocompleted
 );
 
 module.exports = router;

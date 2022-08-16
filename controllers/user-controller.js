@@ -57,7 +57,13 @@ const putUser = async (token, body) => {
   }
 
   const newUser = await UsersModel.findByIdAndUpdate(token.sub.id, body, { new: true });
-  return newUser;
+  newUser.password = null;
+  const jwt = await signToken(newUser);
+
+  return {
+    user: newUser,
+    token: jwt
+  };
 };
 
 const deleteUser = async (id) => {

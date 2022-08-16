@@ -74,7 +74,7 @@ const putUser = async (req, res) => {
     res.status(200).json({
       ok: true,
       msg: 'Actualizado Correctamente',
-      newUser,
+      success: newUser,
     });
   } catch (error) {
     res.status(501).json({

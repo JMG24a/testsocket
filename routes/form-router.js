@@ -24,8 +24,6 @@ router.post(
 
 router.get(
   '/:formId',
-  passport.authenticate('jwt', {session: false}),
-  validatorRoles(['premium','basic','admin']),
   getFormById
 );
 

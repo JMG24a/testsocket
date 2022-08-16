@@ -43,11 +43,4 @@ router.delete(
   deleteFormById
 );
 
-router.post(
-  '/:formId',
-  passport.authenticate('jwt', {session: false}),
-  validatorRoles(['premium','basic','admin']),
-  getAutocompleted
-);
-
 module.exports = router;

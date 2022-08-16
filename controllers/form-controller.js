@@ -144,20 +144,10 @@ const deleteFormById = async(req = request, res = response) => {
     }
 }
 
-const getAutocompleted = async(req = request, res = response) =>{
-  const body = req.body;
-  const token = req.myPayload;
-  const {sub: {email}} = token
-  const user = await ModelUser.findOne({email: email})
-
-
-}
-
 module.exports = {
   getAllForms,
   getFormById,
   createNewForm,
   updateFormById,
   deleteFormById,
-  getAutocompleted
 }

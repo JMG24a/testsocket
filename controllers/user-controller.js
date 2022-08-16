@@ -49,14 +49,14 @@ const postUser = async (body) => {
   };
 };
 
-const putUser = async (id, body) => {
-  const user = await getUser(id);
+const putUser = async (token, body) => {
+  const user = await getUser(token.sub.id);
 
   if (typeof user === 'string') {
     return user;
   }
 
-  const newUser = await UsersModel.findByIdAndUpdate(id, body, { new: true });
+  const newUser = await UsersModel.findByIdAndUpdate(token.sub.id, body, { new: true });
   return newUser;
 };
 

@@ -58,11 +58,11 @@ const postUser = async (req, res) => {
 };
 
 const putUser = async (req, res) => {
-  const { id } = req.params;
+  const token = req.myPayload;
   const body = req.body;
 
   try {
-    const newUser = await userController.putUser(id, body);
+    const newUser = await userController.putUser(token, body);
 
     if (typeof newUser === 'string') {
       res.status(404).json({
@@ -148,7 +148,14 @@ router.get(
 );
 router.get('/:id', getUser);
 router.post('/', postUser);
-router.put('/:id', putUser);
+
+router.put(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  validateToken,
+  putUser
+);
+
 router.delete('/:id', deleteUser);
 //auth
 router.post(

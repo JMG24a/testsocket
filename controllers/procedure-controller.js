@@ -10,7 +10,7 @@ const getProcedure = async (id) => {
     return 'El procedimiento no fue encontrado'
   }
   try{
-    const procedure = await ProceduresModel.find({user: id});
+    const procedure = await ProceduresModel.find({idUsers: id.sub.id});
     return procedure
   }catch(e){
     console.error(e)

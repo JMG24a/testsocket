@@ -1,4 +1,6 @@
-const { Router } = require('express')
+const { Router } = require('express');
+const passport = require('passport');
+const { validateToken } = require('../auth/middleware/jwt');
 const procedureController = require('../controllers/procedure-controller')
 
 const router = Router();
@@ -13,8 +15,8 @@ const getProcedures = async (req, res) => {
 };
 
 const getProcedure = async (req, res) => {
-  const {id} = req.params;
-  const procedure = await procedureController.getProcedure(id)
+  const token = req.myPayload;
+  const procedure = await procedureController.getProcedure(token)
 
   res.status(200).json({
     msg: "procedimiento",
@@ -79,7 +81,14 @@ const deleteProcedure = async (req, res) => {
 };
 
 router.get("/", getProcedures);
-router.get("/:id", getProcedure);
+
+router.get(
+  "/user",
+  passport.authenticate('jwt', {session: false}),
+  validateToken,
+  getProcedure
+);
+
 router.post("/", postProcedure);
 router.put("/:id", putProcedure);
 router.delete("/:id", deleteProcedure);

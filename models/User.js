@@ -37,21 +37,6 @@ const userSchema = new Schema({
     },
   ],
   vehiclesOwned: [{ type: Schema.Types.ObjectId, ref: 'Vehicle' }],
-  pastForms: [
-    {
-      id: String,
-      date: String,
-      idForm: { type: Schema.Types.ObjectId, ref: 'Form' },
-      name: String,
-      contractDate: String,
-      contractAmmount: Number,
-      contractPaymentMethod: String,
-      contractFine: String,
-      contractVehicle: String,
-      contractExpenseFrom: String,
-      city: String,
-    },
-  ],
   familyMembers: [
     {
       id: String,

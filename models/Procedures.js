@@ -1,32 +1,23 @@
 const { Schema, model } = require("mongoose");
 
 const propertySchema = Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  data: {
-    type: String,
-    required: true,
-  },
-  compete: {
-    type: Boolean,
-    required: true,
-  },
-  user: {
-    type: Schema.ObjectId,
-    ref: 'User',
-    required: true,
-  },
-  form: {
-    type: Schema.ObjectId,
-    ref: 'Form',
-    required: true,
-  },
-  fechaCreacion: {
-    type: Date,
-  },
-});
+  idUsers: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  idForm: { type: Schema.Types.ObjectId, ref: 'Form' },
+  title: { type: String, required: true },
+  owner: { type: String, required: true },
+  reminder: { type: Boolean },
+  formCost: { type: String },
+  formValid: { type: Boolean},
+  compete: { type: Boolean, required: true},
+  comments: { type: String },
+  stages: [],
+  expirationDate: { type: Date },
+  dueDate: { type: Date }
+},
+{
+  timestamps: true,
+}
+);
 
 propertySchema.method("toJSON", function () {
   const { __v, _id, ...object } = this.toObject();

@@ -12,7 +12,9 @@ const getUser = async (id) => {
     return 'El usuario no fue encontrado';
   }
 
-  const userR = await UsersModel.findById(id).populate('favoriteForms');
+  const userR = await UsersModel.findById(id)
+    .populate('favoriteForms')
+    .populate('vehiclesOwned');
   return userR;
 };
 
@@ -20,7 +22,9 @@ const getUserByEmail = async (id) => {
   if (!id) {
     return 'El usuario no fue encontrado';
   }
-  const user = await UsersModel.find({ email: id }).populate('favoriteForms');
+  const user = await UsersModel.find({ email: id })
+    .populate('favoriteForms')
+    .populate('vehiclesOwned');
   return user;
 };
 

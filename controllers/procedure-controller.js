@@ -23,6 +23,7 @@ const postProcedure = async (body) => {
     const newProcedure =  await procedure.save();
 
     const procedureInfo ={
+      id: newProcedure.id,
       title: newProcedure.title,
     }
     return procedureInfo

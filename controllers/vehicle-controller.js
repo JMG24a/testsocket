@@ -1,31 +1,31 @@
-const VehicleModel = require("../models/Vehicle");
+const VehicleModel = require('../models/Vehicle');
 
 const getVehicles = async () => {
-  const vehicle = await VehicleModel.find();
-  return vehicle
+  const vehicle = await VehicleModel.find().populate('userOwnerId');
+  return vehicle;
 };
 
 const getVehicle = async (id) => {
-  if(!id){
-    return 'La propiedad no fue encontrada'
+  if (!id) {
+    return 'La propiedad no fue encontrada';
   }
-  const vehicle = await VehicleModel.find({user: id});
-  return vehicle
+  const vehicle = await VehicleModel.find({ user: id });
+  return vehicle;
 };
 
 const postVehicle = async (body) => {
   try {
     const vehicle = new VehicleModel(body);
-    const newVehicle =  await vehicle.save();
+    const newVehicle = await vehicle.save();
 
-    const VehicleInfo ={
+    const VehicleInfo = {
       title: newVehicle.title,
       type: newVehicle.type,
-    }
+    };
 
-    return VehicleInfo
-  }catch(e){
-    throw new Error ('El usuario no pudo ser creado')
+    return VehicleInfo;
+  } catch (e) {
+    throw new Error('El usuario no pudo ser creado');
   }
 };
 
@@ -33,11 +33,13 @@ const putVehicle = async (id, body) => {
   const vehicle = await getProperty(id);
 
   if (typeof vehicle === 'string') {
-    return vehicle
+    return vehicle;
   }
 
-  const newVehicle = await VehicleModel.findByIdAndUpdate(id, body, { new: true });
-  return newVehicle
+  const newVehicle = await VehicleModel.findByIdAndUpdate(id, body, {
+    new: true,
+  });
+  return newVehicle;
 };
 
 const deleteVehicle = async (id) => {
@@ -50,5 +52,5 @@ module.exports = {
   getVehicle,
   postVehicle,
   putVehicle,
-  deleteVehicle
-}
+  deleteVehicle,
+};

@@ -3,7 +3,7 @@ const { security, security_confirm } = require('../auth/middleware/security');
 const { createJWT } = require('../auth/tokens');
 
 const getUsers = async () => {
-  const users = await UsersModel.find();
+  const users = await UsersModel.find().populate('vehiclesOwned');
   return users;
 };
 
@@ -12,7 +12,9 @@ const getUser = async (id) => {
     return 'El usuario no fue encontrado';
   }
 
-  const userR = await UsersModel.findById(id).populate('favoriteForms');
+  const userR = await UsersModel.findById(id)
+    .populate('favoriteForms')
+    .populate('vehiclesOwned');
   return userR;
 };
 
@@ -20,7 +22,9 @@ const getUserByEmail = async (id) => {
   if (!id) {
     return 'El usuario no fue encontrado';
   }
-  const user = await UsersModel.find({ email: id }).populate('favoriteForms');
+  const user = await UsersModel.find({ email: id })
+    .populate('favoriteForms')
+    .populate('vehiclesOwned');
   return user;
 };
 
@@ -45,7 +49,7 @@ const postUser = async (body) => {
 
   return {
     user: newUser,
-    token: jwt
+    token: jwt,
   };
 };
 
@@ -56,13 +60,15 @@ const putUser = async (token, body) => {
     return user;
   }
 
-  const newUser = await UsersModel.findByIdAndUpdate(token.sub.id, body, { new: true });
+  const newUser = await UsersModel.findByIdAndUpdate(token.sub.id, body, {
+    new: true,
+  });
   newUser.password = null;
   const jwt = await signToken(newUser);
 
   return {
     user: newUser,
-    token: jwt
+    token: jwt,
   };
 };
 
@@ -133,14 +139,14 @@ const refresh = async (token) => {
     return 'usuario no encontrado';
   }
 
-  user[0].password = null
+  user[0].password = null;
 
   const jwt = await signToken(user[0]);
   return {
     user: user[0],
-    token: jwt
-  }
-}
+    token: jwt,
+  };
+};
 
 module.exports = {
   getUsers,

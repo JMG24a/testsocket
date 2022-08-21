@@ -68,6 +68,7 @@ const userSchema = new Schema({
   mailingList: { type: Boolean, default: false },
   marketingSurvey: { type: Schema.Types.ObjectId, ref: 'MarketingSurvey' },
   token: { type: String },
+  alertPermission: [String],
 });
 
 userSchema.method('toJSON', function () {

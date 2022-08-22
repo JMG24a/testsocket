@@ -38,6 +38,7 @@ const formSchema = new Schema(
             {
               inputSize: { type: String },
               labelName: { type: String },
+              autocomplete: { type: String },
               name: { type: String },
               tooltip: { type: String },
               input: {

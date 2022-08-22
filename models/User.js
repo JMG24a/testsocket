@@ -13,6 +13,7 @@ const userSchema = new Schema({
   ocupation: { type: String },
   profilePicture: { type: String },
   customerType: { type: String, enum: ['persona', 'empresa'] },
+  plan: { type: String, enum: ['basic', 'premium'] },
   address: [
     {
       id: String,

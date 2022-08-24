@@ -2,10 +2,13 @@ const { Schema, model, models } = require("mongoose");
 
 const productSchema = new Schema({
   name           : { type: String },
-  updatedDate    : { type: String },
-  priceList      : { type: Number },
-  description    : [String],
+  price          : { type: Number },
+  priceLabel     : { type: String },
+  description    : { type: String },
+  benefits       : [String],
   availablePromos: [{ type: Schema.Types.ObjectId, ref: 'Promotion' }],
+}, {
+  timestamps: true
 });
 
 productSchema.method("toJSON", function () {

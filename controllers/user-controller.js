@@ -14,7 +14,8 @@ const getUser = async (id) => {
 
   const userR = await UsersModel.findById(id)
     .populate('favoriteForms')
-    .populate('vehiclesOwned');
+    .populate('vehiclesOwned')
+    .populate('plan.planInfo');
   return userR;
 };
 
@@ -24,7 +25,8 @@ const getUserByEmail = async (id) => {
   }
   const user = await UsersModel.find({ email: id })
     .populate('favoriteForms')
-    .populate('vehiclesOwned');
+    .populate('vehiclesOwned')
+    .populate('plan.planInfo');
   return user;
 };
 

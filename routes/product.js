@@ -14,11 +14,12 @@ const getProducts = async (req, res) => {
 const postProducts = async (req, res) => {
   const body = req.body;
 
-  const user = new Product(body);
-  const newUser = await user.save();
+  const newProduct = new Product(body);
+  await newProduct.save();
 
   res.status(201).json({
     msg: 'Producto creado exitosamente',
+    product: newProduct
   });
 };
 

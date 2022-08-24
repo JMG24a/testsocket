@@ -45,6 +45,10 @@ const postUser = async (body) => {
   const user = new UsersModel(body);
   const newUser = await user.save();
 
+  newUser.populate('favoriteForms')
+    .populate('vehiclesOwned')
+    .populate('plan.planInfo');
+
   newUser.password = null;
 
   const jwt = await signToken(newUser);

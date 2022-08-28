@@ -24,8 +24,10 @@ const getVehicle = async (req, res) => {
 
 const postVehicle = async (req, res) => {
   const body = req.body;
+
   try {
     const newVehicle = await vehicleController.postVehicle(body);
+
     res.status(201).json({
       ok: true,
       msg: 'Vehiculo creado',

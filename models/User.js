@@ -7,15 +7,16 @@ const userSchema = new Schema({
   fistLastName: { type: String, required: false },
   secondLastName: { type: String, required: false },
   taxId: { type: String },
+  taxIdType: { type: String },
   cityDocument: { type: String },
   phone: { type: String },
   mobile: { type: String },
   ocupation: { type: String },
   profilePicture: { type: String },
   customerType: { type: String, enum: ['persona', 'empresa'] },
-  plan: { 
-    planInfo  : { type: Schema.Types.ObjectId, ref: 'Product' },
-    expireDate: { type: String }
+  plan: {
+    planInfo: { type: Schema.Types.ObjectId, ref: 'Product' },
+    expireDate: { type: String },
   },
   address: [
     {

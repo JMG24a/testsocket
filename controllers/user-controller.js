@@ -64,9 +64,14 @@ const putUser = async (token, body) => {
     return user;
   }
 
-  const newUser = await UsersModel.findByIdAndUpdate(token.sub.id, body, {
-    new: true,
-  });
+  const newUser = await UsersModel
+    .findByIdAndUpdate(token.sub.id, body, {
+      new: true,
+    })
+    .populate('favoriteForms')
+    .populate('vehiclesOwned')
+    .populate('plan.planInfo');
+  
   newUser.password = null;
   const jwt = await signToken(newUser);
 

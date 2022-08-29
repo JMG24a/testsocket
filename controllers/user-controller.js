@@ -46,12 +46,13 @@ const postUser = async (body) => {
   await user.populate('plan.planInfo');
   await user.save();
 
-  user.password = null;
-
   const jwt = await signToken(user);
 
   return {
-    user,
+    user: {
+      ...user,
+      password: null
+    },
     token: jwt,
   };
 };

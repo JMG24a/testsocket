@@ -16,11 +16,13 @@ const getVehicle = async (id) => {
 const postVehicle = async (body) => {
   try {
     const vehicle = new VehicleModel(body);
+
     const newVehicle = await vehicle.save();
 
     const VehicleInfo = {
       title: newVehicle.title,
       type: newVehicle.type,
+      id: vehicle._id,
     };
 
     return VehicleInfo;

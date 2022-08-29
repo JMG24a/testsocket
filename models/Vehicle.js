@@ -2,20 +2,22 @@ const { Schema, model, models } = require('mongoose');
 
 const vehicleSchema = new Schema({
   userOwnerId: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-  name: { type: String },
-  plate: { type: String },
-  brand: { type: String },
-  line: { type: String },
-  color: { type: String },
-  model: { type: String },
-  fuelType: { type: String },
-  serviceType: { type: String },
-  vehicleArmor: { type: String },
-  noChasis: { type: String },
-  noMotor: { type: String },
-  vim: { type: String },
-  noImport: { type: String },
-  importDate: { type: String },
+  vehicle: {
+    name: String,
+    plate: String,
+    brand: String,
+    line: String,
+    color: String,
+    model: String,
+    fuelType: String,
+    serviceType: String,
+    vehicleArmor: String,
+    noChasis: String,
+    noMotor: String,
+    vim: String,
+    noImport: String,
+    importDate: String,
+  },
 });
 
 vehicleSchema.method('toJSON', function () {

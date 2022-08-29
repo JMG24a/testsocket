@@ -50,7 +50,7 @@ const postUser = async (body) => {
 
   return {
     user: {
-      ...user,
+      ...user.toObject(),
       password: null
     },
     token: jwt,

@@ -98,7 +98,7 @@ const login = async (email, password) => {
   if (!user) {
     return 'Este usuario no se encuentra registrado';
   }
-  
+
   const isTrue = await security_confirm(password, user.password);
   if (!isTrue) {
     return 'Autenticacion invalida';
@@ -150,15 +150,15 @@ const signToken = async (user) => {
 const refresh = async (token) => {
   const user = await getUserByEmail(token.sub.email);
 
-  if (user.length < 0) {
+  if (!user) {
     return 'usuario no encontrado';
   }
 
-  user[0].password = null;
+  user.password = null;
 
-  const jwt = await signToken(user[0]);
+  const jwt = await signToken(user);
   return {
-    user: user[0],
+    user,
     token: jwt,
   };
 };

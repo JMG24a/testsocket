@@ -101,7 +101,7 @@ const login = async (req, res) => {
     res.status(401).json({
       msg: 'Login Error',
       success: {
-        user: 'contraceña o usuario invalido',
+        user: 'Contraseña o usuario invalido',
       },
     });
   } else {

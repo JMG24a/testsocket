@@ -74,6 +74,7 @@ const userSchema = new Schema({
   marketingSurvey: { type: Schema.Types.ObjectId, ref: 'MarketingSurvey' },
   token: { type: String },
   alertPermission: [String],
+  lastLoginDate: { type: String },
 });
 
 userSchema.method('toJSON', function () {

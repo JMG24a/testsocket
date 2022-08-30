@@ -32,6 +32,7 @@ const getUserByEmail = async (email) => {
     .populate('vehiclesOwned')
     .populate('plan.planInfo');
   
+  // console.log(user);
   return user;
 };
 
@@ -97,7 +98,7 @@ const login = async (email, password) => {
   if (!user) {
     return 'Este usuario no se encuentra registrado';
   }
-
+  
   const isTrue = await security_confirm(password, user.password);
   if (!isTrue) {
     return 'Autenticacion invalida';

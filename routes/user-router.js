@@ -105,11 +105,11 @@ const login = async (req, res) => {
       },
     });
   } else {
-    const token = await userController.signToken(user[0]);
+    const token = await userController.signToken(user);
     res.status(200).json({
       msg: 'Login Success',
       success: {
-        user: user[0],
+        user: user,
         token,
       },
     });

@@ -19,21 +19,27 @@ const getUser = async (id) => {
   return userR;
 };
 
-const getUserByEmail = async (id) => {
-  if (!id) {
+const getUserByEmail = async (email) => {
+  if (!email) {
     return 'El usuario no fue encontrado';
   }
-  const user = await UsersModel.find({ email: id })
+  const user = await UsersModel.findOneAndUpdate(
+    { email: email }, 
+    { lastLoginDate: new Date().toISOString() }, 
+    { new: true }
+  )
     .populate('favoriteForms')
     .populate('vehiclesOwned')
     .populate('plan.planInfo');
+  
+  // console.log(user);
   return user;
 };
 
 const postUser = async (body) => {
-  const isUser = await getUserByEmail(body.email);
+  const storedUser = await getUserByEmail(body.email);
 
-  if (isUser[0]?.email) {
+  if (storedUser) {
     return 'Este usuario ya existe';
   }
 
@@ -46,12 +52,13 @@ const postUser = async (body) => {
   await user.populate('plan.planInfo');
   await user.save();
 
-  user.password = null;
-
   const jwt = await signToken(user);
 
   return {
-    user,
+    user: {
+      ...user.toObject(),
+      password: null
+    },
     token: jwt,
   };
 };
@@ -63,9 +70,14 @@ const putUser = async (token, body) => {
     return user;
   }
 
-  const newUser = await UsersModel.findByIdAndUpdate(token.sub.id, body, {
-    new: true,
-  });
+  const newUser = await UsersModel
+    .findByIdAndUpdate(token.sub.id, body, {
+      new: true,
+    })
+    .populate('favoriteForms')
+    .populate('vehiclesOwned')
+    .populate('plan.planInfo');
+  
   newUser.password = null;
   const jwt = await signToken(newUser);
 
@@ -83,24 +95,24 @@ const deleteUser = async (id) => {
 const login = async (email, password) => {
   const user = await getUserByEmail(email);
 
-  if (!user[0]?.email) {
+  if (!user) {
     return 'Este usuario no se encuentra registrado';
   }
 
-  const isTrue = await security_confirm(password, user[0].password);
+  const isTrue = await security_confirm(password, user.password);
   if (!isTrue) {
     return 'Autenticacion invalida';
   }
 
-  user[0].password = null;
-  delete user[0].token;
+  user.password = null;
+  delete user.token;
   return user;
 };
 
 const AuthGoogle = async (user) => {
-  const isAuth = await getUserByEmail(user._json.email);
+  const storedUser = await getUserByEmail(user._json.email);
 
-  if (!isAuth[0]?.email) {
+  if (!storedUser) {
     const userInfo = {
       email: user._json.email,
       name: user._json.given_name,
@@ -115,9 +127,9 @@ const AuthGoogle = async (user) => {
       jwt,
     };
   } else {
-    const jwt = await signToken(isAuth[0]);
+    const jwt = await signToken(storedUser);
     return {
-      user: isAuth[0],
+      user: storedUser,
       jwt,
     };
   }
@@ -138,15 +150,15 @@ const signToken = async (user) => {
 const refresh = async (token) => {
   const user = await getUserByEmail(token.sub.email);
 
-  if (user.length < 0) {
+  if (!user) {
     return 'usuario no encontrado';
   }
 
-  user[0].password = null;
+  user.password = null;
 
-  const jwt = await signToken(user[0]);
+  const jwt = await signToken(user);
   return {
-    user: user[0],
+    user,
     token: jwt,
   };
 };

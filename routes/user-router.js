@@ -99,15 +99,15 @@ const login = async (req, res) => {
     res.status(401).json({
       msg: 'Login Error',
       success: {
-        user: 'contraceña o usuario invalido',
+        user: 'Contraseña o usuario invalido',
       },
     });
   } else {
-    const token = await userController.signToken(user[0]);
+    const token = await userController.signToken(user);
     res.status(200).json({
       msg: 'Login Success',
       success: {
-        user: user[0],
+        user: user,
         token,
       },
     });

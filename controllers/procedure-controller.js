@@ -22,11 +22,9 @@ const postProcedure = async (body) => {
     const procedure = new ProceduresModel(body);
     const newProcedure =  await procedure.save();
 
-    const procedureInfo ={
-      id: newProcedure.id,
-      title: newProcedure.title,
-    }
-    return procedureInfo
+    return ({
+      ...newProcedure.toObject()
+    })
   }catch(e){
     throw new Error ('El Proceso no pudo ser Guardado')
   }

@@ -9,7 +9,7 @@ const getProperty = async (id) => {
   if(!id){
     return 'La propiedad no fue encontrada'
   }
-  const property = await PropertyModel.find({user: id});
+  const property = await PropertyModel.find({userId: id});
   return property
 };
 

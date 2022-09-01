@@ -1,5 +1,8 @@
 const { Router } = require('express')
 const propertyController = require('../controllers/property-controller')
+//middleware
+const { validateToken } = require('../auth/middleware/jwt');
+
 
 const router = Router();
 
@@ -13,8 +16,8 @@ const getProperties = async (req, res) => {
 };
 
 const getProperty = async (req, res) => {
-  const {id} = req.params;
-  const property = await propertyController.getProperty(id)
+  const token = req.myPayload
+  const property = await propertyController.getProperty(token.sub.id)
 
   res.status(200).json({
     msg: "Propiedad",
@@ -79,7 +82,7 @@ const deleteProperty = async (req, res) => {
 };
 
 router.get("/", getProperties);
-router.get("/:id", getProperty);
+router.get("/user", validateToken, getProperty);
 router.post("/", postProperty);
 router.put("/:id", putProperty);
 router.delete("/:id", deleteProperty);

@@ -5,12 +5,24 @@ const getProcedures = async () => {
   return procedure
 };
 
-const getProcedure = async (id) => {
+const getProcedureByUser = async (id) => {
   if(!id){
     return 'El procedimiento no fue encontrado'
   }
   try{
     const procedure = await ProceduresModel.find({idUsers: id.sub.id});
+    return procedure
+  }catch(e){
+    console.error(e)
+  }
+};
+
+const getOneProcedure = async (id) => {
+  if(!id){
+    return 'El procedimiento no fue encontrado'
+  }
+  try{
+    const procedure = await ProceduresModel.findById(id);
     return procedure
   }catch(e){
     console.error(e)
@@ -50,7 +62,8 @@ const deleteProcedure = async (id) => {
 
 module.exports = {
   getProcedures,
-  getProcedure,
+  getProcedureByUser,
+  getOneProcedure,
   postProcedure,
   putProcedure,
   deleteProcedure

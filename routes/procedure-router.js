@@ -16,7 +16,7 @@ const getProcedures = async (req, res) => {
 
 const getProcedure = async (req, res) => {
   const token = req.myPayload;
-  const procedure = await procedureController.getProcedure(token)
+  const procedure = await procedureController.getProcedureByUser(token)
 
   res.status(200).json({
     msg: "procedimiento",

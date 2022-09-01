@@ -47,5 +47,7 @@ app.get("/logout",(req, res) =>{
 
 // Rutas
 appRouter(app)
+// public
+app.use('/app', express.static('public'));
 
 app.listen(process.env.PORT, () => console.log(`My app is running in: http://localhost:${process.env.PORT}`));

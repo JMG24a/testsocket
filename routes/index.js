@@ -9,6 +9,7 @@ const mailingList = require('./mailingList');
 const supportTicket = require('./support-ticket');
 const faqRouter = require('./faq');
 const productRouter = require('./product');
+const ResultRouter = require('./result-router');
 
 const appRouter = (app) => {
   const routerV1 = Router();
@@ -23,6 +24,7 @@ const appRouter = (app) => {
   routerV1.use('/supportTicket', supportTicket);
   routerV1.use('/faq', faqRouter);
   routerV1.use('/product', productRouter);
+  routerV1.use('/result', ResultRouter);
 
   //V2
 };

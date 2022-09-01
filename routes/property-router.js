@@ -26,9 +26,10 @@ const getProperty = async (req, res) => {
 };
 
 const postProperty = async (req, res) => {
+  const token = req.myPayload
   const body = req.body;
   try {
-    const newProperty = await propertyController.postProperty(body);
+    const newProperty = await propertyController.postProperty(body, token);
     res.status(201).json({
       ok: true,
       msg: "Creado",
@@ -83,7 +84,7 @@ const deleteProperty = async (req, res) => {
 
 router.get("/", getProperties);
 router.get("/user", validateToken, getProperty);
-router.post("/", postProperty);
+router.post("/", validateToken, postProperty);
 router.put("/:id", putProperty);
 router.delete("/:id", deleteProperty);
 

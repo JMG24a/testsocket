@@ -13,7 +13,7 @@ const getProperty = async (id) => {
   return property
 };
 
-const postProperty = async (body) => {
+const postProperty = async (body, token) => {
   try {
     const property = new PropertyModel(body);
     const newProperty =  await property.save();
@@ -23,7 +23,9 @@ const postProperty = async (body) => {
       type: newProperty.type,
     }
 
-    return propertyInfo
+    const propertyOwners = getProperty(token.sub.id)
+
+    return propertyOwners
   }catch(e){
     throw new Error ('El usuario no pudo ser creado')
   }

@@ -9,6 +9,7 @@ const getRelations = async (req, res) => {
   const relation = await relationsController.getRelations()
 
   res.status(200).json({
+    ok: true,
     msg: "Listado de relaciones",
     relation,
   });

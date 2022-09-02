@@ -9,6 +9,7 @@ const getProperties = async (req, res) => {
   const property = await propertyController.getProperties()
 
   res.status(200).json({
+    ok: true,
     msg: "Listado de Propiedades",
     property,
   });

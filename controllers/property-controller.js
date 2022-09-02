@@ -16,12 +16,8 @@ const getProperty = async (id) => {
 const postProperty = async (body, token) => {
   try {
     const property = new PropertyModel(body);
-    const newProperty =  await property.save();
+    await property.save();
 
-    const propertyInfo ={
-      title: newProperty.title,
-      type: newProperty.type,
-    }
 
     const propertyOwners = getProperty(token.sub.id)
 

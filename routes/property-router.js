@@ -3,7 +3,6 @@ const propertyController = require('../controllers/property-controller')
 //middleware
 const { validateToken } = require('../auth/middleware/jwt');
 
-
 const router = Router();
 
 const getProperties = async (req, res) => {

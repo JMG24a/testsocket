@@ -9,21 +9,18 @@ const getRelation = async (id) => {
   if(!id){
     return 'La propiedad no fue encontrada'
   }
-  const relation = await RelationModel.find({user: id});
+  const relation = await RelationModel.find({userId: id});
   return relation
 };
 
 const postRelation = async (body) => {
   try {
     const relation = new RelationModel(body);
-    const newRelation =  await relation.save();
+    await relation.save();
 
-    const relationInfo ={
-      title: newRelation.title,
-      type: newRelation.type,
-    }
+    const RelationsOwner = getRelation(token.sub.id)
 
-    return relationInfo
+    return RelationsOwner
   }catch(e){
     throw new Error ('El usuario no pudo ser creado')
   }
@@ -42,7 +39,6 @@ const putRelation= async (id, body) => {
 
 const deleteRelation = async (id) => {
   const deleteRelation = await RelationModel.findByIdAndDelete(id);
-  console.log('S: ',deleteRelation)
   return deleteRelation ? true : false;
 };
 

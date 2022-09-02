@@ -13,7 +13,7 @@ const getRelation = async (id) => {
   return relation
 };
 
-const postRelation = async (body) => {
+const postRelation = async (body, token) => {
   try {
     const relation = new RelationModel(body);
     await relation.save();

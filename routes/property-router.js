@@ -17,12 +17,20 @@ const getProperties = async (req, res) => {
 
 const getProperty = async (req, res) => {
   const token = req.myPayload
-  const property = await propertyController.getProperty(token.sub.id)
+  try{
+    const property = await propertyController.getProperty(token.sub.id)
 
-  res.status(200).json({
-    msg: "Propiedad",
-    property
-  });
+    res.status(200).json({
+      ok: true,
+      msg: "Propiedad",
+      property
+    });
+  }catch(e){
+    res.status(200).json({
+      ok: false,
+      msg: "Intenta mas tarde",
+    });
+  }
 };
 
 const postProperty = async (req, res) => {

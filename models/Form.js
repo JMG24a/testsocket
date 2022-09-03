@@ -15,6 +15,7 @@ const formSchema = new Schema(
     type: { type: String, enum: ['tramite', 'formato'] },
     requiredForms: [String],
     webContentPost: { type: String },
+    formCategory: { type: String },
     formData: [
       {
         stepName: { type: String },

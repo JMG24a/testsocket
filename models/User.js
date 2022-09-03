@@ -13,6 +13,7 @@ const userSchema = new Schema({
   mobile: { type: String },
   ocupation: { type: String },
   profilePicture: { type: String },
+  idType: { type: String },
   customerType: { type: String, enum: ['persona', 'empresa'] },
   plan: {
     planInfo: { type: Schema.Types.ObjectId, ref: 'Product' },

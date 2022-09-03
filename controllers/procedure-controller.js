@@ -43,7 +43,7 @@ const postProcedure = async (body) => {
 };
 
 const putProcedure = async (id, body) => {
-  const procedure = await getProcedure(id);
+  const procedure = await getOneProcedure(id);
 
   if (typeof procedure === 'string') {
     return procedure

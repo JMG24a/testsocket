@@ -1,7 +1,5 @@
 const { Router } = require('express');
 const passport = require('passport');
-const User = require('../models/User');
-
 //services
 const userController = require('../controllers/user-controller');
 //middleware

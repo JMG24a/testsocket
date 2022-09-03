@@ -1,5 +1,7 @@
 const { Router } = require('express')
 const relationsController = require('../controllers/relation-controller')
+//middleware
+const { validateToken } = require('../auth/middleware/jwt');
 
 const router = Router();
 
@@ -7,25 +9,35 @@ const getRelations = async (req, res) => {
   const relation = await relationsController.getRelations()
 
   res.status(200).json({
+    ok: true,
     msg: "Listado de relaciones",
     relation,
   });
 };
 
 const getRelation = async (req, res) => {
-  const {id} = req.params;
-  const relation = await relationsController.getRelation(id)
+  const token = req.myPayload
+  try{
+    const relation = await relationsController.getRelation(token.sub.id)
 
-  res.status(200).json({
-    msg: "Propiedad",
-    relation
-  });
+    res.status(200).json({
+      ok: true,
+      msg: "Propiedad",
+      relation
+    });
+  }catch(e){
+    res.status(400).json({
+      ok: false,
+      msg: "Intenta mas tarde",
+    });
+  }
 };
 
 const postRelation = async (req, res) => {
+  const token = req.myPayload
   const body = req.body;
   try {
-    const newRelation = await relationsController.postRelation(body);
+    const newRelation = await relationsController.postRelation(body, token);
     res.status(201).json({
       ok: true,
       msg: "Creado",
@@ -79,8 +91,8 @@ const deleteRelation = async (req, res) => {
 };
 
 router.get("/", getRelations);
-router.get("/:id", getRelation);
-router.post("/", postRelation);
+router.get("/user", validateToken, getRelation);
+router.post("/", validateToken, postRelation);
 router.put("/:id", putRelation);
 router.delete("/:id", deleteRelation);
 

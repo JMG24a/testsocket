@@ -1,26 +1,16 @@
 const { Schema, model } = require("mongoose");
 
 const relationSchema = Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  type: {
-    type: String,
-    required: true,
-  },
-  specification: {
-    type: String,
-    required: true,
-  },
-  user: {
-    type: Schema.ObjectId,
-    ref: 'User',
-    required: true,
-  },
-  fechaCreacion: {
-    type: Date,
-  },
+  name: { type: String, required: true },
+  fistLastName: { type: String, required: false },
+  secondLastName: { type: String, required: false },
+  taxId: { type: String },
+  phone: { type: String },
+  mobile: { type: String },
+  userId:[{ type: Schema.Types.ObjectId, ref: 'User' }],
+},
+{
+  timestamps: true,
 });
 
 relationSchema.method("toJSON", function () {

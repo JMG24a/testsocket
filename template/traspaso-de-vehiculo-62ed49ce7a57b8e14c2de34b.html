@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+  <html lang="en">
+
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width,maximum-scale=1.0">
+      <title>Landscape To Fit Paper Page</title>
+
+      <style type="text/css" media="screen"></style>
+
+      <style>
+          .row {
+              display: flex;
+              flex-wrap: wrap;
+          }
+
+          .left_table {
+              width: 46%;
+              margin: 0 .25% 0 .25%;
+          }
+
+          .right_table {
+              width: 53%;
+              margin: 0 .25% 0 .25%;
+          }
+
+          .w-50 {
+              width: 49.5%;
+              margin-bottom: 10px;
+
+          }
+
+          table {
+              border-spacing: 0px;
+              font-size: 8px;
+              font-family: sans-serif;
+          }
+
+          table th {
+              border-spacing: 0px;
+              font-size: 10px;
+              font-family: sans-serif;
+          }
+
+          table tr td,
+          table tr th {
+              border: 2px solid #000000;
+          }
+
+          tr.bn td,
+          tr.bn th {
+              border-right: none;
+              border-bottom: none;
+          }
+
+          tr.bn td:last-child,
+          tr.bn th:last-child {
+              border-right: 2px solid #000000;
+          }
+
+          tr.bn.bt td,
+          tr.bn.bt th {
+              border-bottom: 2px solid #000000;
+          }
+
+          td.bb {
+              border-bottom: 2px solid #000000 !important;
+          }
+
+          tr.pdding td {
+              line-height: 11px;
+          }
+
+          th input {
+              margin: 0px !important;
+              height: 8px;
+              margin-bottom: 0px;
+              margin-top: 0px;
+          }
+
+          td input {
+              margin: 0px !important;
+              height: 8px;
+              margin-bottom: 0px;
+              margin-top: 0px;
+          }
+
+          .datos,
+          .observation {
+              width: 100%;
+              margin-bottom: 2%;
+          }
+
+          .self_pd td {
+              padding: 1.7% 0;
+              width: 12.5%;
+              font-size: 8px;
+          }
+      </style>
+      <style type="text/css" media="print">
+          @page {
+              size: landscape
+          }
+
+          /* body {
+              page-break-before: avoid;
+              width: 100%;
+              height: 100%;
+              -webkit-transform: rotate(-90deg) scale(.68, .68);
+              -moz-transform: rotate(-90deg) scale(.58, .58);
+              zoom: 200%
+          } */
+          .w-50 {
+              width: 49.5%;
+              margin-bottom: 9px;
+
+          }
+
+          table {
+              border-spacing: 0px;
+              font-size: 7px;
+              font-family: sans-serif;
+          }
+
+          table th {
+              border-spacing: 0px;
+              font-size: 10px;
+              font-family: sans-serif;
+          }
+
+          table tr td,
+          table tr th {
+              border: 1px solid #000000;
+          }
+
+          tr.bn td:last-child,
+          tr.bn th:last-child {
+              border-right: 1px solid #000000;
+          }
+
+          tr.bn.bt td,
+          tr.bn.bt th {
+              border-bottom: 1px solid #000000;
+          }
+
+          td.bb {
+              border-bottom: 1px solid #000000 !important;
+          }
+
+          tr.pdding td {
+              line-height: 150%;
+              height: 10px;
+          }
+
+          th input {
+              margin: 0px !important;
+              height: 8px;
+              margin-bottom: 0px;
+              margin-top: 0px;
+          }
+
+          td input {
+              margin: 0px !important;
+              height: 8px;
+              margin-bottom: 0px;
+              margin-top: 0px;
+          }
+
+          .self_pd td {
+              padding: 1.7% 0;
+              width: 12.5%;
+              font-size: 8px;
+          }
+      </style>
+  </head>
+
+  <body>
+      <div class="row">
+          <div class="top-line" style="margin: 0 0 .50% .25%; width: 57.75%;">
+              <table style="width:100%;text-align: center; height: 100%;">
+                  <tr class="bn bt">
+                      <td style=" width: 66%; vertical-align: top;font-weight: 700; font-size: 11px;">MINISTERIO DE
+                          TRANSPORTE</td>
+                      <td style="vertical-align: top;font-weight: 700; font-size: 10px;">FORMULARIO DE SOLICITUD DE
+                          TRAMITES DEL REGISTRO NACIONAL AUTOMOTOR</td>
+                  </tr>
+              </table>
+          </div>
+          <div class="top-line2" style="margin: 0 0 .50% 4%; width: 27%;">
+              <table style="font-size: 10px;">
+                  <tr>
+                      <table style="width:100%; text-align: center;">
+                          <tr class="bn">
+                              <th>1, ORGANISMO DE TRÁNSITO </th>
+                          </tr>
+                      </table>
+                  </tr>
+                  <tr>
+                      <table style="width:100%;">
+                          <tr class="bn">
+                              <td style="height: 12px;">NOMBRE: &{nombreComprador}</td>
+                          </tr>
+                  </tr>
+                  <tr>
+                      <table style="width:100%;  text-align: center;">
+                          <tr class="bn">
+                              <td style="width: 28.5%;">CIUDAD</td>
+                              <td style="width: 28.5%;">CODIGO</td>
+                              <td style="width: 43%;">FECHA DE TRAMITE</td>
+                          </tr>
+                          <tr class="bn">
+                              <td class="bb"></td>
+                              <td class="bb"></td>
+                              <td style="padding: 0px; border: none;">
+                                  <table style="width:100%;">
+                                      <tr class="bn bt">
+                                          <td style="width: 33.3333%;height: 15px; vertical-align: top;">DIA</td>
+                                          <td style="width: 33.3333%; vertical-align: top;">MES</td>
+                                          <td style="width: 33.3333%; vertical-align: top;">AÑO</td>
+                                      </tr>
+                                  </table>
+                              </td>
+                          </tr>
+                      </table>
+                  </tr>
+              </table>
+          </div>
+          <div class="top-line3" style="margin: 0 .25% .50% 3.25%; width: 7.5%;">
+              <table style="font-size: 10px;">
+                  <tr>
+                      <table style="width:100%; text-align: center;">
+                          <tr class="bn">
+                              <th>2. PLACA</th>
+                          </tr>
+                      </table>
+                  </tr>
+                  <tr>
+                      <table style="width:100%; text-align: center;">
+                          <tr class="bn">
+                              <td style="width: 50%;">LETRAS</td>
+                              <td>NÚMEROS</td>
+                          </tr>
+                          <tr class="bn bt">
+                              <td style="height: 30px;"></td>
+                              <td></td>
+                          </tr>
+                      </table>
+                  </tr>
+              </table>
+          </div>
+      </div>
+      <div class="row">
+          <div class="left_table">
+              <div class="datos" style="margin-bottom: 1% !important;">
+                  <table style="font-size: 10px;">
+                      <tr>
+                          <table style="width:100%;">
+                              <tr class="bn">
+                                  <th style=" text-align: left;">3. TRAMITE SOLICITADO</th>
+                              </tr>
+                          </table>
+                      </tr>
+                      <tr>
+                          <table style="width:100%; text-align: center;">
+                              <tr class="bn pdding">
+                                  <td>1</td>
+                                  <td style="width: 14%;">MATRICULA/
+                                      REGISTRO </td>
+                                  <td>2</td>
+                                  <td style="width: 12%;">TRASPASO</td>
+                                  <td style="width: 5%;">3</td>
+                                  <td>TRANSLADO
+                                      MATRICULA /
+                                      REGISTRO</td>
+                                  <td>4</td>
+                                  <td style="width: 12%;">RADICADO
+                                      MATRICULA /
+                                      REGISTRO</td>
+                                  <td>5</td>
+                                  <td style="width: 14.665%;">CAMBIO DE
+                                      COLOR</td>
+                                  <td>6</td>
+                                  <td style="width: 14.665%;">CAMBIO DE SERVICIO</td>
+                              </tr>
+                              <tr class="bn pdding">
+                                  <td>7</td>
+                                  <td>REGRABAR
+                                      MOTOR</td>
+                                  <td>8</td>
+                                  <td>REGRABAR
+                                      CHASIS</td>
+                                  <td>9</td>
+                                  <td>TTRANSFORMACION</td>
+                                  <td>10</td>
+                                  <td>DUPLICADO
+                                      LICENCIA
+                                      TRANSITO</td>
+                                  <td>11</td>
+                                  <td>INSCRIPC.
+                                      PRENDA</td>
+                                  <td>12</td>
+                                  <td>LEVANTA. PRENDA</td>
+                              </tr>
+                              <tr class="bn bt pdding">
+                                  <td>13</td>
+                                  <td>CANCELACION
+                                      MATRICULA /
+                                      REGISTRO</td>
+                                  <td>14</td>
+                                  <td>CAMBIO DE
+                                      PLACAS</td>
+                                  <td>15</td>
+                                  <td>DUPLICADO DE
+                                      PLACAS</td>
+                                  <td>16</td>
+                                  <td>REMATRICULA</td>
+                                  <td>17</td>
+                                  <td>CAMBIO DE CARROCERIA</td>
+                                  <td>18</td>
+                                  <td>OTROS</td>
+                              </tr>
+                          </table>
+                      </tr>
+                  </table>
+              </div>
+              <div class="datos">
+                  <table style="width:100%; font-size: 10px;">
+                      <tr>
+                          <table style="width:100%;">
+                              <tr class="bn">
+                                  <th style="text-align: center;">4. CLASE DE VEHICULO</th>
+                              </tr>
+                          </table>
+                      </tr>
+                      <tr>
+                          <table style="width:100%; text-align: center;">
+                              <tr class="bn">
+                                  <td>AUTOMOVIL</td>
+                                  <td>BUS</td>
+                                  <td style="width: 12%;">BUSETA</td>
+                                  <td style="width: 12%;">CAMIÓN</td>
+                                  <td style="width: 12%;">CAMIONETA</td>
+                                  <td style="width: 16.665%;">CAMPERO</td>
+                                  <td style="width: 16.665%;">MICROBUS</td>
+                              </tr>
+                              <tr class="bn">
+                                  <td style="height: 15px;"></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                              </tr>
+                              <tr class="bn">
+                                  <td>TRACTOCAMIÓN</td>
+                                  <td>MOTOCICLETA</td>
+                                  <td>MOTOCARRO</td>
+                                  <td>MOTOTRICICLO</td>
+                                  <td>CUATRIMOTO</td>
+                                  <td>VOLQUETA</td>
+                                  <td>OTRO</td>
+                              </tr>
+                              <tr class="bn bt">
+                                  <td style="height: 10px;"></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                              </tr>
+                          </table>
+                      </tr>
+                  </table>
+              </div>
+              <div class="datos">
+                  <table style="width:100%; font-size: 10px;">
+                      <tr>
+                          <table style="width:100%;">
+                              <tr class="bn">
+                                  <th style="text-align: center;height: 30px;">21. DATOS DEL PROPIETARIO</th>
+                              </tr>
+                          </table>
+                      </tr>
+                      <tr>
+                          <table style="width:100%; text-align: center;">
+                              <tr class="bn">
+                                  <td style="width: 31%;">PRIMER APELLIDO</td>
+                                  <td style="width: 35.66%;">SEGUNDO APELLIDO</td>
+                                  <td style="width: 33.33%;">NOMBRES</td>
+                              </tr>
+                              <tr class="bn">
+                                  <td style="height: 20px;"></td>
+                                  <td style="height: 20px;"></td>
+                                  <td style="height: 20px;"></td>
+                              </tr>
+                          </table>
+                      </tr>
+                      <tr>
+                          <table style="width:100%;text-align: center;">
+                              <tr class="bn">
+                                  <td>C.C</td>
+                                  <td>NIT</td>
+                                  <td>N.N</td>
+                                  <td style="width: 10%;">PASAPORTE</td>
+                                  <td style="width: 9%;">C.EXTRANJ</td>
+                                  <td style="width: 12%;">T.IDENTI.</td>
+                                  <td style="width: 12%;">NUIP</td>
+                                  <td style="width: 16.665%;">C. DIPLOMATICO</td>
+                                  <td style="width: 16.665%;">No. DOCUMENTO</td>
+                              </tr>
+                              <tr class="bn">
+                                  <td style="height: 20px;">C</td>
+                                  <td>N</td>
+                                  <td>X</td>
+                                  <td>P</td>
+                                  <td>E</td>
+                                  <td>T</td>
+                                  <td>U</td>
+                                  <td>D</td>
+                                  <td></td>
+                              </tr>
+                          </table>
+                      </tr>
+                      <tr>
+                          <table style="width:100%;">
+                              <tr class="bn">
+                                  <td style="height: 9px;">DIRECCION</td>
+                                  <td>CIUDAD</td>
+                                  <td style="width: 16.665%;">TELEFONO</td>
+                              </tr>
+                              <tr class="bn">
+                                  <td style="height: 20px;"></td>
+                                  <td style="height: 20px;"></td>
+                                  <td style="height: 20px;"></td>
+                              </tr>
+                          </table>
+                      </tr>
+                      <tr>
+                          <table style="width:100%;">
+                              <tr class="bn">
+                                  <td>FIRMA DEL COMPRADOR</td>
+                              </tr>
+                          </table>
+                      </tr>
+                      <tr>
+                          <table style="width:100%;">
+                              <tr>
+                                  <td style="height: 20px;"></td>
+                              </tr>
+                          </table>
+                      </tr>
+                  </table>
+              </div>
+              <div class="datos">
+                  <table style="width:100%; font-size: 10px;">
+                      <tr>
+                          <table style="width:100%;">
+                              <tr class="bn">
+                                  <th style="text-align: center;height: 20px;">22. DATOS DEL COMPRADOR (TRASPASO)</th>
+                              </tr>
+                          </table>
+                      </tr>
+                      <tr>
+                          <table style="width:100%; text-align: center;">
+                              <tr class="bn">
+                                  <td style="width: 31%;">PRIMER APELLIDO</td>
+                                  <td style="width: 35.66%;">SEGUNDO APELLIDO</td>
+                                  <td style="width: 33.33%;">NOMBRES</td>
+                              </tr>
+                              <tr class="bn">
+                                  <td style="height: 33px;"></td>
+                                  <td style="height: 20px;"></td>
+                                  <td style="height: 20px;"></td>
+                              </tr>
+                          </table>
+                      </tr>
+                      <tr>
+                          <table style="width:100%;text-align: center;">
+                              <tr class="bn">
+                                  <td style="height: 9px;">C.C</td>
+                                  <td>NIT</td>
+                                  <td>N.N</td>
+                                  <td style="width: 10%;">PASAPORTE</td>
+                                  <td style="width: 9%;">C.EXTRANJ</td>
+                                  <td style="width: 12%;">T.IDENTI.</td>
+                                  <td style="width: 12%;">NUIP</td>
+                                  <td style="width: 16.665%;">C. DIPLOMATICO</td>
+                                  <td style="width: 16.665%;">No. DOCUMENTO</td>
+                              </tr>
+                              <tr class="bn">
+                                  <td style="height: 15px;">C</td>
+                                  <td>N</td>
+                                  <td>X</td>
+                                  <td>P</td>
+                                  <td>E</td>
+                                  <td>T</td>
+                                  <td>U</td>
+                                  <td>D</td>
+                                  <td></td>
+                              </tr>
+                          </table>
+                      </tr>
+                      <tr>
+                          <table style="width:100%;">
+                              <tr class="bn">
+                                  <td style="height: 9px;">DIRECCION</td>
+                                  <td>CIUDAD</td>
+                                  <td style="width: 16.665%;">TELEFONO</td>
+                              </tr>
+                              <tr class="bn">
+                                  <td style="height: 20px;"></td>
+                                  <td style="height: 20px;"></td>
+                                  <td style="height: 20px;"></td>
+                              </tr>
+                          </table>
+                      </tr>
+                      <tr>
+                          <table style="width:100%;">
+                              <tr class="bn">
+                                  <td>FIRMA DEL COMPRADOR</td>
+                              </tr>
+                          </table>
+                      </tr>
+                      <tr>
+                          <table style="width:100%;">
+                              <tr>
+                                  <td style="height: 30px;"></td>
+                              </tr>
+                          </table>
+                      </tr>
+                  </table>
+              </div>
+              <h4 style="font-family: sans-serif; font-size: 14px; font-weight: 700; text-align: center;">NOTA: VER
+                  INSTRUCCIONES AL RESPALDO</h4>
+          </div>
+          <div class="right_table">
+              <div class="row">
+                  <table style="width:100%; font-size: 10px;">
+                      <tr>
+                          <table style="width:100%;">
+                              <tr class="bn">
+                                  <th style=" text-align: left; width: 21%;">5. MARCA</th>
+                                  <th style=" text-align: left;">6. LINEA</th>
+                                  <th>7.COMBUSTIBLE</th>
+                              </tr>
+                              <tr class="bn">
+                                  <td style="height: 32px;"></td>
+                                  <td></td>
+                                  <td style="border: none; padding: 0px;width: 56.5714%;">
+                                      <table style="width: 100%; height: 100%; text-align: center;font-size: 6px;">
+                                          <tr class="">
+                                              <td>GASOLINA</td>
+                                              <td>DIESEL</td>
+                                              <td>GAS</td>
+                                              <td>MIXTO</td>
+                                              <td>ELECTRICO</td>
+                                              <td>HIDROGEN</td>
+                                              <td>ETANOL</td>
+                                              <td>BIODIESEL</td>
+                                          </tr>
+                                          <tr class="self_pd pdding">
+                                              <td>1</td>
+                                              <td>2</td>
+                                              <td>3</td>
+                                              <td>4</td>
+                                              <td>5</td>
+                                              <td>6</td>
+                                              <td>7</td>
+                                              <td>8</td>
+                                          </tr>
+                                      </table>
+                                  </td>
+                              </tr>
+                          </table>
+                          <table style="width:100%;">
+                              <tr class="bn">
+                                  <th style="text-align: left;">8. COLORES</th>
+                                  <th style="width: 14.25%;">9. MODELO</th>
+                                  <th style="width: 21%;">10. CILINDRADA </th>
+                              </tr>
+                              <tr class="bn">
+                                  <td style="height: 18px;"></td>
+                                  <td></td>
+                                  <td></td>
+                              </tr>
+                          </table>
+                          <table style="width:100%;">
+                              <tr class="bn">
+                                  <th style="width: 21%;">11. CAPACIDAD Kg/Psj</th>
+                                  <th>12. BLINDAJE
+
+                                      <label for="vehicle1">SI</label><input type="checkbox" id="vehicle1" name="vehicle1"
+                                          value="yes">
+                                      <label for="vehicle2">NO</label><input type="checkbox" id="vehicle2" name="vehicle2"
+                                          value="no">
+                                  </th>
+                                  <th style="width: 28.2857%; font-size: 8px;">13. DESMONTE BLIND.
+
+                                      <label for="vehicle1">SI</label><input type="checkbox" id="vehicle1" name="vehicle1"
+                                          value="yes">
+                                      <label for="vehicle2">NO</label><input type="checkbox" id="vehicle2" name="vehicle2"
+                                          value="no">
+                                  </th>
+                                  <th style="width: 21%;">14. POTENCIA/HP</th>
+                              </tr>
+                              <tr class="bn bt">
+                                  <td style="height: 18px;"></td>
+                                  <td style="height: 18px;vertical-align: top;">Resolución No (DD/MM/AÑO)</td>
+                                  <td style="height: 18px;vertical-align: top;">NO
+                                      Resolución No (DD/MM/AÑO)</td>
+                                  <td style="height: 18px;"></td>
+                              </tr>
+                          </table>
+                      </tr>
+                  </table>
+                  <div class="w-50">
+                      <table style="width:100%; font-size: 10px; margin-bottom: 2%;">
+                          <tr>
+                              <table style="width:100%;">
+                                  <tr class="bn">
+                                      <th style="text-align: center;">15. CARROCERIA</th>
+                                  </tr>
+                                  <tr class="bn">
+                                      <td>CODIGO</td>
+                                  </tr>
+                                  <tr class="bn">
+                                      <td style="height: 15px;"></td>
+                                  </tr>
+                                  <tr class="bn">
+                                      <td>TIPO</td>
+                                  </tr>
+                                  <tr class="bn bt">
+                                      <td style="height: 20px;"></td>
+                                  </tr>
+                              </table>
+                          </tr>
+                      </table>
+                      <table style="width:100%; font-size: 10px; margin-bottom: 9px;">
+                          <tr>
+                              <table style="width:100%;">
+                                  <tr class="bn">
+                                      <th style="text-align: center;height: 20px;">17. IMPORTACIÓN O REMATE</th>
+                                  </tr>
+                              </table>
+                          </tr>
+                          <tr>
+                              <table style="width:100%; text-align: center;">
+                                  <tr class="bn">
+                                      <td style="width: 28%;">IMPORTACION</td>
+                                      <td>REMATE</td>
+                                  </tr>
+                                  <tr>
+                                      <table style="width:100%; text-align: center;">
+                                          <tr class="bn">
+                                              <td style="width: 14%;height: 30px;">MANIF. O
+                                                  ACTA
+                                                  1</td>
+                                              <td style="width: 14%;">DEC. DE
+                                                  IMPOR.
+                                                  2</td>
+                                              <td style="width: 15%;">ACTA
+                                                  3</td>
+                                              <td style="width: 14%;">ENTIDAD
+                                                  4</td>
+                                              <td style="width: 14%;">LUGAR
+                                                  (CIUDAD)
+                                              </td>
+                                              <td style="width: 28%;">CODIGO
+                                                  6</td>
+                                          </tr>
+                                      </table>
+                                  </tr>
+                              </table>
+                          </tr>
+                          <tr>
+                              <table style="width:100%; text-align: center;">
+                                  <tr class="bn">
+                                      <td>No. DOCUMENTO</td>
+                                      <td>FECHA</td>
+                                  </tr>
+                                  <tr class="bn">
+                                      <td class="bb"></td>
+                                      <td style="border: none; padding: 0px; width: 43%;">
+                                          <table style="width:100%;">
+                                              <tr>
+                                                  <td style="width: 33.33%;">DIA</td>
+                                                  <td style="width: 33.33%;">MES</td>
+                                                  <td style="width: 33.33%;">AÑO</td>
+                                              </tr>
+                                              <tr class="bn bt">
+                                                  <td style="height: 35px;"></td>
+                                                  <td></td>
+                                                  <td></td>
+                                              </tr>
+                                          </table>
+                                      </td>
+                                  </tr>
+                              </table>
+                          </tr>
+                      </table>
+                      <table style="width:100%; font-size: 10px; margin-bottom: 3%;">
+                          <tr>
+                              <table style="width:100%;">
+                                  <tr class="bn">
+                                      <th style="text-align: center;">20. DATOS DE ALERTA</th>
+                                  </tr>
+                              </table>
+                          </tr>
+                          <tr>
+                              <table style="width:100%; text-align: center;">
+                                  <tr class="bn bt">
+                                      <td style="width: 14%;height: 40px;">HURTO 1</td>
+                                      <td style="width: 28%;">LIM. PROPIEDAD
+                                          2</td>
+                                      <td style="width: 14%;">D
+                                          2
+                                          EMBARGO
+                                          3</td>
+                                      <td style="width: 14%;">OTRO
+                                          4</td>
+                                      <td style="width: 28%;">A FAVOR DE:
+                                          5</td>
+                                  </tr>
+                              </table>
+                          </tr>
+                      </table>
+                  </div>
+                  <div class="w-50" style="margin-left: 1%;">
+                      <table style="width:100%; font-size: 10px; margin-bottom: 2%;">
+                          <tr>
+                              <table style="width:100%;">
+                                  <tr class="bn">
+                                      <th style="text-align: center;">16. IDENTIFICACION INTERNA DEL VEHICULO</th>
+                                  </tr>
+                                  <tr>
+                                      <table style="width:100%;">
+                                          <tr class="bn">
+                                              <td>No. DE MOTOR</td>
+                                              <td style="width: 28%;">REGRABADO</td>
+                                          </tr>
+                                      </table>
+                                  </tr>
+                                  <tr>
+                                      <table style="width:100%;">
+                                          <tr class="bn">
+                                              <td style="height: 15px"></td>
+                                              <td style="width: 28%;">
+                                                  <label for="vehicle1">SI</label><input type="checkbox" id="vehicle1"
+                                                      name="vehicle1" value="yes">
+                                                  <label for="vehicle2">NO</label><input type="checkbox" id="vehicle2"
+                                                      name="vehicle2" value="no">
+                                              </td>
+                                          </tr>
+                                      </table>
+                                  </tr>
+                                  <tr>
+                                      <table style="width:100%;">
+                                          <tr class="bn">
+                                              <td>No. DE CHASIS</td>
+                                              <td style="width: 28%;">REGRABADO</td>
+                                          </tr>
+                                      </table>
+                                  </tr>
+                                  <tr>
+                                      <table style="width:100%;">
+                                          <tr class="bn">
+                                              <td style="height: 20px"></td>
+                                              <td style="width: 28%;">
+                                                  <label for="vehicle1">SI</label><input type="checkbox" id="vehicle1"
+                                                      name="vehicle1" value="yes">
+                                                  <label for="vehicle2">NO</label><input type="checkbox" id="vehicle2"
+                                                      name="vehicle2" value="no">
+                                              </td>
+                                          </tr>
+                                      </table>
+                                  </tr>
+                                  <tr>
+                                      <table style="width:100%;">
+                                          <tr class="bn">
+                                              <td>No. DE SERIE</td>
+                                              <td style="width: 28%;">REGRABADO</td>
+                                          </tr>
+                                      </table>
+                                  </tr>
+                                  <tr>
+                                      <table style="width:100%;">
+                                          <tr class="bn">
+                                              <td style="height: 20px"></td>
+                                              <td style="width: 28%;">
+                                                  <label for="vehicle1">SI</label><input type="checkbox" id="vehicle1"
+                                                      name="vehicle1" value="yes">
+                                                  <label for="vehicle2">NO</label><input type="checkbox" id="vehicle2"
+                                                      name="vehicle2" value="no">
+                                              </td>
+                                          </tr>
+                                      </table>
+                                  </tr>
+                                  <tr>
+                                      <table style="width:100%;">
+                                          <tr class="bn">
+                                              <td style="width: 70%;">No. DE VIN VEHICULOS AUTOMOTORES</td>
+                                          </tr>
+                                      </table>
+                                  </tr>
+                                  <tr>
+                                      <table style="width:100%;">
+                                          <tr class="bn bt">
+                                              <td style="height: 30px;"></td>
+                                          </tr>
+                                      </table>
+                                  </tr>
+                              </table>
+                          </tr>
+                      </table>
+                      <table style="width:100%; font-size: 10px; margin-bottom: 9px;">
+                          <tr>
+                              <table style="width:100%;">
+                                  <tr class="bn">
+                                      <th style="text-align: center;">18. TIPO DE SERVICIO</th>
+                                  </tr>
+                              </table>
+                          </tr>
+                          <tr>
+                              <table style="width:100%; text-align: center;">
+                                  <tr class="bn">
+                                      <td>PARTICUL</td>
+                                      <td>PUBLICO</td>
+                                      <td>DIPLOMATI</td>
+                                      <td>OFICIAL</td>
+                                      <td>ESPECIAL</td>
+                                      <td style="width: 28%;">OTROS</td>
+                                  </tr>
+                                  <tr class="bn">
+                                      <td style="height: 30px;">1</td>
+                                      <td>2</td>
+                                      <td>3</td>
+                                      <td>4</td>
+                                      <td>5</td>
+                                      <td>6</td>
+                                  </tr>
+                              </table>
+                          </tr>
+                      </table>
+                      <table style="width:100%; font-size: 10px; margin-bottom: 0%;">
+                          <tr>
+                              <table style="width:100%;">
+                                  <tr class="bn">
+                                      <th style="text-align: center;">19. EMPRESA VINCULADORA</th>
+                                  </tr>
+                              </table>
+                          </tr>
+                          <tr>
+                              <table style="width:100%; text-align: center;">
+                                  <tr class="bn bt">
+                                      <td>NOMBRE</td>
+                                      <td style="width: 28%;height: 40px;">NIT</td>
+                                  </tr>
+                              </table>
+                          </tr>
+                      </table>
+                  </div>
+              </div>
+              <div class="observation">
+                  <table style="width:100%; font-size: 10px;">
+                      <tr>
+                          <table style="width:100%;">
+                              <tr class="bn">
+                                  <th style="text-align: center;">23. OBSERVACIONES</th>
+                              </tr>
+                          </table>
+                      </tr>
+                      <tr>
+                          <table style="width:100%; text-align: center;">
+                              <tr class="bn">
+                                  <td style="height: 19px; vertical-align: top;">ESPECIFIQUE LA PALABRA OTRO Y
+                                      TRANSFORMACIÓN EFECTUADA AL
+                                      VEHICULO, AMPLEI EL TIPO
+                                      DE ALERTA O LO QUE ESTIME</td>
+                              </tr>
+                              <tr class="bn">
+                                  <td style="height: 9px;"></td>
+                              </tr>
+                              <tr class="bn">
+                                  <td style="height: 15px;"></td>
+                              </tr>
+                              <tr class="bn">
+                                  <th style="height: 9px;padding: 0;">OBSERVACIONES (PARA TRASPASO DE VEHICULOS
+                                      AUTOMOTORES ANTES DE
+                                      RUNT)</th>
+                              </tr>
+                              <tr class="bn">
+                                  <td style="height: 45px; vertical-align: top;">SI SU VEHICULO AUTOMOTOR HA SIDO
+                                      MATRICULADO ANTES DEL RUNT TRANSCRIBA EN ESTE CAMPO
+                                      EL TIPO DE CARROCERIA Y LA
+                                      CLASE DE VEHICULO QUE SE ENCUENTRA REGISTRADA EN SU LICENCIA DE TRÁNSITO O CUALQUIER
+                                      OTRO ASPECTO QUE CONSIDERE
+                                      NECESARIO PARA DAR EXACTITUD A LA INFORMACIÓN.</td>
+                              </tr>
+                              <tr class="bn bt">
+                                  <td style="height: 15px;"></td>
+                              </tr>
+                          </table>
+                      </tr>
+                  </table>
+              </div>
+          </div>
+      </div>
+
+  </body>
+
+  </html>

@@ -27,7 +27,7 @@ const postRelation = async (body, token) => {
 };
 
 const putRelation= async (id, body) => {
-  const relation = await getProperty(id);
+  const relation = await getRelation(id);
 
   if (typeof relation === 'string') {
     return relation

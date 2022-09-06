@@ -1,4 +1,5 @@
 const PropertyModel = require("../models/Property");
+const userController = require("../controllers/user-controller");
 
 const getProperties = async () => {
   const property = await PropertyModel.find();
@@ -16,10 +17,13 @@ const getProperty = async (id) => {
 const postProperty = async (body, token) => {
   try {
     const property = new PropertyModel(body);
-    await property.save();
-
+    const saveObject = await property.save();
 
     const propertyOwners = getProperty(token.sub.id)
+    const user = await userController.getUser(token.sub.id)
+
+    user.propertiesOwned.push(saveObject._id)
+    await userController.putUser(token, {propertiesOwned: user.propertiesOwned})
 
     return propertyOwners
   }catch(e){
@@ -38,8 +42,13 @@ const putProperty = async (id, body) => {
   return newProperty
 };
 
-const deleteProperty = async (id) => {
+const deleteProperty = async (id, token) => {
+  let user = await userController.getUser(token.sub.id)
+  user.propertiesOwned = user.propertiesOwned.filter(_id => _id === id)
+  await userController.putUser(token, {propertiesOwned: user.propertiesOwned})
+
   const deleteProperty = await PropertyModel.findByIdAndDelete(id);
+
   return deleteProperty ? true : false;
 };
 

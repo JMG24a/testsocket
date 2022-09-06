@@ -1,4 +1,5 @@
-const RelationModel = require("..//models/Relation");
+const RelationModel = require("../models/Relation");
+const userController = require("../controllers/user-controller");
 
 const getRelations = async () => {
   const relation = await RelationModel.find();
@@ -16,9 +17,13 @@ const getRelation = async (id) => {
 const postRelation = async (body, token) => {
   try {
     const relation = new RelationModel(body);
-    await relation.save();
+    const saveObject = await relation.save();
 
     const RelationsOwner = getRelation(token.sub.id)
+    const user = await userController.getUser(token.sub.id)
+
+    user.familyMembers.push(saveObject.id)
+    await userController.putUser(token, {familyMembers: user.familyMembers})
 
     return RelationsOwner
   }catch(e){
@@ -37,7 +42,11 @@ const putRelation= async (id, body) => {
   return newRelation
 };
 
-const deleteRelation = async (id) => {
+const deleteRelation = async (id, token) => {
+  let user = await userController.getUser(token.sub.id)
+  user.familyMembers = user.familyMembers.filter(_id => _id === id)
+  await userController.putUser(token, {familyMembers: user.familyMembers})
+
   const deleteRelation = await RelationModel.findByIdAndDelete(id);
   return deleteRelation ? true : false;
 };

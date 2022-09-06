@@ -14,7 +14,9 @@ const getUser = async (id) => {
 
   const userR = await UsersModel.findById(id)
     .populate('favoriteForms')
+    .populate('propertiesOwned')
     .populate('vehiclesOwned')
+    .populate('familyMembers')
     .populate('plan.planInfo');
   return userR;
 };
@@ -24,15 +26,16 @@ const getUserByEmail = async (email) => {
     return 'El usuario no fue encontrado';
   }
   const user = await UsersModel.findOneAndUpdate(
-    { email: email }, 
-    { lastLoginDate: new Date().toISOString() }, 
+    { email: email },
+    { lastLoginDate: new Date().toISOString() },
     { new: true }
   )
     .populate('favoriteForms')
+    .populate('propertiesOwned')
     .populate('vehiclesOwned')
+    .populate('familyMembers')
     .populate('plan.planInfo');
-  
-  // console.log(user);
+
   return user;
 };
 
@@ -75,9 +78,11 @@ const putUser = async (token, body) => {
       new: true,
     })
     .populate('favoriteForms')
+    .populate('propertiesOwned')
     .populate('vehiclesOwned')
+    .populate('familyMembers')
     .populate('plan.planInfo');
-  
+
   newUser.password = null;
   const jwt = await signToken(newUser);
 

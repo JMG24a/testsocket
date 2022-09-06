@@ -30,30 +30,9 @@ const userSchema = new Schema({
       state: String,
     },
   ],
-  propertiesOwned: [
-    {
-      id: String,
-      name: String,
-      address: String,
-      addressComplement: String,
-      city: String,
-      country: String,
-      state: String,
-      noCatastro: String,
-    },
-  ],
+  propertiesOwned: [{ type: Schema.Types.ObjectId, ref: 'Property' }],
   vehiclesOwned: [{ type: Schema.Types.ObjectId, ref: 'Vehicle' }],
-  familyMembers: [
-    {
-      id: String,
-      name: String,
-      firstLastName: String,
-      secondLastName: String,
-      taxId: String,
-      phone: String,
-      mobile: String,
-    },
-  ],
+  familyMembers: [{ type: Schema.Types.ObjectId, ref: 'Relation' }],
   purchases: [
     {
       id: String,

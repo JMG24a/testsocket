@@ -82,7 +82,8 @@ const putRelation = async (req, res) => {
 
 const deleteRelation = async (req, res) => {
   const {id} = req.params;
-  const isDelete = await relationsController.deleteRelation(id)
+  const token = req.myPayload
+  const isDelete = await relationsController.deleteRelation(id, token)
 
   res.status(200).json({
     msg: "Eliminado con exito",
@@ -94,6 +95,6 @@ router.get("/", getRelations);
 router.get("/user", validateToken, getRelation);
 router.post("/", validateToken, postRelation);
 router.put("/:id", putRelation);
-router.delete("/:id", deleteRelation);
+router.delete("/:id", validateToken, deleteRelation);
 
 module.exports = router

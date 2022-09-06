@@ -82,7 +82,8 @@ const putProperty = async (req, res) => {
 
 const deleteProperty = async (req, res) => {
   const {id} = req.params;
-  const isDelete = await propertyController.deleteProperty(id)
+  const token = req.myPayload
+  const isDelete = await propertyController.deleteProperty(id, token)
 
   res.status(200).json({
     msg: "Eliminado con exito",
@@ -94,6 +95,6 @@ router.get("/", getProperties);
 router.get("/user", validateToken, getProperty);
 router.post("/", validateToken, postProperty);
 router.put("/:id", putProperty);
-router.delete("/:id", deleteProperty);
+router.delete("/:id", validateToken, deleteProperty);
 
 module.exports = router

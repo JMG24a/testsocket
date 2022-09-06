@@ -1,5 +1,7 @@
 const { Router } = require('express');
 const vehicleController = require('../controllers/vehicle-controller');
+//middleware
+const { validateToken } = require('../auth/middleware/jwt');
 
 const router = Router();
 
@@ -13,24 +15,31 @@ const getVehicles = async (req, res) => {
 };
 
 const getVehicle = async (req, res) => {
-  const { id } = req.params;
-  const vehicle = await vehicleController.getVehicle(id);
+  const token = req.myPayload
+  try{
+    const vehicle = await vehicleController.getVehicle(token.sub.id);
 
-  res.status(200).json({
-    msg: 'Propiedad',
-    vehicle,
-  });
+    res.status(200).json({
+      ok: true,
+      msg: "Propiedad",
+      vehicle
+    });
+  }catch(e){
+    res.status(200).json({
+      ok: false,
+      msg: "Intenta mas tarde",
+    });
+  }
 };
 
 const postVehicle = async (req, res) => {
+  const token = req.myPayload
   const body = req.body;
-
   try {
-    const newVehicle = await vehicleController.postVehicle(body);
-
+    const newVehicle = await vehicleController.postVehicle(body, token);
     res.status(201).json({
       ok: true,
-      msg: 'Vehiculo creado',
+      msg: 'Creado',
       vehicle: newVehicle,
     });
   } catch (error) {
@@ -72,7 +81,8 @@ const putVehicle = async (req, res) => {
 
 const deleteVehicle = async (req, res) => {
   const { id } = req.params;
-  const isDelete = await vehicleController.deleteVehicle(id);
+  const token = req.myPayload
+  const isDelete = await vehicleController.deleteVehicle(id, token);
 
   res.status(200).json({
     msg: 'Eliminado con exito',
@@ -81,9 +91,9 @@ const deleteVehicle = async (req, res) => {
 };
 
 router.get('/', getVehicles);
-router.get('/:id', getVehicle);
-router.post('/', postVehicle);
+router.get('/user', validateToken, getVehicle);
+router.post('/', validateToken, postVehicle);
 router.put('/:id', putVehicle);
-router.delete('/:id', deleteVehicle);
+router.delete('/:id', validateToken, deleteVehicle);
 
 module.exports = router;

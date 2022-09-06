@@ -1,7 +1,7 @@
 const { Schema, model, models } = require('mongoose');
 
 const vehicleSchema = new Schema({
-  userOwnerId: { type: Schema.Types.ObjectId, ref: 'User' },
+  userId: { type: Schema.Types.ObjectId, ref: 'User' },
   name: String,
   plate: String,
   brand: String,

@@ -140,7 +140,7 @@ const AuthGoogle = async (user) => {
   }
 };
 
-const signToken = async (user) => {
+const signToken = async (user, option = {}) => {
   const payload = {
     sub: {
       id: user?.id,
@@ -148,7 +148,7 @@ const signToken = async (user) => {
     },
     role: 'basic',
   };
-  const jwt = createJWT(payload);
+  const jwt = createJWT(payload, options);
   return jwt;
 };
 

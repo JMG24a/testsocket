@@ -1,4 +1,5 @@
 const { Router } = require('express');
+
 const userRouter = require('./user-router');
 const propertyRouter = require('./property-router');
 const procedureRouter = require('./procedure-router');
@@ -11,6 +12,7 @@ const faqRouter = require('./faq');
 const productRouter = require('./product');
 const ResultRouter = require('./result-router');
 const formCategoryRouter = require('./form-category');
+const authRouter = require('./auth');
 
 const appRouter = (app) => {
   const routerV1 = Router();
@@ -27,6 +29,7 @@ const appRouter = (app) => {
   routerV1.use('/product', productRouter);
   routerV1.use('/result', ResultRouter);
   routerV1.use('/formcategories', formCategoryRouter);
+  routerV1.use('/auth', authRouter);
   //V2
 };
 

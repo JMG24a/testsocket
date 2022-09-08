@@ -140,7 +140,7 @@ const AuthGoogle = async (user) => {
   }
 };
 
-const signToken = async (user, option = {}) => {
+const signToken = async (user, option) => {
   const payload = {
     sub: {
       id: user?.id,
@@ -148,7 +148,7 @@ const signToken = async (user, option = {}) => {
     },
     role: 'basic',
   };
-  const jwt = createJWT(payload, options);
+  const jwt = createJWT(payload, option);
   return jwt;
 };
 
@@ -171,6 +171,7 @@ const refresh = async (token) => {
 module.exports = {
   getUsers,
   getUser,
+  getUserByEmail,
   postUser,
   putUser,
   deleteUser,

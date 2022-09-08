@@ -2,6 +2,7 @@ const { Router } = require('express');
 const passport = require('passport');
 //services
 const userController = require('../controllers/user-controller');
+const authController = require('../controllers/auth')
 //middleware
 // const { validatorRoles } = require('../auth/middleware/roles');
 const { isLoggedIn } = require('../auth/middleware/login');
@@ -33,6 +34,8 @@ const postUser = async (req, res) => {
   const body = req.body;
   try {
     const newUser = await userController.postUser(body);
+    authController.welcome(newUser.user.email)
+
     if(typeof newUser === 'string'){
       res.status(201).json({
         ok: false,

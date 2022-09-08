@@ -1,52 +1,71 @@
 const { sendMail } = require('../mails/recovery')
 const userController = require('../controllers/user-controller')
-const userModel = require('../models/User')
+const { verifyJWT } = require('../auth/tokens')
+const { security } = require('../auth/middleware/security')
 
-const { createJWT } = require('../auth/tokens');
+const welcome = async (email) => {
+  try{
+    const content = `<b>Bienvenido a Formuapp</b>`
+
+    const res = await sendMail(email, content)
+
+    return res
+  }catch(err){
+    throw new Error('try again later')
+  }
+}
 
 const recovery = async (body) => {
   try{
     const {email} = body
-    const user = await userModel.findOne({
-      where: {email: email}
-    })
+    const user = await userController.getUserByEmail(email)
+
     if(!user){
       throw new Error('User not fount')
     }
 
-    const jwt = await userController.signToken(user,{expiresIn: '15min'})
-    const link = `http://localhost:3000/recovery?jwt=${jwt}`
+    const jwt = await userController.signToken(user, {expiresIn: '15min'})
+
+    const link = `http://localhost:3000/login?recovery=${jwt}`
     const content = `<b>Ingresa a este link => ${link}</b>`
 
-    await US.update(user.id,{token: jwt})
+    const idToken = { sub: {id: user.id}};
+
+    await userController.putUser(idToken, {token: jwt})
 
     const res = await sendMail(user.email, content)
 
     return res
   }catch(err){
-    throw boom.internal('try again later')
+    throw new Error('try again later')
   }
-
 }
 
 const changePassword = async (token, password) => {
   const payload = verifyJWT(token);
-  const user = await US.findOne(payload.sub)
 
-  if(token !== user.recoveryToken){
-    throw boom.conflict('invalid credential')
+  const user = await userController.getUserByEmail(payload.sub.email)
+
+  if(token !== user.token){
+    throw new Error('invalid credential')
   }
 
+  const idToken = { sub: {id: user.id}};
+
+  const jwt = await userController.signToken(user, {expiresIn: '2h'})
+
   const HASH = await security(password)
-  const responseUpdate = await US.update(user.id,{recoveryToken: null, password: HASH})
+  const responseUpdate = await userController.putUser(idToken, {token: "", password: HASH})
 
-  delete responseUpdate.dataValues.password
-
-  return responseUpdate
+  return {
+    user: responseUpdate,
+    token: jwt
+  }
 }
 
 
 module.exports = {
+  welcome,
   recovery,
   changePassword
 }

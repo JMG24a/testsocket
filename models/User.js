@@ -2,6 +2,7 @@ const { Schema, model, models } = require('mongoose');
 
 const userSchema = new Schema({
   email: { type: String, required: true, unique: true },
+  emailVerify: {type: Boolean, default: false},
   password: { type: String, required: true },
   name: { type: String, required: true },
   fistLastName: { type: String, required: false },

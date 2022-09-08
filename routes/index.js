@@ -11,6 +11,7 @@ const faqRouter = require('./faq');
 const productRouter = require('./product');
 const ResultRouter = require('./result-router');
 const formCategoryRouter = require('./form-category');
+const invoiceRouter = require('./invoice-router');
 
 const appRouter = (app) => {
   const routerV1 = Router();
@@ -27,6 +28,7 @@ const appRouter = (app) => {
   routerV1.use('/product', productRouter);
   routerV1.use('/result', ResultRouter);
   routerV1.use('/formcategories', formCategoryRouter);
+  routerV1.use('/invoices', invoiceRouter);
   //V2
 };
 

@@ -14,7 +14,9 @@ const getUser = async (id) => {
 
   const userR = await UsersModel.findById(id)
     .populate('favoriteForms')
+    .populate('propertiesOwned')
     .populate('vehiclesOwned')
+    .populate('familyMembers')
     .populate('plan.planInfo');
   return userR;
 };
@@ -24,15 +26,16 @@ const getUserByEmail = async (email) => {
     return 'El usuario no fue encontrado';
   }
   const user = await UsersModel.findOneAndUpdate(
-    { email: email }, 
-    { lastLoginDate: new Date().toISOString() }, 
+    { email: email },
+    { lastLoginDate: new Date().toISOString() },
     { new: true }
   )
     .populate('favoriteForms')
+    .populate('propertiesOwned')
     .populate('vehiclesOwned')
+    .populate('familyMembers')
     .populate('plan.planInfo');
-  
-  // console.log(user);
+
   return user;
 };
 
@@ -75,9 +78,11 @@ const putUser = async (token, body) => {
       new: true,
     })
     .populate('favoriteForms')
+    .populate('propertiesOwned')
     .populate('vehiclesOwned')
+    .populate('familyMembers')
     .populate('plan.planInfo');
-  
+
   newUser.password = null;
   const jwt = await signToken(newUser);
 
@@ -135,7 +140,7 @@ const AuthGoogle = async (user) => {
   }
 };
 
-const signToken = async (user) => {
+const signToken = async (user, option) => {
   const payload = {
     sub: {
       id: user?.id,
@@ -143,7 +148,7 @@ const signToken = async (user) => {
     },
     role: 'basic',
   };
-  const jwt = createJWT(payload);
+  const jwt = createJWT(payload, option);
   return jwt;
 };
 
@@ -166,6 +171,7 @@ const refresh = async (token) => {
 module.exports = {
   getUsers,
   getUser,
+  getUserByEmail,
   postUser,
   putUser,
   deleteUser,

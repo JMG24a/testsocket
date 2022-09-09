@@ -4,6 +4,7 @@ const { config } = require('../config/config')
 
 async function sendMail(email,content){
   const transporter = nodeMailer.createTransport({
+    service: 'Gmail',
     host: "smtp.gmail.com",
     secure: true, // true for 465, false for other ports
     port: 465,

@@ -34,7 +34,7 @@ const postUser = async (req, res) => {
   const body = req.body;
   try {
     const newUser = await userController.postUser(body);
-    authController.welcome(newUser.user.email)
+    await authController.welcome(newUser.user.email)
 
     if(typeof newUser === 'string'){
       res.status(201).json({

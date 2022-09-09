@@ -14,10 +14,10 @@ async function sendMail(email,content){
   });
 
   await transporter.sendMail({
-    from: 'jmg24a@gmail.com', // sender address
+    from: 'formuapp22@gmail.com', // sender address
     to: email, // list of receivers
-    subject: "Say Hello", // Subject line
-    text: "Ya casi somos devs", // plain text body
+    subject: "Confirmacion FormuApp", // Subject line
+    text: "accede en el link para que puedas continuar", // plain text body
     html: content, // html body
   });
 

@@ -1,4 +1,5 @@
-const { sendMail } = require('../mails/recovery')
+const { sendMail } = require('../mails/recovery');
+const { send_pdf } = require('../mails/send-pdf');
 const userController = require('../controllers/user-controller')
 const { verifyJWT } = require('../auth/tokens')
 const { security } = require('../auth/middleware/security')
@@ -63,9 +64,16 @@ const changePassword = async (token, password) => {
   }
 }
 
+const sendPDF = async (namePDF, email) => {
+  const content = `<b>Formuapp</b>`
+  const res = await send_pdf(namePDF, email, content)
+  return res
+}
+
 
 module.exports = {
   welcome,
   recovery,
-  changePassword
+  changePassword,
+  sendPDF
 }

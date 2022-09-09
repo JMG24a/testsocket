@@ -27,7 +27,7 @@ const recovery = async (body) => {
 
     const jwt = await userController.signToken(user, {expiresIn: '15min'})
 
-    const link = `http://localhost:3000/login?recovery=${jwt}`
+    const link = `https://formu-app.vercel.app/login?recovery=${jwt}`
     const content = `<b>Ingresa a este link => ${link}</b>`
 
     const idToken = { sub: {id: user.id}};

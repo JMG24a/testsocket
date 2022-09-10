@@ -1,4 +1,5 @@
-const { sendMail } = require('../mails/recovery')
+const { sendMail } = require('../mails/recovery');
+const { send_pdf } = require('../mails/send-pdf');
 const userController = require('../controllers/user-controller')
 const { verifyJWT } = require('../auth/tokens')
 const { security } = require('../auth/middleware/security')
@@ -26,7 +27,7 @@ const recovery = async (body) => {
 
     const jwt = await userController.signToken(user, {expiresIn: '15min'})
 
-    const link = `http://localhost:3000/login?recovery=${jwt}`
+    const link = `https://formu-app.vercel.app/login?recovery=${jwt}`
     const content = `<b>Ingresa a este link => ${link}</b>`
 
     const idToken = { sub: {id: user.id}};
@@ -63,9 +64,16 @@ const changePassword = async (token, password) => {
   }
 }
 
+const sendPDF = async (namePDF, email) => {
+  const content = `<b>Formuapp</b>`
+  const res = await send_pdf(namePDF, email, content)
+  return res
+}
+
 
 module.exports = {
   welcome,
   recovery,
-  changePassword
+  changePassword,
+  sendPDF
 }

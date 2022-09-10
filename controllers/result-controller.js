@@ -1,5 +1,5 @@
 const PDF  = require('html-pdf');
-const {switches} = require('../template')
+const {switches} = require('../template');
 
 const generatorPDF = (procedureInfo) => {
 

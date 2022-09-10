@@ -14,15 +14,19 @@ async function sendMail(email,content){
     }
   });
 
-  await transporter.sendMail({
-    from: 'formuapp22@gmail.com', // sender address
-    to: email, // list of receivers
-    subject: "Confirmacion FormuApp", // Subject line
-    text: "accede en el link para que puedas continuar", // plain text body
-    html: content, // html body
-  });
+  try{
+    await transporter.sendMail({
+      from: 'formuapp22@gmail.com', // sender address
+      to: email, // list of receivers
+      subject: "Confirmacion FormuApp", // Subject line
+      text: "accede en el link para que puedas continuar", // plain text body
+      html: content, // html body
+    });
 
-  return { message: 'mail sent' }
+    return { message: 'mail sent' }
+  }catch(err){
+    return { error: err }
+  }
 }
 
 module.exports = {sendMail}

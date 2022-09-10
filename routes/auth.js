@@ -11,7 +11,8 @@ const recovery = async(req,res)=> {
   }catch(err){
     res.json({
       ok: false,
-      msg: 'error interno, intente mas tarde'
+      msg: 'error interno, intente mas tarde',
+      error: err
     })
   }
 }
@@ -24,7 +25,8 @@ const changePassword = async (req,res) => {
   }catch(err){
     res.json({
       ok: false,
-      msg: 'tiempo agotado, intente mas tarde'
+      msg: 'tiempo agotado, intente mas tarde',
+      error: err
     })
   }
 }

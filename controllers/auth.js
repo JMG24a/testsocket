@@ -7,12 +7,11 @@ const { security } = require('../auth/middleware/security')
 const welcome = async (email) => {
   try{
     const content = `<b>Bienvenido a Formuapp</b>`
-
     const res = await sendMail(email, content)
 
     return res
   }catch(err){
-    throw new Error('try again later')
+    throw new Error(err)
   }
 }
 
@@ -38,36 +37,43 @@ const recovery = async (body) => {
 
     return res
   }catch(err){
-    throw new Error('try again later')
+    return {error: err}
   }
 }
 
 const changePassword = async (token, password) => {
-  const payload = verifyJWT(token);
+  try{
+    const payload = verifyJWT(token);
+    const user = await userController.getUserByEmail(payload.sub.email)
 
-  const user = await userController.getUserByEmail(payload.sub.email)
+    if(token !== user.token){
+      throw new Error('invalid credential')
+    }
 
-  if(token !== user.token){
-    throw new Error('invalid credential')
-  }
+    const idToken = { sub: {id: user.id}};
+    const jwt = await userController.signToken(user, {expiresIn: '2h'})
 
-  const idToken = { sub: {id: user.id}};
+    const HASH = await security(password)
+    const responseUpdate = await userController.putUser(idToken, {token: "", password: HASH})
 
-  const jwt = await userController.signToken(user, {expiresIn: '2h'})
-
-  const HASH = await security(password)
-  const responseUpdate = await userController.putUser(idToken, {token: "", password: HASH})
-
-  return {
-    user: responseUpdate,
-    token: jwt
+    return {
+      user: responseUpdate,
+      token: jwt
+    }
+  }catch(err){
+    throw new Error(err)
   }
 }
 
 const sendPDF = async (namePDF, email) => {
-  const content = `<b>Formuapp</b>`
-  const res = await send_pdf(namePDF, email, content)
-  return res
+  try{
+    const content = `<b>Formuapp</b>`
+    const res = await send_pdf(namePDF, email, content)
+    return res
+  }catch(err){
+    throw new Error(err)
+  }
+
 }
 
 

@@ -1,11 +1,16 @@
 const { Router } = require('express');
 const router = Router();
 const SupportTicket = require('../models/SupportTicket');
+const userModel = require('../models/User');
+
+const { validateToken } = require('../auth/middleware/jwt');
+const Passport = require('passport');
 
 const getSupportTickets = async (req, res) => {
   const supportTickets = await SupportTicket.find().populate('userId');
 
   res.status(200).json({
+    ok: true,
     msg: 'Listado de Tickets',
     supportTickets,
   });
@@ -16,6 +21,7 @@ const getSupportTicket = async (req, res) => {
   const supportTicket = await SupportTicket.findById(id).populate('userId');
 
   res.status(200).json({
+    ok: true,
     msg: 'Ticket',
     supportTicket,
   });
@@ -23,7 +29,9 @@ const getSupportTicket = async (req, res) => {
 
 const postSupportTicket = async (req, res) => {
   const body = req.body;
-  console.log(body);
+  const token = req.myPayload;
+  body.userId = token.sub.id
+
   try {
     const user = new SupportTicket(body);
     const newUser = await user.save();
@@ -42,8 +50,82 @@ const postSupportTicket = async (req, res) => {
   }
 };
 
-router.post('/', postSupportTicket);
+const putSupportUser = async (req, res) => {
+  const { id } = req.params;
+  const body = req.body;
+
+  try {
+    await userModel.findByIdAndUpdate(id, body, {
+      new: true,
+    })
+
+    res.status(201).json({
+      ok: true,
+      msg: 'Update',
+    });
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      msg: 'Error en la peticion',
+      error,
+    });
+  }
+}
+
+const putSupportTicket = async (req, res) => {
+  const { id } = req.params;
+  const body = req.body;
+  console.log(body)
+  try {
+    await SupportTicket.findByIdAndUpdate(id, body)
+
+    res.status(201).json({
+      ok: true,
+      msg: 'Update',
+    });
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      msg: 'Error en la peticion',
+      error,
+    });
+  }
+}
+
+const deleteSupportTicket = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    await SupportTicket.findByIdAndDelete(id)
+
+    res.status(201).json({
+      ok: true,
+      msg: 'delete',
+    });
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      msg: 'Error en la peticion',
+      error,
+    });
+  }
+}
+
+router.post(
+  '/',
+  Passport.authenticate('jwt', { session: false }),
+  validateToken,
+  postSupportTicket
+);
+router.put(
+  '/editUser/:id',
+  Passport.authenticate('jwt', { session: false }),
+  validateToken,
+  putSupportUser
+);
+router.put('/editTicket/:id',putSupportTicket);
 router.get('/', getSupportTickets);
 router.get('/:id', getSupportTicket);
+router.delete('/:id', deleteSupportTicket);
 
 module.exports = router;

@@ -8,6 +8,10 @@ const supportTicketSchema = new Schema({
   issueDate: { type: String },
   answerDate: { type: String },
   attachmentURL: { type: String },
+  completed: { type: Boolean },
+},
+{
+  timestamps: true,
 });
 
 supportTicketSchema.method('toJSON', function () {

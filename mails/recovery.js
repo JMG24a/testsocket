@@ -1,33 +1,26 @@
-"use strict";
+'use strict';
 const nodeMailer = require('nodemailer');
-const { config } = require('../config/config')
+const { config } = require('../config/config');
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-async function sendMail(email,content){
-  const transporter = nodeMailer.createTransport({
-    host: "smtp.gmail.com",
-    // secure: true, // true for 465, false for other ports
-    port: 465,
-    auth: {
-      user: config.email.smtp_u,
-      pass: config.email.smtp_p
-    }
-  });
+async function sendMail(email, content) {
+  const msg = {
+    to: email, // Change to your recipient
+    from: 'info@formuapp.com', // Change to your verified sender
+    subject: 'Reestablece tu contraseña',
+    text: 'accede en el link para que puedas continuar',
+    html: content,
+  };
 
-  transporter.verify().then(console.log).catch(console.err);
-
-  try{
-    await transporter.sendMail({
-      from: 'formuapp22@gmail.com', // sender address
-      to: email, // list of receivers
-      subject: "Confirmacion FormuApp", // Subject line
-      text: "accede en el link para que puedas continuar", // plain text body
-      html: content, // html body
+  sgMail
+    .send(msg)
+    .then(() => {
+      console.log('Email sent');
+    })
+    .catch((error) => {
+      console.error(error);
     });
-
-    return { message: 'mail sent' }
-  }catch(err){
-    return { error: err }
-  }
 }
 
-module.exports = {sendMail}
+module.exports = { sendMail };

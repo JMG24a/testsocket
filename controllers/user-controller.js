@@ -17,6 +17,7 @@ const getUser = async (id) => {
     .populate('propertiesOwned')
     .populate('vehiclesOwned')
     .populate('familyMembers')
+    .populate('profileLicense')
     .populate('plan.planInfo');
   return userR;
 };
@@ -34,6 +35,7 @@ const getUserByEmail = async (email) => {
     .populate('propertiesOwned')
     .populate('vehiclesOwned')
     .populate('familyMembers')
+    .populate('profileLicense')
     .populate('plan.planInfo');
 
   return user;

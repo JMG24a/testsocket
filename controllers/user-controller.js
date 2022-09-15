@@ -1,6 +1,7 @@
 const UsersModel = require('../models/User');
 const { security, security_confirm } = require('../auth/middleware/security');
 const { createJWT } = require('../auth/tokens');
+const { welcomeMail } = require('../mails/welcome');
 
 const getUsers = async () => {
   const users = await UsersModel.find().populate('vehiclesOwned');
@@ -59,12 +60,18 @@ const postUser = async (body) => {
 
   const jwt = await signToken(user);
 
+  const userName = user.toObject().name;
+  const email = user.toObject().email;
+
+  const test = welcomeMail(email, userName);
+
   return {
     user: {
       ...user.toObject(),
-      password: null
+      password: null,
     },
     token: jwt,
+    test,
   };
 };
 
@@ -75,10 +82,9 @@ const putUser = async (token, body) => {
     return user;
   }
 
-  const newUser = await UsersModel
-    .findByIdAndUpdate(token.sub.id, body, {
-      new: true,
-    })
+  const newUser = await UsersModel.findByIdAndUpdate(token.sub.id, body, {
+    new: true,
+  })
     .populate('favoriteForms')
     .populate('propertiesOwned')
     .populate('vehiclesOwned')

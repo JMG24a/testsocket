@@ -3,13 +3,9 @@ const passport = require('passport');
 const { isLoggedIn } = require('../auth/middleware/login');
 const { validateToken } = require('../auth/middleware/jwt');
 const ServiceDocuments = require('../services/documents');
-const multer = require('multer');
+const uploadFiles = require('../middleware/multer')
 
 const router = Router();
-
-const upload = multer({
-  dest: 'public/files/'
-})
 
 const putUserDocuments = async (req, res) => {
   const body = req.body;
@@ -72,7 +68,7 @@ router.put(
   '/users',
   passport.authenticate('jwt', { session: false }),
   validateToken,
-  upload.single('file'),
+  uploadFiles(),
   putUserDocuments
 );
 

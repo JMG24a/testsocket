@@ -56,6 +56,14 @@ const userSchema = new Schema({
   token: { type: String },
   alertPermission: [String],
   lastLoginDate: { type: String },
+  documents: {
+    idCard: String,
+    signature: String,
+    passport: String,
+    RegIdCard: String,
+    FileImage: String,
+    cv: String
+  }
 });
 
 userSchema.method('toJSON', function () {

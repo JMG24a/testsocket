@@ -11,6 +11,10 @@ const config = {
   email: {
     smtp_u: process.env.SMTP_USER,
     smtp_p: process.env.SMTP_PASSWORD
+  },
+  myDirection: {
+    myURL: process.env.MY_DIRECTION,
+    myVApi: process.env.VERSION_DIRECTION
   }
 }
 

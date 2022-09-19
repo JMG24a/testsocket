@@ -12,13 +12,40 @@ const upload = multer({
 })
 
 const putUserDocuments = async (req, res) => {
-  // const token = req.myPayload;
   const body = req.body;
   const { file } = req;
   const token = req.myPayload;
 
   try {
     const newUser = await ServiceDocuments.putUserDocuments(token, body, file);
+
+    if (typeof newUser === 'string') {
+      res.status(404).json({
+        ok: false,
+        msg: 'No Encontrado',
+      });
+    }
+
+    res.status(200).json({
+      ok: true,
+      msg: 'Actualizado Correctamente',
+      success: newUser,
+    });
+  } catch (error) {
+    res.status(501).json({
+      ok: false,
+      msg: 'Error en la peticion',
+      error,
+    });
+  }
+};
+
+const deleteUserDocuments = async (req, res) => {
+  const body = req.body;
+  const token = req.myPayload;
+
+  try {
+    const newUser = await ServiceDocuments.deleteUserDocuments(token, body);
 
     if (typeof newUser === 'string') {
       res.status(404).json({
@@ -48,5 +75,13 @@ router.put(
   upload.single('file'),
   putUserDocuments
 );
+
+router.put(
+  '/users/delete',
+  passport.authenticate('jwt', { session: false }),
+  validateToken,
+  deleteUserDocuments
+);
+
 
 module.exports = router;

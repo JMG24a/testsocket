@@ -12,7 +12,7 @@ const putUserDocuments = async (token, body, file) => {
 
   let fileURL = '';
   if(file){
-      fileURL = `${config.myDirection.myURL}/app/files/${file.filename}`
+    fileURL = `${config.myDirection.myURL}/app/files/${file.filename}`
   }
 
 
@@ -21,8 +21,36 @@ const putUserDocuments = async (token, body, file) => {
 
   const updateUser = { documents: documents }
 
+  const newUser = await UsersModel.findByIdAndUpdate(token.sub.id, updateUser, {
+    new: true,
+  })
+    .populate('favoriteForms')
+    .populate('propertiesOwned')
+    .populate('vehiclesOwned')
+    .populate('familyMembers')
+    .populate('plan.planInfo');
 
-  console.log(file)
+  newUser.password = null;
+  const jwt = await UserController.signToken(newUser);
+
+  return {
+    user: newUser,
+    token: jwt,
+  };
+};
+
+const deleteUserDocuments = async (token, body) => {
+  const user = await UserController.getUser(token.sub.id);
+
+  if (typeof user === 'string') {
+    return user;
+  }
+
+  const documents = {...user.documents}
+  documents[body.document] = undefined
+
+  const updateUser = { documents: documents }
+
   const newUser = await UsersModel.findByIdAndUpdate(token.sub.id, updateUser, {
     new: true,
   })
@@ -43,4 +71,5 @@ const putUserDocuments = async (token, body, file) => {
 
 module.exports = {
   putUserDocuments,
+  deleteUserDocuments
 };

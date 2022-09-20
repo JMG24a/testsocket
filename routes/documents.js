@@ -9,9 +9,7 @@ const router = Router();
 
 const getUserDocuments = async (req, res) => {
   const {idFile} = req.params;
-  console.log(idFile)
-  const file = `${process.cwd()}/public/files/1663695156078.png`
-  // const file = `${process.cwd()}/public/files/${body.document}`
+  const file = `${process.cwd()}/public/files/${idFile}`
   res.download(file);
 };
 
@@ -74,6 +72,8 @@ const deleteUserDocuments = async (req, res) => {
 
 router.get(
   '/download/:idFile',
+  passport.authenticate('jwt', { session: false }),
+  validateToken,
   getUserDocuments
 );
 

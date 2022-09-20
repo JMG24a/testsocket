@@ -12,7 +12,7 @@ const putUserDocuments = async (token, body, file) => {
 
   let fileURL = '';
   if(file){
-    fileURL = `${config.myDirection.myURL}/app/files/${file.filename}`
+    fileURL = `${file.filename}`
   }
 
 

@@ -7,7 +7,7 @@ const ModelUser = require('../models/User');
 const getAllForms = async (req = request, res = response) => {
   const {query} = req.query;
   try {
-    const forms = await Form.find();
+    const forms = await Form.find().populate('webContentPost');
 
     let formFilters = forms;
 

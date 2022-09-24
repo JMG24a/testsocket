@@ -1,9 +1,7 @@
 const UsersModel = require('../models/User');
 const UserController = require('../controllers/user-controller');
-const {config} = require('../config/config')
 
 const putUserDocuments = async (token, body, file) => {
-  console.log('body',file)
   const user = await UserController.getUser(token.sub.id);
 
   if (typeof user === 'string') {

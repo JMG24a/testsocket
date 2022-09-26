@@ -31,19 +31,20 @@ router.get(
 );
 
 router.put(
+  '/formimage/:formId',
+  passport.authenticate('jwt', { session: false }),
+  validateToken,
+  uploadFiles(),
+  putImageForm
+);
+
+router.put(
   '/:formId',
   passport.authenticate('jwt', {session: false}),
   validatorRoles(['admin']),
   updateFormById
 );
 
-router.put(
-  '/form-image/:formId',
-  passport.authenticate('jwt', { session: false }),
-  validateToken,
-  uploadFiles(),
-  putImageForm
-);
 
 router.delete(
   '/:formId',

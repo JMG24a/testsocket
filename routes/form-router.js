@@ -6,9 +6,12 @@ const {
   createNewForm,
   updateFormById,
   deleteFormById,
-  getAutocompleted
+  getAutocompleted,
+  putImageForm
 } = require('../controllers/form-controller')
 const { validatorRoles } = require('../auth/middleware/roles');
+const { validateToken } = require('../auth/middleware/jwt');
+const uploadFiles = require('../middleware/multer');
 
 const router = Router();
 
@@ -32,6 +35,14 @@ router.put(
   passport.authenticate('jwt', {session: false}),
   validatorRoles(['admin']),
   updateFormById
+);
+
+router.put(
+  '/form-image/:formId',
+  passport.authenticate('jwt', { session: false }),
+  validateToken,
+  uploadFiles(),
+  putImageForm
 );
 
 router.delete(

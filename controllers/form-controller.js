@@ -1,8 +1,12 @@
 const { request, response } = require('express');
 const { isValidObjectId } = require('mongoose');
-
 const Form = require('../models/Form');
-const ModelUser = require('../models/User');
+
+const getImageForm = async (req = request, res = response) => {
+  const {idFile} = req.params;
+  const file = `${process.cwd()}/public/files/${idFile}`
+  res.download(file);
+};
 
 const getAllForms = async (req = request, res = response) => {
   const {query} = req.query;
@@ -187,5 +191,6 @@ module.exports = {
   createNewForm,
   updateFormById,
   deleteFormById,
-  putImageForm
+  putImageForm,
+  getImageForm
 }

@@ -7,7 +7,8 @@ const {
   updateFormById,
   deleteFormById,
   getAutocompleted,
-  putImageForm
+  putImageForm,
+  getImageForm
 } = require('../controllers/form-controller')
 const { validatorRoles } = require('../auth/middleware/roles');
 const { validateToken } = require('../auth/middleware/jwt');
@@ -20,15 +21,21 @@ router.get(
   getAllForms
 );
 
-router.post(
-  '/',
-  createNewForm
+router.get(
+  '/download/:idFile',
+  getImageForm
 );
 
 router.get(
   '/:formId',
   getFormById
 );
+
+router.post(
+  '/',
+  createNewForm
+);
+
 
 router.put(
   '/formimage/:formId',

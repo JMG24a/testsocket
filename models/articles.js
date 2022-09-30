@@ -6,7 +6,7 @@ const articleSchema = new Schema(
     cover: { type: String },
     title: { type: String },
     tag: { type: String },
-    blocks: []
+    blocks: { type: String },
   },
   {
     timestamps: true,

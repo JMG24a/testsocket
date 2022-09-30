@@ -2,24 +2,27 @@ const { Schema, model, models } = require('mongoose');
 
 const formSchema = new Schema(
   {
-    appAvailable: { type: Boolean },
-    webAvailable: { type: Boolean },
-    title: { type: String },
-    description: { type: String },
-    abstract: { type: String },
-    image: { type: String },
-    keywords: { type: String },
-    webPostOwner: { type: String },
-    slug: { type: String },
-    tag: { type: String },
-    type: { type: String, enum: ['tramite', 'formato'] },
-    requiredForms: [String],
+    appAvailable : { type: Boolean },
+    webAvailable : { type: Boolean },
+    title        : { type: String },
+    description  : { type: String },
+    abstract     : { type: String },
+    image        : { type: String },
+    keywords     : { type: String },
+    webPostOwner : { type: String },
+    slug         : { type: String },
+    tag          : { type: String },
+    type         : { type: String, enum: ['tramite', 'formato'] },
+    requiredForms: [{
+      name    : { type: String },
+      fileName: { type: String }
+    }],
     webContentPost: { type: Schema.Types.ObjectId, ref: 'Article' },
     formCategory: { type: Schema.Types.ObjectId, ref: 'FormCategory' },
     formData: [
       {
-        stepName: { type: String },
-        completed: { type: Boolean },
+        stepName   : { type: String },
+        completed  : { type: Boolean },
         globalAlert: { type: String },
         formDiagram: {
           title: { type: String },

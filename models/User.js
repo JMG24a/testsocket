@@ -15,6 +15,7 @@ const userSchema = new Schema({
   ocupation: { type: String },
   profilePicture: { type: String },
   idType: { type: String },
+  userType: { type: String, enum: ['customer', 'employee'] },
   customerType: { type: String, enum: ['persona', 'empresa'] },
   plan: {
     planInfo: { type: Schema.Types.ObjectId, ref: 'Product' },

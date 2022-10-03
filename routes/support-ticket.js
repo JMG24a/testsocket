@@ -2,9 +2,8 @@ const { Router } = require('express');
 const router = Router();
 const SupportTicket = require('../models/SupportTicket');
 const userModel = require('../models/User');
-
-const { validateToken } = require('../auth/middleware/jwt');
 const Passport = require('passport');
+const { validateToken } = require('../auth/middleware/jwt');
 
 const getSupportTickets = async (req, res) => {
   const supportTickets = await SupportTicket.find().populate('userId');
@@ -24,6 +23,17 @@ const getSupportTicket = async (req, res) => {
     ok: true,
     msg: 'Ticket',
     supportTicket,
+  });
+};
+
+const getSupportTicketsByUser = async (req, res) => {
+  const token = req.myPayload;
+  const supportTickets = await SupportTicket.find({userId: token.sub.id});
+
+  res.status(200).json({
+    ok: true,
+    msg: 'Listado de Tickets',
+    supportTickets,
   });
 };
 
@@ -75,7 +85,7 @@ const putSupportUser = async (req, res) => {
 const putSupportTicket = async (req, res) => {
   const { id } = req.params;
   const body = req.body;
-  console.log(body)
+
   try {
     await SupportTicket.findByIdAndUpdate(id, body)
 
@@ -124,8 +134,17 @@ router.put(
   putSupportUser
 );
 router.put('/editTicket/:id',putSupportTicket);
+
 router.get('/', getSupportTickets);
+
+router.get(
+  '/user',
+  Passport.authenticate('jwt', { session: false }),
+  validateToken,
+  getSupportTicketsByUser
+);
 router.get('/:id', getSupportTicket);
+
 router.delete('/:id', deleteSupportTicket);
 
 module.exports = router;

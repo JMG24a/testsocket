@@ -35,7 +35,19 @@ const putArticle= async (id, body) => {
     return article
   }
 
-  const newArticle = await articleModel.findByIdAndUpdate(id, body, { new: true });
+  const updateArticle = {
+    author: body.author,
+    title: body.title,
+    tag: body.tag,
+    blocks: body.blocks,
+  }
+
+  const updateForm = {
+    slug: body.slug
+  }
+
+  const newArticle = await articleModel.findByIdAndUpdate(id, updateArticle, { new: true });
+  await formModel.findByIdAndUpdate(body.formId, updateForm, { new: true });
   return newArticle
 };
 

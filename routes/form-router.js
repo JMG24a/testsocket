@@ -48,7 +48,7 @@ router.put(
 router.put(
   '/:formId',
   passport.authenticate('jwt', {session: false}),
-  validatorRoles(['admin']),
+  validatorRoles(['employee']),
   updateFormById
 );
 
@@ -56,7 +56,7 @@ router.put(
 router.delete(
   '/:formId',
   passport.authenticate('jwt', {session: false}),
-  validatorRoles(['admin']),
+  validatorRoles(['employee']),
   deleteFormById
 );
 

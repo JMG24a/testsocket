@@ -154,7 +154,7 @@ const signToken = async (user, option) => {
       id: user?.id,
       email: user?.email,
     },
-    role: 'basic',
+    role: user.userType,
   };
   const jwt = createJWT(payload, option);
   return jwt;

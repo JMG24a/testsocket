@@ -7,6 +7,7 @@ const authController = require('../controllers/auth')
 // const { validatorRoles } = require('../auth/middleware/roles');
 const { isLoggedIn } = require('../auth/middleware/login');
 const { validateToken } = require('../auth/middleware/jwt');
+const { validatorRoles } = require('../auth/middleware/roles');
 
 const router = Router();
 
@@ -144,7 +145,8 @@ const google = async (req, res) => {
 
 router.get(
   '/',
-  // passport.authenticate('jwt', {session: false}), validatorRoles(['admin']),
+  passport.authenticate('jwt', {session: false}),
+  validatorRoles(['employee']),
   getUsers
 );
 router.get('/:id', getUser);

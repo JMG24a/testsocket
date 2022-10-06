@@ -20,6 +20,30 @@ const getAllInvoices = async(req = request, res = response) => {
     }
 }
 
+const getAllInvoicesUser = async(req = request, res = response) => {
+  const token = req.myPayload;
+
+  try {
+      const invoice = await Invoice.find({userId: token.sub.id});
+
+      if(!invoice) return res.status(404).json({
+          ok: false,
+          message: 'Este usuario no tiene facturas'
+      });
+
+      res.status(200).json({
+          ok: true,
+          invoice
+      });
+  }catch (error) {
+      res.status(500).json({
+          ok: false,
+          message: 'No se pudo acceder a la factura, contacte un administrador.',
+          errorDescription: error.message
+      });
+  }
+}
+
 const getInvoiceById = async(req = request, res = response) => {
     const { invoiceId } = req.params;
 
@@ -50,6 +74,7 @@ const getInvoiceById = async(req = request, res = response) => {
 }
 
 const createNewInvoice = async (req = request, res = response) => {
+  console.log('req"', req.body)
     try {
         const newInvoice = new Invoice(req.body);
         await newInvoice.save();
@@ -69,6 +94,7 @@ const createNewInvoice = async (req = request, res = response) => {
 
 module.exports = {
     getAllInvoices,
+    getAllInvoicesUser,
     getInvoiceById,
     createNewInvoice
 }

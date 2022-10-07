@@ -7,6 +7,7 @@ const userSchema = new Schema({
   name: { type: String, required: true },
   fistLastName: { type: String, required: false },
   secondLastName: { type: String, required: false },
+  photo: { type: String },
   taxId: { type: String },
   taxIdType: { type: String },
   cityDocument: { type: String },

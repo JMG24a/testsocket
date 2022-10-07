@@ -100,6 +100,35 @@ const putUser = async (token, body) => {
   };
 };
 
+const putUserImage = async (token, file) => {
+
+  let fileURL = '';
+  if(file){
+    fileURL = `${file.filename}`
+  }
+  console.log('File: ', file.filename)
+  if (typeof user === 'string') {
+    return user;
+  }
+
+  const newUser = await UsersModel.findByIdAndUpdate(token.sub.id, {photo: fileURL}, {
+    new: true,
+  })
+    .populate('favoriteForms')
+    .populate('propertiesOwned')
+    .populate('vehiclesOwned')
+    .populate('familyMembers')
+    .populate('plan.planInfo');
+
+  newUser.password = null;
+  const jwt = await signToken(newUser);
+
+  return {
+    user: newUser,
+    token: jwt,
+  };
+};
+
 const deleteUser = async (id) => {
   const deleteUser = await UsersModel.findByIdAndDelete(id);
   return deleteUser;
@@ -182,6 +211,7 @@ module.exports = {
   getUserByEmail,
   postUser,
   putUser,
+  putUserImage,
   deleteUser,
   login,
   signToken,

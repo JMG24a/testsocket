@@ -8,6 +8,7 @@ const authController = require('../controllers/auth')
 const { isLoggedIn } = require('../auth/middleware/login');
 const { validateToken } = require('../auth/middleware/jwt');
 const { validatorRoles } = require('../auth/middleware/roles');
+const uploadFiles = require('../middleware/multer');
 
 const router = Router();
 
@@ -22,13 +23,18 @@ const getUsers = async (req, res) => {
 
 const getUser = async (req, res) => {
   const { id } = req.params;
-
   const user = await userController.getUser(id);
 
   res.status(200).json({
     msg: 'Cliente',
     user,
   });
+};
+
+const getImageUser = async (req, res) => {
+  const {idFile} = req.params;
+  const file = `${process.cwd()}/public/files/${idFile}`
+  res.download(file);
 };
 
 const postUser = async (req, res) => {
@@ -65,6 +71,35 @@ const putUser = async (req, res) => {
 
   try {
     const newUser = await userController.putUser(token, body);
+
+    if (typeof newUser === 'string') {
+      res.status(404).json({
+        ok: false,
+        msg: 'No Encontrado',
+      });
+    }
+
+    res.status(200).json({
+      ok: true,
+      msg: 'Actualizado Correctamente',
+      success: newUser,
+    });
+  } catch (error) {
+    res.status(501).json({
+      ok: false,
+      msg: 'Error en la peticion',
+      error,
+    });
+  }
+};
+
+const putUserImage = async (req, res) => {
+  console.log('?')
+  const token = req.myPayload;
+  const { file } = req;
+
+  try {
+    const newUser = await userController.putUserImage(token, file);
 
     if (typeof newUser === 'string') {
       res.status(404).json({
@@ -149,7 +184,14 @@ router.get(
   validatorRoles(['employee']),
   getUsers
 );
+
+router.get(
+  '/download/:idFile',
+  getImageUser
+);
+
 router.get('/:id', getUser);
+
 router.post('/', postUser);
 
 router.put(
@@ -157,6 +199,14 @@ router.put(
   passport.authenticate('jwt', { session: false }),
   validateToken,
   putUser
+);
+
+router.put(
+  '/image',
+  passport.authenticate('jwt', { session: false }),
+  validateToken,
+  uploadFiles(),
+  putUserImage
 );
 
 router.delete('/:id', deleteUser);

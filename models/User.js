@@ -58,13 +58,29 @@ const userSchema = new Schema({
   token: { type: String },
   alertPermission: [String],
   lastLoginDate: { type: String },
+  settingProfileCommunication: {
+    sms: { type: Boolean },
+    emails: { type: Boolean },
+    emailTransactions: { type: Boolean },
+    thirdParties: { type: Boolean },
+    alertApplication: { type: Boolean },
+    Newsletter: { type: Boolean }
+  },
+  companyProfile: {
+    businessMotivation: { type: String },
+    Nit: { type: String },
+    businessName: { type: String },
+    slogan: { type: String },
+    mainColor: { type: String },
+    secondaryColor: { type: String },
+  },
   documents: {
-    idCard: String,
-    signature: String,
-    passport: String,
-    RegIdCard: String,
-    FileImage: String,
-    cv: String
+    idCard: { type: String },
+    signature: { type: String },
+    passport: { type: String },
+    RegIdCard: { type: String },
+    FileImage: { type: String },
+    cv: { type: String }
   }
 });
 

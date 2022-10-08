@@ -94,7 +94,6 @@ const putUser = async (req, res) => {
 };
 
 const putUserImage = async (req, res) => {
-  console.log('?')
   const token = req.myPayload;
   const { file } = req;
 
@@ -134,6 +133,8 @@ const deleteUser = async (req, res) => {
 
 const login = async (req, res) => {
   const user = req.user;
+  const {savePassword} = req.body;
+
   if (typeof user === 'string') {
     res.status(401).json({
       msg: 'Login Error',
@@ -142,7 +143,12 @@ const login = async (req, res) => {
       },
     });
   } else {
-    const token = await userController.signToken(user);
+    let token = '';
+    if(savePassword){
+      token = await userController.signTokenSavePass(user);
+    }else{
+      token = await userController.signToken(user);
+    }
     res.status(200).json({
       msg: 'Login Success',
       success: {

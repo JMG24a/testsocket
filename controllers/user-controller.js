@@ -191,6 +191,20 @@ const signToken = async (user, option) => {
   return jwt;
 };
 
+const signTokenSavePass = async (user) => {
+  const option = {}
+  const payload = {
+    sub: {
+      id: user?.id,
+      email: user?.email,
+    },
+    role: user.userType,
+  };
+  const jwt = createJWT(payload, option);
+  return jwt;
+}
+
+
 const refresh = async (token) => {
   const user = await getUserByEmail(token.sub.email);
 
@@ -217,6 +231,7 @@ module.exports = {
   deleteUser,
   login,
   signToken,
+  signTokenSavePass,
   AuthGoogle,
   refresh,
 };

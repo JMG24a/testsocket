@@ -64,7 +64,7 @@ const userSchema = new Schema({
     emailTransactions: { type: Boolean },
     thirdParties: { type: Boolean },
     alertApplication: { type: Boolean },
-    Newsletter: { type: Boolean }
+    newsletter: { type: Boolean }
   },
   companyProfile: {
     businessMotivation: { type: String },

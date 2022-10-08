@@ -89,6 +89,7 @@ const putUser = async (token, body) => {
     .populate('propertiesOwned')
     .populate('vehiclesOwned')
     .populate('familyMembers')
+    .populate('profileLicense')
     .populate('plan.planInfo');
 
   newUser.password = null;
@@ -118,6 +119,7 @@ const putUserImage = async (token, file) => {
     .populate('propertiesOwned')
     .populate('vehiclesOwned')
     .populate('familyMembers')
+    .populate('profileLicense')
     .populate('plan.planInfo');
 
   newUser.password = null;

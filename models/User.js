@@ -73,6 +73,7 @@ const userSchema = new Schema({
     slogan: { type: String },
     mainColor: { type: String },
     secondaryColor: { type: String },
+    photoLogo: { type: String }
   },
   documents: {
     idCard: { type: String },

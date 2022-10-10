@@ -107,12 +107,43 @@ const putUserImage = async (token, file) => {
   if(file){
     fileURL = `${file.filename}`
   }
-  console.log('File: ', file.filename)
-  if (typeof user === 'string') {
-    return user;
-  }
 
   const newUser = await UsersModel.findByIdAndUpdate(token.sub.id, {photo: fileURL}, {
+    new: true,
+  })
+    .populate('favoriteForms')
+    .populate('propertiesOwned')
+    .populate('vehiclesOwned')
+    .populate('familyMembers')
+    .populate('profileLicense')
+    .populate('plan.planInfo');
+
+  newUser.password = null;
+  const jwt = await signToken(newUser);
+
+  return {
+    user: newUser,
+    token: jwt,
+  };
+};
+
+//esta funcion sera remplazada
+const putUserImageLogo = async (token, file) => {
+  let fileURL = '';
+  if(file){
+    fileURL = `${file.filename}`
+  }
+
+  const user = await getUser(token.sub.id)
+
+  const body = {
+    companyProfile:{
+      ...user.companyProfile,
+      photoLogo: fileURL
+    }
+  }
+
+  const newUser = await UsersModel.findByIdAndUpdate(token.sub.id, body, {
     new: true,
   })
     .populate('favoriteForms')
@@ -228,6 +259,7 @@ module.exports = {
   postUser,
   putUser,
   putUserImage,
+  putUserImageLogo,
   deleteUser,
   login,
   signToken,

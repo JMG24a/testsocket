@@ -121,6 +121,35 @@ const putUserImage = async (req, res) => {
   }
 };
 
+//esta ruta sera remplazada
+const putUserImageLogo = async (req, res) => {
+  const token = req.myPayload;
+  const { file } = req;
+
+  try {
+    const newUser = await userController.putUserImageLogo(token, file);
+
+    if (typeof newUser === 'string') {
+      res.status(404).json({
+        ok: false,
+        msg: 'No Encontrado',
+      });
+    }
+
+    res.status(200).json({
+      ok: true,
+      msg: 'Actualizado Correctamente',
+      success: newUser,
+    });
+  } catch (error) {
+    res.status(501).json({
+      ok: false,
+      msg: 'Error en la peticion',
+      error,
+    });
+  }
+};
+
 const deleteUser = async (req, res) => {
   const { id } = req.params;
   const isDelete = await userController.deleteUser(id);
@@ -213,6 +242,14 @@ router.put(
   validateToken,
   uploadFiles(),
   putUserImage
+);
+
+router.put(
+  '/image/logo',
+  passport.authenticate('jwt', { session: false }),
+  validateToken,
+  uploadFiles(),
+  putUserImageLogo
 );
 
 router.delete('/:id', deleteUser);

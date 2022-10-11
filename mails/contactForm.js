@@ -2,11 +2,12 @@ const sgMail = require('@sendgrid/mail');
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-async function contactForm(email, content) {
+async function contactForm(email, content, subject) {
+  console.log('SEND: ',email, content, subject)
   const msg = {
     to: 'info@formuapp.com',
     from: email,
-    subject: 'Nuevo correo de contacto',
+    subject,
     html: `
       <div>
       ${content}
@@ -20,7 +21,7 @@ async function contactForm(email, content) {
       console.log('Email sent Contact');
     })
     .catch((error) => {
-      console.error(error);
+      console.error(error.response.body);
     });
 }
 

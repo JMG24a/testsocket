@@ -6,7 +6,6 @@ const uploadFiles = require('../middleware/multer');
 const postMailContact = async (req, res) => {
   const {email, content, subject, name} = req.body;
   const nameAndContent = `-${name}- ${email} : ${content}`;
-
   try {
     if(!email || !content){
       res.status(201).json({
@@ -30,11 +29,6 @@ const postMailWorkWithUs = async (req, res) => {
   const { name, email, position } = req.body;
   const { file } = req;
 
-  const filename = file.filename
-  const nameAndContent = `Solicitud de empleo para ${name}.
-  Se puede contactar con ${name} por medio de su correo electronico ${email}`
-
-  const subject = `Solicitud de empleo para ${name}`
   try {
     if(!email || !name || !position){
       res.status(201).json({
@@ -42,6 +36,12 @@ const postMailWorkWithUs = async (req, res) => {
         msg: 'Error de formato',
       });
     }
+
+    const filename = file.filename
+    const subject = `Solicitud de empleo para ${name}`
+    const nameAndContent = `Solicitud de empleo para ${name}.
+    Se puede contactar con ${name} por medio de su correo electronico ${email}`
+
 
     await contactForm(email, nameAndContent, subject, filename)
 

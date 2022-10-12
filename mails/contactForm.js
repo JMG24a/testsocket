@@ -3,9 +3,6 @@ const FS = require("fs");
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 async function contactForm(email, content, subject, file = null) {
-  const pathToAttachment = `${process.cwd()}/public/files/${file}`;
-  const attachment = FS.readFileSync(pathToAttachment).toString("base64");
-
   let msg = {}
   if(file === null){
     msg = {
@@ -19,6 +16,9 @@ async function contactForm(email, content, subject, file = null) {
         `,
     };
   }else{
+    const pathToAttachment = `${process.cwd()}/public/files/${file}`;
+    const attachment = FS.readFileSync(pathToAttachment).toString("base64");
+
     msg = {
       from: 'info@formuapp.com',
       to: 'info@formuapp.com',

@@ -1,11 +1,11 @@
 const { Router } = require('express');
 const router = Router();
 const { contactForm } = require('../mails/contactForm');
+const uploadFiles = require('../middleware/multer');
 
 const postMailContact = async (req, res) => {
   const {email, content, subject, name} = req.body;
-  const nameAndContent = `-${name}-: ${content}`;
-  console.log('RESULTS: ', email, content, subject, name)
+  const nameAndContent = `-${name}- ${email} : ${content}`;
 
   try {
     if(!email || !content){
@@ -27,18 +27,23 @@ const postMailContact = async (req, res) => {
 };
 
 const postMailWorkWithUs = async (req, res) => {
-  const {email, content, subject, name} = req.body;
-  const nameAndContent = `-${name}-: ${content}`;
+  const { name, email, position } = req.body;
+  const { file } = req;
 
+  const filename = file.filename
+  const nameAndContent = `Solicitud de empleo para ${name}.
+  Se puede contactar con ${name} por medio de su correo electronico ${email}`
+
+  const subject = `Solicitud de empleo para ${name}`
   try {
-    if(!email || !content){
+    if(!email || !name || !position){
       res.status(201).json({
         ok: false,
         msg: 'Error de formato',
       });
     }
 
-    await contactForm(email, nameAndContent, subject)
+    await contactForm(email, nameAndContent, subject, filename)
 
     res.status(201).json({
       ok: true,
@@ -50,6 +55,6 @@ const postMailWorkWithUs = async (req, res) => {
 };
 
 router.post('/contact', postMailContact);
-router.post('/work-with-us', postMailWorkWithUs);
+router.post('/work-with-us', uploadFiles(), postMailWorkWithUs);
 
 module.exports = router;

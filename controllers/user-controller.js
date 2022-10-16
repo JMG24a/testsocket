@@ -1,4 +1,5 @@
 const UsersModel = require('../models/User');
+const InvoiceModel = require('../models/Invoice');
 const { security, security_confirm } = require('../auth/middleware/security');
 const { createJWT } = require('../auth/tokens');
 const { welcomeMail } = require('../mails/welcome');
@@ -45,6 +46,8 @@ const getUserByEmail = async (email) => {
 const postUser = async (body) => {
   const storedUser = await getUserByEmail(body.email);
 
+  body.profileLicense = '63068b13e4bb2ceac56b77ed'
+
   if (storedUser) {
     return 'Este usuario ya existe';
   }
@@ -64,6 +67,43 @@ const postUser = async (body) => {
   const email = user.toObject().email;
 
   const test = welcomeMail(email, userName);
+
+  return {
+    user: {
+      ...user.toObject(),
+      password: null,
+    },
+    token: jwt,
+    test,
+  };
+};
+
+const postUserWithPlan = async (body) => {
+  const storedUser = await getUserByEmail(body.user.email);
+
+  if (storedUser) {
+    return 'Este usuario ya existe';
+  }
+
+  if (body.user.password) {
+    const password = await security(body.user.password);
+    body.user.password = password;
+  }
+
+  const user = new UsersModel(body.user);
+  await user.populate('plan.planInfo');
+  await user.save();
+
+  const jwt = await signToken(user);
+
+  const userName = user.toObject().name;
+  const email = user.toObject().email;
+
+  const test = welcomeMail(email, userName);
+
+  const invoice = new InvoiceModel(body.invoice);
+  console.log('BodyInvoice',body.invoice)
+  // await invoice.save();
 
   return {
     user: {
@@ -257,6 +297,7 @@ module.exports = {
   getUser,
   getUserByEmail,
   postUser,
+  postUserWithPlan,
   putUser,
   putUserImage,
   putUserImageLogo,

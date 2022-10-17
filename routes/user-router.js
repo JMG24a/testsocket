@@ -4,7 +4,6 @@ const passport = require('passport');
 const userController = require('../controllers/user-controller');
 const authController = require('../controllers/auth')
 //middleware
-// const { validatorRoles } = require('../auth/middleware/roles');
 const { isLoggedIn } = require('../auth/middleware/login');
 const { validateToken } = require('../auth/middleware/jwt');
 const { validatorRoles } = require('../auth/middleware/roles');

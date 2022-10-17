@@ -1,4 +1,6 @@
 const { Router } = require('express');
+const passport = require('passport');
+const { validateToken } = require('../auth/middleware/jwt.js');
 const authController = require('../controllers/auth.js');
 
 const router = Router();
@@ -19,7 +21,8 @@ const recovery = async(req,res)=> {
 
 const changePassword = async (req,res) => {
   try{
-    const {token, password} = req.body;
+    const {token} = req.myPayload;
+    const {password} = req.body;
     const success = await authController.changePassword(token, password)
     res.json(success)
   }catch(err){
@@ -32,6 +35,11 @@ const changePassword = async (req,res) => {
 }
 
 router.post('/recovery',recovery)
-router.post('/recovery/password', changePassword)
+router.post(
+  '/recovery/password',
+  passport.authenticate('jwt', { session: false }),
+  validateToken,
+  changePassword
+)
 
 module.exports = router

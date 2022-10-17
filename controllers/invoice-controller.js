@@ -2,6 +2,7 @@ const { request, response } = require('express');
 const { isValidObjectId } = require('mongoose');
 
 const Invoice = require('../models/Invoice');
+const UserModel = require('../models/User');
 
 const getAllInvoices = async(req = request, res = response) => {
     try {
@@ -74,22 +75,31 @@ const getInvoiceById = async(req = request, res = response) => {
 }
 
 const createNewInvoice = async (req = request, res = response) => {
-  console.log('req"', req.body)
-    try {
-        const newInvoice = new Invoice(req.body);
-        await newInvoice.save();
+  try {
+      const newInvoice = new Invoice(req.body.data);
+      await newInvoice.save();
 
-        res.status(201).json({
-            ok: true,
-            invoice: newInvoice
-        });
-    } catch (error) {
-        res.status(500).json({
-            ok: false,
-            message: 'No se pudo crear la nueva factura, contacte un administrador.',
-            errorDescription: error.message
-        });
-    }
+      await UserModel.findByIdAndUpdate(req.body.data.userId, {
+        profileLicense: req.body.data.plan,
+        plan: {
+          planInfo: req.body.data.plan,
+          expireDate: 'string'
+        }
+      },{
+        new: true,
+      })
+
+      res.status(201).json({
+          ok: true,
+          invoice: newInvoice
+      });
+  } catch (error) {
+      res.status(500).json({
+          ok: false,
+          message: 'No se pudo crear la nueva factura, contacte un administrador.',
+          errorDescription: error.message
+      });
+  }
 }
 
 module.exports = {

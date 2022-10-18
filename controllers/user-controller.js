@@ -1,5 +1,4 @@
 const UsersModel = require('../models/User');
-const InvoiceModel = require('../models/Invoice');
 const { security, security_confirm } = require('../auth/middleware/security');
 const { createJWT } = require('../auth/tokens');
 const { welcomeMail } = require('../mails/welcome');

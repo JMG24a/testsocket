@@ -24,7 +24,10 @@ const changePassword = async (req,res) => {
     const {token} = req.myPayload;
     const {password} = req.body;
     const success = await authController.changePassword(token, password)
-    res.json(success)
+    res.json({
+      ok: true,
+      msg: success,
+    })
   }catch(err){
     res.json({
       ok: false,

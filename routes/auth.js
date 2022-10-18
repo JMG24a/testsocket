@@ -21,12 +21,12 @@ const recovery = async(req,res)=> {
 
 const changePassword = async (req,res) => {
   try{
-    const {token} = req.myPayload;
-    const {password} = req.body;
+    const {password, token} = req.body;
     const success = await authController.changePassword(token, password)
     res.json({
       ok: true,
-      msg: success,
+      msg: 'Contraseña guardada',
+      success
     })
   }catch(err){
     res.json({

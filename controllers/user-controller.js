@@ -54,7 +54,18 @@ const postUser = async (body) => {
     body.password = password;
   }
 
-  const user = new UsersModel(body);
+  const bodyUser = {
+    ...body,
+    plan: {
+      planInfo: '63068b13e4bb2ceac56b77ed',
+      expireDate: 'string',
+    },
+    profileLicense: '63068b13e4bb2ceac56b77ed',
+  };
+
+
+
+  const user = new UsersModel(bodyUser);
   await user.populate('plan.planInfo');
   await user.save();
 

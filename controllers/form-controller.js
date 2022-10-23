@@ -45,7 +45,6 @@ const getAllForms = async (req = request, res = response) => {
 
 const getFormById = async (req = request, res = response) => {
   const { formId } = req.params;
-
   if (!isValidObjectId(formId))
     return res.status(400).json({
       ok: false,
@@ -60,6 +59,33 @@ const getFormById = async (req = request, res = response) => {
         ok: false,
         message: 'No pudimos encontrar ningún formulario con ese Id.',
       });
+
+    res.status(200).json({
+      ok: true,
+      form,
+    });
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      message: 'No se pudo acceder al formulario, contacte un administrador.',
+      errorDescription: error.message,
+    });
+  }
+};
+
+const getFormBySlug = async (req = request, res = response) => {
+  const { formId } = req.params;
+
+  try {
+    const _slug = `/${formId}`
+    const form = await Form.findOne({slug: _slug}).populate('webContentPost');
+
+    if (!form){
+      return res.status(404).json({
+        ok: false,
+        message: 'No pudimos encontrar ningún formulario con ese Id.',
+      }) ;
+    }
 
     res.status(200).json({
       ok: true,
@@ -206,6 +232,7 @@ const deleteFormById = async (req = request, res = response) => {
 module.exports = {
   getAllForms,
   getFormById,
+  getFormBySlug,
   createNewForm,
   updateFormById,
   deleteFormById,

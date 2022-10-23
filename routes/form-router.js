@@ -7,6 +7,7 @@ const {
   updateFormById,
   deleteFormById,
   getAutocompleted,
+  getFormBySlug,
   putImageForm,
   getImageForm
 } = require('../controllers/form-controller')
@@ -27,9 +28,15 @@ router.get(
 );
 
 router.get(
+  '/slug/:formId',
+  getFormBySlug
+);
+
+router.get(
   '/:formId',
   getFormById
 );
+
 
 router.post(
   '/',

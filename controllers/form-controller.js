@@ -155,6 +155,49 @@ const updateFormById = async (req = request, res = response) => {
   }
 };
 
+const putQualificationForm = async (req = request, res = response) => {
+  const { formId } = req.params;
+  const { points } = req.body;
+
+  if (!isValidObjectId(formId)){
+    return res.status(400).json({
+      ok: false,
+      message: 'Id de formulario inválido.',
+    });
+  }
+
+  try {
+    const form = await Form.findById(formId);
+
+    if (!form){
+      return res.status(404).json({
+        ok: false,
+        message: 'El formulario que trata de actualizar no existe.',
+      });
+    }
+
+    const result = form.qualification + points;
+
+    const updatedForm = await Form.findByIdAndUpdate(
+      formId,
+      { qualification: result },
+      { new: true }
+    );
+
+    res.status(200).json({
+      ok: true,
+      newForm: updatedForm,
+    });
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      message:
+        'No se pudo actualizar el formulario, contacte un administrador.',
+      errorDescription: error.message,
+    });
+  }
+}
+
 const putImageForm = async (req = request, res = response) => {
   const { formId } = req.params;
   const { file } = req;
@@ -235,6 +278,7 @@ module.exports = {
   getFormBySlug,
   createNewForm,
   updateFormById,
+  putQualificationForm,
   deleteFormById,
   putImageForm,
   getImageForm,

@@ -44,7 +44,8 @@ const putArticle= async (id, body) => {
 
   const updateForm = {
     slug: body.slug,
-    webAvailable: body.webAvailable
+    webAvailable: body.webAvailable,
+    appAvailable: body.appAvailable,
   }
 
   const newArticle = await articleModel.findByIdAndUpdate(id, updateArticle, { new: true });

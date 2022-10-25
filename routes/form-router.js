@@ -7,6 +7,7 @@ const {
   updateFormById,
   deleteFormById,
   getAutocompleted,
+  putQualificationForm,
   getFormBySlug,
   putImageForm,
   getImageForm
@@ -50,6 +51,11 @@ router.put(
   validateToken,
   uploadFiles(),
   putImageForm
+);
+
+router.put(
+  '/qualification/:formId',
+  putQualificationForm
 );
 
 router.put(

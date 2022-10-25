@@ -168,7 +168,6 @@ const putQualificationForm = async (req = request, res = response) => {
 
   try {
     const form = await Form.findById(formId);
-
     if (!form){
       return res.status(404).json({
         ok: false,
@@ -176,11 +175,23 @@ const putQualificationForm = async (req = request, res = response) => {
       });
     }
 
-    const result = form.qualification + points;
+    let qualification = {}
+
+    if(form.qualification.users !== "NaN"){
+      qualification = {
+        users: (parseInt(form?.qualification?.users, 10) + 1).toString(),
+        likes: (parseInt(form.qualification.likes, 10) + points).toString()
+      }
+    }else{
+      qualification = {
+        users: 1,
+        likes: points
+      }
+    }
 
     const updatedForm = await Form.findByIdAndUpdate(
       formId,
-      { qualification: result },
+      {qualification},
       { new: true }
     );
 

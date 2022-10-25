@@ -12,7 +12,10 @@ const formSchema = new Schema(
     webPostOwner: { type: String },
     slug: { type: String },
     tag: { type: String },
-    qualification: { type: Number },
+    qualification: {
+      users: { type: String },
+      likes: { type: String }
+    },
     metaTitle: { type: String },
     metaDescription: { type: String },
     metaUrl: { type: String },

@@ -19,6 +19,7 @@ const articleRouter = require('./article-router')
 const documentsRouter = require('./documents')
 const requestRouter = require('./requests-router');
 const mailRouter = require('./mail');
+const databasesRouter = require('./databases-router');
 
 const appRouter = (app) => {
   const routerV1 = Router();
@@ -42,6 +43,7 @@ const appRouter = (app) => {
   routerV1.use('/document', documentsRouter);
   routerV1.use('/request', requestRouter);
   routerV1.use('/mail', mailRouter);
+  routerV1.use('/database', databasesRouter);
   //V2
 };
 

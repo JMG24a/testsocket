@@ -7,6 +7,11 @@ const relationSchema = Schema({
   taxId: { type: String },
   phone: { type: String },
   mobile: { type: String },
+  address: {type: String},
+  city: {type: String},
+  department: {type: String},
+  country: {type: String},
+  tag: {type: String },
   userId:[{ type: Schema.Types.ObjectId, ref: 'User' }],
 },
 {

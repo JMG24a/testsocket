@@ -19,11 +19,11 @@ const postRelation = async (body, token) => {
     const relation = new RelationModel(body);
     const saveObject = await relation.save();
 
-    const RelationsOwner = getRelation(token.sub.id)
+    const RelationsOwner = await getRelation(token.sub.id)
     const user = await userController.getUser(token.sub.id)
 
     user.familyMembers.push(saveObject.id)
-    await userController.putUser(token, {familyMembers: user.familyMembers})
+    await userController.putUser(token, {familyMembers: RelationsOwner})
 
     return RelationsOwner
   }catch(e){

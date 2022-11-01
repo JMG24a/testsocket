@@ -17,7 +17,7 @@ const getUser = async (id) => {
     .populate('favoriteForms')
     .populate('propertiesOwned')
     .populate('vehiclesOwned')
-    .populate('familyMembers')
+    .populate('contacts')
     .populate('profileLicense')
     .populate('plan.planInfo');
   return userR;
@@ -35,7 +35,7 @@ const getUserByEmail = async (email) => {
     .populate('favoriteForms')
     .populate('propertiesOwned')
     .populate('vehiclesOwned')
-    .populate('familyMembers')
+    .populate('contacts')
     .populate('profileLicense')
     .populate('plan.planInfo');
 
@@ -98,7 +98,7 @@ const putUser = async (token, body) => {
     .populate('favoriteForms')
     .populate('propertiesOwned')
     .populate('vehiclesOwned')
-    .populate('familyMembers')
+    .populate('contacts')
     .populate('profileLicense')
     .populate('plan.planInfo');
 
@@ -124,7 +124,7 @@ const putUserImage = async (token, file) => {
     .populate('favoriteForms')
     .populate('propertiesOwned')
     .populate('vehiclesOwned')
-    .populate('familyMembers')
+    .populate('contacts')
     .populate('profileLicense')
     .populate('plan.planInfo');
 
@@ -159,7 +159,7 @@ const putUserImageLogo = async (token, file) => {
     .populate('favoriteForms')
     .populate('propertiesOwned')
     .populate('vehiclesOwned')
-    .populate('familyMembers')
+    .populate('contacts')
     .populate('profileLicense')
     .populate('plan.planInfo');
 

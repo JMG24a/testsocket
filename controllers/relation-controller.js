@@ -6,11 +6,19 @@ const getRelations = async () => {
   return relation
 };
 
-const getRelation = async (id) => {
+const getRelationsUser = async (id) => {
   if(!id){
     return 'La propiedad no fue encontrada'
   }
   const relation = await RelationModel.find({userId: id});
+  return relation
+};
+
+const getRelation = async (id, idRelation) => {
+  if(!id){
+    return 'La propiedad no fue encontrada'
+  }
+  const relation = await RelationModel.find({userId: id, id: idRelation});
   return relation
 };
 
@@ -22,8 +30,8 @@ const postRelation = async (body, token) => {
     const RelationsOwner = await getRelation(token.sub.id)
     const user = await userController.getUser(token.sub.id)
 
-    user.familyMembers.push(saveObject.id)
-    await userController.putUser(token, {familyMembers: RelationsOwner})
+    user.contacts.push(saveObject.id)
+    await userController.putUser(token, {contacts: RelationsOwner})
 
     return RelationsOwner
   }catch(e){
@@ -44,8 +52,8 @@ const putRelation= async (id, body) => {
 
 const deleteRelation = async (id, token) => {
   let user = await userController.getUser(token.sub.id)
-  user.familyMembers = user.familyMembers.filter(_id => _id === id)
-  await userController.putUser(token, {familyMembers: user.familyMembers})
+  user.contacts = user.contacts.filter(_id => _id === id)
+  await userController.putUser(token, {contacts: user.contacts})
 
   const deleteRelation = await RelationModel.findByIdAndDelete(id);
   return deleteRelation ? true : false;
@@ -53,6 +61,7 @@ const deleteRelation = async (id, token) => {
 
 module.exports = {
   getRelations,
+  getRelationsUser,
   getRelation,
   postRelation,
   putRelation,

@@ -25,7 +25,7 @@ const putUserDocuments = async (token, body, file) => {
     .populate('favoriteForms')
     .populate('propertiesOwned')
     .populate('vehiclesOwned')
-    .populate('familyMembers')
+    .populate('contacts')
     .populate('plan.planInfo');
 
   newUser.password = null;
@@ -55,7 +55,7 @@ const deleteUserDocuments = async (token, body) => {
     .populate('favoriteForms')
     .populate('propertiesOwned')
     .populate('vehiclesOwned')
-    .populate('familyMembers')
+    .populate('contacts')
     .populate('plan.planInfo');
 
   newUser.password = null;

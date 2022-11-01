@@ -35,7 +35,7 @@ const userSchema = new Schema({
   ],
   propertiesOwned: [{ type: Schema.Types.ObjectId, ref: 'Property' }],
   vehiclesOwned: [{ type: Schema.Types.ObjectId, ref: 'Vehicle' }],
-  familyMembers: [{ type: Schema.Types.ObjectId, ref: 'Relation' }],
+  contacts: [{ type: Schema.Types.ObjectId, ref: 'Relation' }],
   purchases: [
     {
       id: String,

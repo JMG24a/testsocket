@@ -238,7 +238,9 @@ const signToken = async (user, option) => {
 };
 
 const signTokenSavePass = async (user) => {
-  const option = {}
+  const option = {
+    expiresIn: `${24*31}h`
+  }
   const payload = {
     sub: {
       id: user?.id,

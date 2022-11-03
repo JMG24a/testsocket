@@ -18,6 +18,7 @@ const getUser = async (id) => {
     .populate('propertiesOwned')
     .populate('vehiclesOwned')
     .populate('contacts')
+    .populate('companies')
     .populate('profileLicense')
     .populate('plan.planInfo');
   return userR;
@@ -36,6 +37,7 @@ const getUserByEmail = async (email) => {
     .populate('propertiesOwned')
     .populate('vehiclesOwned')
     .populate('contacts')
+    .populate('companies')
     .populate('profileLicense')
     .populate('plan.planInfo');
 
@@ -99,6 +101,7 @@ const putUser = async (token, body) => {
     .populate('propertiesOwned')
     .populate('vehiclesOwned')
     .populate('contacts')
+    .populate('companies')
     .populate('profileLicense')
     .populate('plan.planInfo');
 
@@ -125,6 +128,7 @@ const putUserImage = async (token, file) => {
     .populate('propertiesOwned')
     .populate('vehiclesOwned')
     .populate('contacts')
+    .populate('companies')
     .populate('profileLicense')
     .populate('plan.planInfo');
 
@@ -160,6 +164,7 @@ const putUserImageLogo = async (token, file) => {
     .populate('propertiesOwned')
     .populate('vehiclesOwned')
     .populate('contacts')
+    .populate('companies')
     .populate('profileLicense')
     .populate('plan.planInfo');
 

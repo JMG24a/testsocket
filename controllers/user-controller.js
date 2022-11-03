@@ -261,12 +261,13 @@ const refresh = async (token) => {
   user.password = null;
 
   const savePassword = token.sub.savePassword;
+  let jwt = '';
   if(savePassword){
-    token = await signTokenSavePass({...user, savePassword});
+    jwt = await signTokenSavePass({...user, savePassword});
   }else{
-    token = await signToken({user, savePassword});
+    jwt = await signToken({user, savePassword});
   }
-  const jwt = await signToken(user);
+  
   return {
     user,
     token: jwt,

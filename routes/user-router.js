@@ -161,30 +161,34 @@ const deleteUser = async (req, res) => {
 
 const login = async (req, res) => {
   const user = req.user;
-  const {savePassword} = req.body;
+  const { savePassword = false } = req.body;
 
   if (typeof user === 'string') {
-    res.status(401).json({
+    return res.status(401).json({
       msg: 'Login Error',
       success: {
         user: 'Contraseña o usuario invalido',
       },
     });
-  } else {
-    let token = '';
-    if(savePassword){
-      token = await userController.signTokenSavePass(user);
-    }else{
-      token = await userController.signToken(user);
-    }
-    res.status(200).json({
-      msg: 'Login Success',
-      success: {
-        user: user,
-        token,
-      },
-    });
   }
+
+  const userWithPasswordPreference = {
+    ...user.toObject(),
+    savePassword
+  }
+  const token = await userController.signToken(userWithPasswordPreference);
+  // if(savePassword){
+  //   token = await userController.signTokenSavePass(user);
+  // }else{
+  //   token = await userController.signToken(user);
+  // }
+  res.status(200).json({
+    msg: 'Login Success',
+    success: {
+      user: userWithPasswordPreference,
+      token,
+    },
+  });
 };
 
 const refresh = async (req, res) => {

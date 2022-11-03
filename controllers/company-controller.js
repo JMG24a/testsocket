@@ -38,7 +38,6 @@ const postCompany = async (body, token) => {
 
     const CompanyOwner = await getCompaniesUser(token.sub.id)
     const user = await userController.getUser(token.sub.id)
-    console.log("BODY: ",body)
 
     user.companies.push(saveObject.id)
     await userController.putUser(token, {companies: CompanyOwner})

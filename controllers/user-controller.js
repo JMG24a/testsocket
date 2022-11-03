@@ -225,19 +225,24 @@ const signToken = async (user, option) => {
     sub: {
       id: user?.id,
       email: user?.email,
+      savePassword: user?.savePassword
     },
     role: user.userType,
   };
+
   const jwt = createJWT(payload, option);
   return jwt;
 };
 
 const signTokenSavePass = async (user) => {
-  const option = {}
+  const option = {
+    expiresIn: `${24*31}h`
+  }
   const payload = {
     sub: {
       id: user?.id,
       email: user?.email,
+      savePassword: user?.savePassword
     },
     role: user.userType,
   };
@@ -255,6 +260,12 @@ const refresh = async (token) => {
 
   user.password = null;
 
+  const savePassword = token.sub.savePassword;
+  if(savePassword){
+    token = await signTokenSavePass({...user, savePassword});
+  }else{
+    token = await signToken({user, savePassword});
+  }
   const jwt = await signToken(user);
   return {
     user,

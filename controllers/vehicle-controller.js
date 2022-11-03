@@ -10,7 +10,7 @@ const getVehicle = async (id) => {
   if (!id) {
     return 'La propiedad no fue encontrada';
   }
-  const vehicle = await VehicleModel.find({ userOwnerId: id });
+  const vehicle = await VehicleModel.find({ userId: id });
   return vehicle;
 };
 

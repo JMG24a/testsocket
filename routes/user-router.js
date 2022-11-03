@@ -161,7 +161,7 @@ const deleteUser = async (req, res) => {
 
 const login = async (req, res) => {
   const user = req.user;
-  const { savePassword = false } = req.body;
+  const {savePassword} = req.body;
 
   if (typeof user === 'string') {
     res.status(401).json({
@@ -173,9 +173,9 @@ const login = async (req, res) => {
   } else {
     let token = '';
     if(savePassword){
-      token = await userController.signTokenSavePass({...user, savePassword});
+      token = await userController.signTokenSavePass(user);
     }else{
-      token = await userController.signToken({...user, savePassword});
+      token = await userController.signToken(user);
     }
     res.status(200).json({
       msg: 'Login Success',

@@ -225,11 +225,9 @@ const signToken = async (user, option) => {
     sub: {
       id: user?.id,
       email: user?.email,
-      savePassword: user?.savePassword
     },
     role: user.userType,
   };
-
   const jwt = createJWT(payload, option);
   return jwt;
 };
@@ -242,7 +240,6 @@ const signTokenSavePass = async (user) => {
     sub: {
       id: user?.id,
       email: user?.email,
-      savePassword: user?.savePassword
     },
     role: user.userType,
   };
@@ -260,14 +257,7 @@ const refresh = async (token) => {
 
   user.password = null;
 
-  const savePassword = token.sub.savePassword;
-  let jwt = '';
-  if(savePassword){
-    jwt = await signTokenSavePass({...user, savePassword});
-  }else{
-    jwt = await signToken({user, savePassword});
-  }
-  
+  const jwt = await signToken(user);
   return {
     user,
     token: jwt,

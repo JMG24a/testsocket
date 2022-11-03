@@ -2,7 +2,7 @@ const { Schema, model } = require("mongoose");
 
 const relationSchema = Schema({
   name: { type: String, required: true },
-  fistLastName: { type: String, required: false },
+  firstLastName: { type: String, required: false },
   email: { type: String, required: false },
   secondLastName: { type: String, required: false },
   taxId: { type: String },

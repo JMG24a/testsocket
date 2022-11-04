@@ -16,14 +16,15 @@ const getProperty = async (id) => {
 
 const postProperty = async (body, token) => {
   try {
+    body.userId = token.sub.id;
     const property = new PropertyModel(body);
     const saveObject = await property.save();
 
-    const propertyOwners = getProperty(token.sub.id)
     const user = await userController.getUser(token.sub.id)
-
     user.propertiesOwned.push(saveObject._id)
     await userController.putUser(token, {propertiesOwned: user.propertiesOwned})
+
+    const propertyOwners = getProperty(token.sub.id)
 
     return propertyOwners
   }catch(e){

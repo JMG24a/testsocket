@@ -24,14 +24,15 @@ const getVehicleById = async (id) => {
 
 const postVehicle = async (body, token) => {
   try {
+    body.userId = token.sub.id;
     const vehicle = new VehicleModel(body);
     const saveObject = await vehicle.save();
 
-    const vehiclesOwnedAll = getVehicle(token.sub.id)
     const user = await userController.getUser(token.sub.id)
-
     user.vehiclesOwned.push(saveObject._id)
     await userController.putUser(token, {vehiclesOwned: user.vehiclesOwned})
+
+    const vehiclesOwnedAll = getVehicle(token.sub.id)
 
     return vehiclesOwnedAll;
   } catch (e) {

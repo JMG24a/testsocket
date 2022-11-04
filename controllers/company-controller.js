@@ -36,11 +36,11 @@ const postCompany = async (body, token) => {
     const company = new CompanyModel(body);
     const saveObject = await company.save();
 
-    const CompanyOwner = await getCompaniesUser(token.sub.id)
     const user = await userController.getUser(token.sub.id)
-
     user.companies.push(saveObject.id)
     await userController.putUser(token, {companies: CompanyOwner})
+
+    const CompanyOwner = await getCompaniesUser(token.sub.id)
 
     return CompanyOwner
   }catch(e){

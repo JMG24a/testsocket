@@ -2,7 +2,7 @@ const { sendMail } = require('../mails/recovery');
 const { send_pdf } = require('../mails/send-pdf');
 const userController = require('../controllers/user-controller');
 const { verifyJWT } = require('../auth/tokens');
-const { security } = require('../auth/middleware/security');
+const { security, security_confirm } = require('../auth/middleware/security');
 
 const welcome = async (email) => {
   try {
@@ -41,7 +41,7 @@ const recovery = async (body) => {
   }
 };
 
-const changePassword = async (token, password) => {
+const recoveryPassword = async (token, password) => {
   try {
     const payload = verifyJWT(token);
     const user = await userController.getUserByEmail(payload.sub.email);
@@ -68,6 +68,30 @@ const changePassword = async (token, password) => {
   }
 };
 
+const changePassword = async (token, password) => {
+  try {
+    const user = await userController.getUserByEmail(token.sub.email);
+    const isPassword = await security_confirm(password, user.password)
+    if (!isPassword) {
+      throw new Error('invalid credential');
+    }
+
+    const idToken = { sub: { id: user.id } };
+
+    const HASH = await security(password);
+    const responseUpdate = await userController.putUser(idToken, {
+      token: '',
+      password: HASH,
+    });
+
+    return {
+      user: responseUpdate,
+    };
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
 const sendPDF = async (namePDF, email) => {
   try {
     const content = `<b>Formuapp</b>`;
@@ -81,6 +105,7 @@ const sendPDF = async (namePDF, email) => {
 module.exports = {
   welcome,
   recovery,
+  recoveryPassword,
   changePassword,
   sendPDF,
 };

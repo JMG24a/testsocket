@@ -24,14 +24,15 @@ const getRelation = async (id, idRelation) => {
 
 const postRelation = async (body, token) => {
   try {
+    body.userId = token.sub.id;
     const relation = new RelationModel(body);
     const saveObject = await relation.save();
 
-    const RelationsOwner = await getRelation(token.sub.id)
     const user = await userController.getUser(token.sub.id)
-
     user.contacts.push(saveObject.id)
-    await userController.putUser(token, {contacts: RelationsOwner})
+    await userController.putUser(token, {contacts: user.contacts})
+
+    const RelationsOwner = await getRelation(token.sub.id)
 
     return RelationsOwner
   }catch(e){

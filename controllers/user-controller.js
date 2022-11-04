@@ -228,30 +228,39 @@ const AuthGoogle = async (user) => {
 const signToken = async (user, option) => {
   const payload = {
     sub: {
-      id: user?.id,
+      id: user?.id?.toString() || user?._id.toString(),
       email: user?.email,
+      savePassword: user?.savePassword
     },
-    role: user.userType,
+    role: user?.userType || '',
   };
+
+  if(typeof option === "object") {
+    option.expiresIn = option?.expiresIn || (user?.savePassword ? `${24*31}h` : "2h");
+  } else {
+    option = {
+      expiresIn: user?.savePassword ? `${24*31}h` : "2h"
+    }
+  }
+
   const jwt = createJWT(payload, option);
   return jwt;
 };
 
-const signTokenSavePass = async (user) => {
-  const option = {
-    expiresIn: `${24*31}h`
-  }
-  const payload = {
-    sub: {
-      id: user?.id,
-      email: user?.email,
-    },
-    role: user.userType,
-  };
-  const jwt = createJWT(payload, option);
-  return jwt;
-}
-
+// const signTokenSavePass = async (user) => {
+//   const option = {
+//     expiresIn: `${24*31}h`
+//   }
+//   const payload = {
+//     sub: {
+//       id: user?.id,
+//       email: user?.email,
+//     },
+//     role: user.userType,
+//   };
+//   const jwt = createJWT(payload, option);
+//   return jwt;
+// }
 
 const refresh = async (token) => {
   const user = await getUserByEmail(token.sub.email);
@@ -259,12 +268,16 @@ const refresh = async (token) => {
   if (!user) {
     return 'usuario no encontrado';
   }
-
+  
   user.password = null;
-
-  const jwt = await signToken(user);
+  const userWithPasswordPreference = {
+    ...user.toObject(),
+    savePassword: token.sub.savePassword
+  }
+  
+  const jwt = await signToken(userWithPasswordPreference);
   return {
-    user,
+    user: userWithPasswordPreference,
     token: jwt,
   };
 };
@@ -280,7 +293,7 @@ module.exports = {
   deleteUser,
   login,
   signToken,
-  signTokenSavePass,
+  // signTokenSavePass,
   AuthGoogle,
   refresh,
 };

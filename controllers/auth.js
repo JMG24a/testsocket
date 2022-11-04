@@ -41,7 +41,7 @@ const recovery = async (body) => {
   }
 };
 
-const recoveryPassword = async (token, password) => {
+const changePassword = async (token, password) => {
   try {
     const payload = verifyJWT(token);
     const user = await userController.getUserByEmail(payload.sub.email);
@@ -68,7 +68,7 @@ const recoveryPassword = async (token, password) => {
   }
 };
 
-const changePassword = async (token, password) => {
+const changePasswordWhitAuth = async (token, password) => {
   try {
     const user = await userController.getUserByEmail(token.sub.email);
     const isPassword = await security_confirm(password, user.password)
@@ -105,7 +105,7 @@ const sendPDF = async (namePDF, email) => {
 module.exports = {
   welcome,
   recovery,
-  recoveryPassword,
   changePassword,
+  changePasswordWhitAuth,
   sendPDF,
 };

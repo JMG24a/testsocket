@@ -19,7 +19,7 @@ const recovery = async(req,res)=> {
   }
 }
 
-const recoveryPassword = async (req,res) => {
+const changePassword = async (req,res) => {
   try{
     const {password, token} = req.body;
     const success = await authController.changePassword(token, password)
@@ -37,11 +37,11 @@ const recoveryPassword = async (req,res) => {
   }
 }
 
-const changePassword = async (req,res) => {
+const changePasswordWhitAuth = async (req,res) => {
   try{
     const token = req.myPayload;
     const {password} = req.body;
-    const success = await authController.recoveryPassword(token, password)
+    const success = await authController.changePasswordWhitAuth(token, password)
     res.json({
       ok: true,
       msg: 'Contraseña guardada',
@@ -58,17 +58,17 @@ const changePassword = async (req,res) => {
 
 router.post('/recovery',recovery)
 router.post(
-  '/recovery/password',
-  passport.authenticate('jwt', { session: false }),
-  validateToken,
-  recoveryPassword
-)
-
-router.post(
   '/change/password',
   passport.authenticate('jwt', { session: false }),
   validateToken,
   changePassword
+)
+
+router.post(
+  '/change/password/auth',
+  passport.authenticate('jwt', { session: false }),
+  validateToken,
+  changePasswordWhitAuth
 )
 
 module.exports = router

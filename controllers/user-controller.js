@@ -279,7 +279,7 @@ const refresh = async (token) => {
   
   const jwt = await signToken(userWithPasswordPreference);
   return {
-    userWithPasswordPreference,
+    user: userWithPasswordPreference,
     token: jwt,
   };
 };

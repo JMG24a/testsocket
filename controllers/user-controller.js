@@ -228,11 +228,11 @@ const AuthGoogle = async (user) => {
 const signToken = async (user, option) => {
   const payload = {
     sub: {
-      id: user?.id,
+      id: user?.id?.toString() || user?._id.toString(),
       email: user?.email,
       savePassword: user?.savePassword
     },
-    role: user.userType,
+    role: user?.userType || '',
   };
 
   if(typeof option === "object") {
@@ -242,8 +242,6 @@ const signToken = async (user, option) => {
       expiresIn: user?.savePassword ? `${24*31}h` : "2h"
     }
   }
-  console.log("Payload: ", payload);
-  console.log("Options: ", option);
 
   const jwt = createJWT(payload, option);
   return jwt;

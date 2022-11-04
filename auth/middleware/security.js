@@ -5,8 +5,8 @@ const security = async(password) =>{
   return encryption
 }
 
-const security_confirm = async(password,db_password) =>{
-  const encryption = await bcrypt.compare(password,db_password)
+const security_confirm = async(password, db_password) =>{
+  const encryption = await bcrypt.compare(password, db_password)
   return encryption
 }
 

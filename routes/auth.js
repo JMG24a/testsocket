@@ -40,8 +40,8 @@ const changePassword = async (req,res) => {
 const changePasswordWhitAuth = async (req,res) => {
   try{
     const token = req.myPayload;
-    const {password} = req.body;
-    const success = await authController.changePasswordWhitAuth(token, password)
+    const {newPassword, oldPassword} = req.body;
+    const success = await authController.changePasswordWhitAuth(token, oldPassword, newPassword)
     res.json({
       ok: true,
       msg: 'Contraseña guardada',
@@ -57,6 +57,7 @@ const changePasswordWhitAuth = async (req,res) => {
 }
 
 router.post('/recovery',recovery)
+
 router.post(
   '/change/password',
   passport.authenticate('jwt', { session: false }),
@@ -64,8 +65,8 @@ router.post(
   changePassword
 )
 
-router.post(
-  '/change/password/auth',
+router.put(
+  '/change-password',
   passport.authenticate('jwt', { session: false }),
   validateToken,
   changePasswordWhitAuth

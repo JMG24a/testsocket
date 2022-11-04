@@ -68,17 +68,18 @@ const changePassword = async (token, password) => {
   }
 };
 
-const changePasswordWhitAuth = async (token, password) => {
+const changePasswordWhitAuth = async (token, oldPassword, newPassword) => {
   try {
     const user = await userController.getUserByEmail(token.sub.email);
-    const isPassword = await security_confirm(password, user.password)
+    const isPassword = await security_confirm(oldPassword, user.password)
+
     if (!isPassword) {
       throw new Error('invalid credential');
     }
 
     const idToken = { sub: { id: user.id } };
 
-    const HASH = await security(password);
+    const HASH = await security(newPassword);
     const responseUpdate = await userController.putUser(idToken, {
       token: '',
       password: HASH,

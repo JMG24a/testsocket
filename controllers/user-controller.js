@@ -1,4 +1,5 @@
 const UsersModel = require('../models/User');
+const PlanService = require('../services/planTime-service')
 const { security, security_confirm } = require('../auth/middleware/security');
 const { createJWT } = require('../auth/tokens');
 const { welcomeMail } = require('../mails/welcome');
@@ -263,18 +264,24 @@ const signToken = async (user, option) => {
 // }
 
 const refresh = async (token) => {
+
   const user = await getUserByEmail(token.sub.email);
 
   if (!user) {
     return 'usuario no encontrado';
   }
-  
+  //tiempo de expiración para el plan | en un futuro se moverá a un socket
+  const expiredPlan = PlanService.validateExpired()
+  if(expiredPlan){
+
+  }
+
   user.password = null;
   const userWithPasswordPreference = {
     ...user.toObject(),
     savePassword: token.sub.savePassword
   }
-  
+
   const jwt = await signToken(userWithPasswordPreference);
   return {
     user: userWithPasswordPreference,

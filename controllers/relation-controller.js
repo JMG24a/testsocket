@@ -30,6 +30,7 @@ const postRelation = async (body, token) => {
 
     const user = await userController.getUser(token.sub.id)
     user.contacts.push(saveObject.id)
+
     await userController.putUser(token, {contacts: user.contacts})
 
     const RelationsOwner = await getRelation(token.sub.id)

@@ -12,7 +12,7 @@ const relationSchema = Schema({
   city: {type: String},
   department: {type: String},
   country: {type: String},
-  tag: {type: String },
+  tag: {type: String, default: "Cliente" },
   userId:[{ type: Schema.Types.ObjectId, ref: 'User' }],
 },
 {

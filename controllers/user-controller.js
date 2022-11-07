@@ -270,10 +270,22 @@ const refresh = async (token) => {
   if (!user) {
     return 'usuario no encontrado';
   }
-  //tiempo de expiración para el plan | en un futuro se moverá a un socket
-  const expiredPlan = PlanService.validateExpired()
-  if(expiredPlan){
 
+  //tiempo de expiración para el plan | en un futuro se moverá a un socket
+  if(user.plan.expireDate !== "expired"){
+    const expiredPlan = PlanService.expiredDateVerification(user.plan.expireDate)
+    if(expiredPlan){
+      await UsersModel.findByIdAndUpdate(user._id, {
+        plan:{
+          planInfo: "63068b13e4bb2ceac56b77ed",//plan basic
+          paymentMethod:  user.plan.paymentMethod,
+          expireDate:     "expired",
+          extraTime:      "aun no se para que usarlo"
+        }
+      }, {
+        new: true,
+      })
+    }
   }
 
   user.password = null;

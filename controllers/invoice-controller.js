@@ -1,9 +1,9 @@
 const { request, response } = require('express');
 const { isValidObjectId } = require('mongoose');
-const {} = require('../service/plan-service');
 const Invoice = require('../models/Invoice');
 const UserModel = require('../models/User');
-const PlanService = require('../services/planTime-service');
+const PlanModel = require('../models/Product');
+const PlanService = require('../services/planTime-service.js');
 
 const getAllInvoices = async(req = request, res = response) => {
   try {
@@ -77,44 +77,51 @@ const getInvoiceById = async(req = request, res = response) => {
 
 const createNewInvoice = async (req = request, res = response) => {
   try {
-      const newInvoice = new Invoice(req.body.data);
-      await newInvoice.save();
-      const idInvoice = newInvoice.id ? newInvoice.id : newInvoice._id
+    const newInvoice = new Invoice(req.body.data);
+    console.log("BODY: ", req.body.data)
+    const invoice = await newInvoice.save();
+    console.log("invoice: ", invoice)
+    const idInvoice = invoice.id ? invoice.id : invoice._id
 
-      const expireDate = PlanService.generateExpirationTime()
+    const product = await PlanModel.findById(invoice.plan)
+    const user = await UserModel.findById(invoice.userId)
 
-      const user = await UserModel.findById(req.body.data.userId)
+    const productExpired = product.paymentMethods.filter(item => item.name === invoice.formSelectPaymentMethod.name)
+    console.log("productExpired:time ", productExpired)
 
-      let plan = {}
-      if(newInvoice.status === 'paid'){
-        plan = {
-          planInfo: req.body.data.plan,
-          expireDate: expireDate,
-          paymentMethod: idInvoice
-        }
-      }else{
-        plan = {
-          ...user.plan
-        }
+    const expireDate = PlanService.generateExpirationTime(productExpired.time)
+    let plan = {}
+    if(invoice.status === 'paid'){
+      plan = {
+        planInfo: invoice.plan,
+        expireDate: expireDate,
+        paymentMethod: idInvoice,
+        extraTime: user.plan.extraTime
       }
+    }else{
+      plan = {
+        ...user.plan
+      }
+    }
+    console.log("planEdit", plan)
 
-      await UserModel.findByIdAndUpdate(req.body.data.userId, {
-        profileLicense: req.body.data.plan,
-        plan
-      },{
-        new: true,
-      })
+    await UserModel.findByIdAndUpdate(invoice.userId, {
+      profileLicense: invoice.plan,
+      plan
+    },{
+      new: true,
+    })
 
-      res.status(201).json({
-          ok: true,
-          invoice: newInvoice
-      });
+    res.status(201).json({
+        ok: true,
+        invoice: newInvoice
+    });
   } catch (error) {
-      res.status(500).json({
-          ok: false,
-          message: 'No se pudo crear la nueva factura, contacte un administrador.',
-          errorDescription: error.message
-      });
+    res.status(500).json({
+        ok: false,
+        message: 'No se pudo crear la nueva factura, contacte un administrador.',
+        errorDescription: error.message
+    });
   }
 }
 

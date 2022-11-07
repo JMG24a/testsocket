@@ -20,8 +20,8 @@ const userSchema = new Schema({
   customerType: { type: String, enum: ['persona', 'empresa'] },
   plan: {
     planInfo:       { type: Schema.Types.ObjectId, ref: 'Product' },
-    expireDate:     { type: String },
     paymentMethod:  { type: Schema.Types.ObjectId, ref: 'Invoice' },
+    expireDate:     { type: String, default: "expired"},
     extraTime:      { type: String }
   },
   address: [

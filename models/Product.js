@@ -1,12 +1,20 @@
 const { Schema, model, models } = require("mongoose");
+const mongoose = require('mongoose')
+require('mongoose-long')(mongoose);
+const {Types: {Long}} = mongoose;
 
 const productSchema = new Schema({
   name           : { type: String },
-  price          : { type: Number },
   priceLabel     : { type: String },
   description    : { type: String },
   benefits       : [String],
   availablePromos: [{ type: Schema.Types.ObjectId, ref: 'Promotion' }],
+  paymentMethods: [{
+    name :      {type: String},
+    price:      {type: Number},
+    time :      {type: Long},
+    priceLabel: {type: String},
+  }],
 }, {
   timestamps: true
 });

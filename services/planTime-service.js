@@ -1,14 +1,16 @@
-const generateExpirationTime = () => {
-  const yearInMilliseconds = 31536000000;
-  const today = new date()
-  const expiredDate = today.getTime() + yearInMilliseconds;
-  const inOneYear = new Date(expiredDate)
-  return inOneYear
+const generateExpirationTime = (time) => {
+  const timeInMilliseconds = time;
+  const today = new Date()
+  const expiredDate = today.getTime() + timeInMilliseconds;
+  const inLaterTimes = new Date(expiredDate)
+  const inLaterTimesString = `${inLaterTimes.getDay()}/${inLaterTimes.getMonth()}/${inLaterTimes.getFullYear()}`
+  conole.log("inOneYearTxt", inLaterTimesString)
+  return inLaterTimesString
 }
 
 const expiredDateVerification = (expiredDay) => {
-  const expired = new date(expiredDay);
-  const today = new date();
+  const expired = new Date(expiredDay);
+  const today = new Date();
   if(expired < today){
     return true
   }else{
@@ -16,9 +18,9 @@ const expiredDateVerification = (expiredDay) => {
   }
 }
 
-const addTimeAdditional = (expiredDay, ) => {
+const addTimeAdditional = (expiredDay) => {
   const monthInMilliseconds = 2628000000;
-  const expired = new date(expiredDay);
+  const expired = new Date(expiredDay);
   const addition = expired.getTime() + monthInMilliseconds;
   const inOneMonth = new Date(addition)
   return inOneMonth
@@ -26,7 +28,7 @@ const addTimeAdditional = (expiredDay, ) => {
 
 const RemovingRemainingTime = (expiredDay, ) => {
   const today = new Date();
-  const expired = new date(expiredDay);
+  const expired = new Date(expiredDay);
   const removing = expired.getTime() - today.getTime();
   const removingTime= new Date(removing)
   return removingTime

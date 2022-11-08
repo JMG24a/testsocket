@@ -1,10 +1,9 @@
 const generateExpirationTime = (time) => {
-  const timeInMilliseconds = time;
-  const today = new Date()
-  const expiredDate = today.getTime() + timeInMilliseconds;
+  const timeInMilliseconds = Number(time);
+  const today = new Date().getTime()
+  const expiredDate = today + timeInMilliseconds;
   const inLaterTimes = new Date(expiredDate)
-  const inLaterTimesString = `${inLaterTimes.getDay()}/${inLaterTimes.getMonth()}/${inLaterTimes.getFullYear()}`
-  conole.log("inOneYearTxt", inLaterTimesString)
+  const inLaterTimesString = `${inLaterTimes.getDate()}/${inLaterTimes.getMonth()}/${inLaterTimes.getFullYear()}`
   return inLaterTimesString
 }
 

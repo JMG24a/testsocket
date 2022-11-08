@@ -86,10 +86,11 @@ const createNewInvoice = async (req = request, res = response) => {
     const product = await PlanModel.findById(invoice.plan)
     const user = await UserModel.findById(invoice.userId)
 
-    const productExpired = product.paymentMethods.filter(item => item.name === invoice.formSelectPaymentMethod.name)
+    const productExpired = product.paymentMethods.filter(item => item.name === invoice.formSelectPaymentMethod)
     console.log("productExpired:time ", productExpired)
 
-    const expireDate = PlanService.generateExpirationTime(productExpired.time)
+    const expireDate = PlanService.generateExpirationTime(productExpired[0].time)
+    console.log("planEdit", expireDate)
     let plan = {}
     if(invoice.status === 'paid'){
       plan = {

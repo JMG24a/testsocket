@@ -255,7 +255,12 @@ router.put(
   putUserImageLogo
 );
 
-router.delete('/:id', deleteUser);
+router.delete(
+  '/:id',
+  passport.authenticate('local', { session: false }),
+  validatorRoles(['employee']),
+  deleteUser
+);
 //auth
 router.post(
   '/login',

@@ -1,9 +1,9 @@
-const generateExpirationTime = (time) => {
-  const timeInMilliseconds = Number(time);
-  const today = new Date().getTime()
+const generateExpirationTime = (extraTime, timeLeft) => {
+  const timeInMilliseconds = Number(extraTime);
+  const today = timeLeft
   const expiredDate = today + timeInMilliseconds;
   const inLaterTimes = new Date(expiredDate)
-  const inLaterTimesString = `${inLaterTimes.getDate()}/${inLaterTimes.getMonth()}/${inLaterTimes.getFullYear()}`
+  const inLaterTimesString = `${inLaterTimes.getMonth() + 1}/${inLaterTimes.getDate()}/${inLaterTimes.getFullYear()}`
   return inLaterTimesString
 }
 

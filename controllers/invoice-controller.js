@@ -78,19 +78,17 @@ const getInvoiceById = async(req = request, res = response) => {
 const createNewInvoice = async (req = request, res = response) => {
   try {
     const newInvoice = new Invoice(req.body.data);
-    console.log("BODY: ", req.body.data)
     const invoice = await newInvoice.save();
-    console.log("invoice: ", invoice)
     const idInvoice = invoice.id ? invoice.id : invoice._id
 
     const product = await PlanModel.findById(invoice.plan)
     const user = await UserModel.findById(invoice.userId)
 
     const productExpired = product.paymentMethods.filter(item => item.name === invoice.formSelectPaymentMethod)
-    console.log("productExpired:time ", productExpired)
 
-    const expireDate = PlanService.generateExpirationTime(productExpired[0].time)
-    console.log("planEdit", expireDate)
+    const timeLeft = user.plan.expireDate === 'expired' ? new Date().getTime() : new Date(user.plan.expireDate).getTime()
+    const expireDate = PlanService.generateExpirationTime(productExpired[0].time, timeLeft)
+
     let plan = {}
     if(invoice.status === 'paid'){
       plan = {
@@ -104,7 +102,7 @@ const createNewInvoice = async (req = request, res = response) => {
         ...user.plan
       }
     }
-    console.log("planEdit", plan)
+
 
     await UserModel.findByIdAndUpdate(invoice.userId, {
       profileLicense: invoice.plan,

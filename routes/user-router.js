@@ -257,7 +257,7 @@ router.put(
 
 router.delete(
   '/:id',
-  passport.authenticate('local', { session: false }),
+  passport.authenticate('jwt', { session: false }),
   validatorRoles(['employee']),
   deleteUser
 );

@@ -9,6 +9,13 @@ function receiptMail(
   userEmail,
   amount
 ) {
+  console.log("This!",
+    createdAt,
+    expireDate,
+    invoiceNo,
+    userName,
+    userEmail,
+    amount)
   const msg = {
     to: userEmail,
     from: 'info@formuapp.com',

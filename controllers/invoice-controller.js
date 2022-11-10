@@ -78,7 +78,6 @@ const getInvoiceById = async(req = request, res = response) => {
 
 const createNewInvoice = async (req = request, res = response) => {
   try {
-
     //guardando factura
     const newInvoice = new Invoice(req.body);
     const invoice = await newInvoice.save();
@@ -126,7 +125,7 @@ const createNewInvoice = async (req = request, res = response) => {
       userEmail: user.email,
       amount: `${newInvoice.total} COP`
     }
-
+    console.log("objectMail",objectMail)
     await receiptMail(
       objectMail.createdAt,
       objectMail.expireDate,

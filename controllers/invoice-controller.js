@@ -115,8 +115,6 @@ const createNewInvoice = async (req = request, res = response) => {
     })
 
     //enviando notificacion al usurio por sendGrid
-
-
     const objectMail = {
       createdAt: `${new Date().getDate()}/${new Date().getMonth()}/${new Date().getFullYear()}`,
       expireDate: expireDate,
@@ -125,7 +123,7 @@ const createNewInvoice = async (req = request, res = response) => {
       userEmail: user.email,
       amount: `${newInvoice.total} COP`
     }
-    console.log("objectMail",objectMail)
+
     await receiptMail(
       objectMail.createdAt,
       objectMail.expireDate,

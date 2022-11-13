@@ -10,7 +10,15 @@ const getRelationsUser = async (id) => {
   if(!id){
     return 'La propiedad no fue encontrada'
   }
-  const relation = await RelationModel.find({userId: id});
+  const user = await userController.getUser(id)
+  const relationByUser = await RelationModel.find({userId: id});
+  const relationByCompany = await RelationModel.find({userId: user.companyProfile.idCompany});
+
+  const relation = [
+    ...relationByUser,
+    ...relationByCompany
+  ]
+
   return relation
 };
 

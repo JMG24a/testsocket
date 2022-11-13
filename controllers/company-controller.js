@@ -74,6 +74,13 @@ const addEmployeeCompany = async (token, userId) => {
   const companies = await CompanyModel.find({userId: token.sub.id});
   companies[0].employeesId.push(userId)
 
+  const tokenEmployeeUser = {
+    sub: {
+      id: userId
+    }
+  }
+  await userController.putUser(tokenEmployeeUser, {idCompany: companies._id})
+
   const newCompany = await CompanyModel.updateOne({userId: token.sub.id}, {
     employeesId: companies[0].employeesId
   }, { new: true });

@@ -76,7 +76,8 @@ const userSchema = new Schema({
     slogan: { type: String },
     mainColor: { type: String },
     secondaryColor: { type: String },
-    photoLogo: { type: String }
+    photoLogo: { type: String },
+    idCompany: { type: Schema.Types.ObjectId, ref: 'Company' }
   },
   documents: {
     idCard: { type: String },

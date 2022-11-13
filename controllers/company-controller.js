@@ -1,5 +1,7 @@
 const CompanyModel = require("../models/company");
+const RelationModel = require("../models/Relation");
 const userController = require("../controllers/user-controller");
+const {editObject, createObject, delObject} = require("./tools/company-tools")
 
 const getCompanies = async () => {
   const companies = await CompanyModel.find();
@@ -67,6 +69,132 @@ const deleteCompany = async (id, token) => {
   return companyDelete ? true : false;
 };
 
+//employees
+const addEmployeeCompany = async (token, userId) => {
+  const companies = await CompanyModel.find({userId: token.sub.id});
+  companies[0].employeesId.push(userId)
+
+  const newCompany = await CompanyModel.updateOne({userId: token.sub.id}, {
+    employeesId: companies[0].employeesId
+  }, { new: true });
+
+  return  newCompany
+}
+
+const getEmployeeTakesCompanyInfo = async (token, idCompany) => {
+
+  if(!idCompany){
+    return 'La propiedad no fue encontrada'
+  }
+  const companies = await CompanyModel.findById(idCompany);
+  if(!companies){
+    return "this user does not have permissions"
+  }
+  const isInclude = companies.employeesId.includes(token.sub.id);
+  if(!isInclude){
+    return "this user does not have permissions"
+  }
+
+  const contactsCompany = await RelationModel.find({companyId: idCompany})
+  const contactsUser = await RelationModel.find({userId: token.sub.id})
+  const contacts = [
+    ...contactsCompany,
+    ...contactsUser
+  ]
+
+  const infoCompany = {
+    infoCompany: {
+      name: companies.name,
+      logo: companies.logo,
+    },
+    contacts,
+    workOrders: companies.workOrders,
+    sales: companies.sales,
+    quotations: companies.quotations,
+    products: companies.products
+  }
+
+  return infoCompany
+}
+
+const createEmployeeTakesCompanyInfo = async (token, idCompany, body) => {
+  if(!idCompany){
+    return 'La propiedad no fue encontrada'
+  }
+  const companies = await CompanyModel.findById(idCompany);
+  if(!companies){
+    return "this user does not have permissions"
+  }
+  const isInclude = companies.employeesId.includes(token.sub.id);
+  if(!isInclude){
+    return "this user does not have permissions"
+  }
+
+  const resultObject = createObject(body)
+
+  if(resultObject === false){
+    return "This property cannot created"
+  }
+
+  companies[body.selected].push(resultObject)
+
+  const saveObject = await CompanyModel.findByIdAndUpdate(idCompany, {
+    [body.selected]: companies[body.selected]
+  }, { new: true });
+
+  return saveObject
+}
+
+
+
+const editEmployeeTakesCompanyInfo = async (token, idCompany, body) => {
+  if(!idCompany){
+    return 'La propiedad no fue encontrada'
+  }
+  const companies = await CompanyModel.findById(idCompany);
+  if(!companies){
+    return "this user does not have permissions"
+  }
+  const isInclude = companies.employeesId.includes(token.sub.id);
+  if(!isInclude){
+    return "this user does not have permissions"
+  }
+
+  const resultObject = editObject(companies[body.selected], body)
+  if(resultObject === false){
+    return "This property cannot edit"
+  }
+
+  const editCompany = await CompanyModel.findByIdAndUpdate(idCompany, {
+    [body.selected]: resultObject
+  }, { new: true });
+
+  return editCompany
+}
+
+const deleteEmployeeTakesCompanyInfo = async (token, idCompany, id) => {
+  if(!idCompany){
+    return 'La propiedad no fue encontrada'
+  }
+  const companies = await CompanyModel.findById(idCompany);
+  const isInclude = companies.employeesId.includes(token.sub.id);
+  if(!isInclude){
+    return "this user does not have permissions"
+  }
+
+  const resultObject = delObject(companies[id.selected], id)
+
+  if(resultObject === false){
+    return "This property cannot edit"
+  }
+
+  const editCompany = await CompanyModel.findByIdAndUpdate(idCompany, {
+    [id.selected]: resultObject
+  }, { new: true });
+
+  return editCompany
+}
+
 module.exports = {
   getCompanies,
   getCompaniesUser,
@@ -74,5 +202,11 @@ module.exports = {
   getCompany,
   postCompany,
   putCompany,
-  deleteCompany
+  deleteCompany,
+  //employees
+  addEmployeeCompany,
+  getEmployeeTakesCompanyInfo,
+  createEmployeeTakesCompanyInfo,
+  editEmployeeTakesCompanyInfo,
+  deleteEmployeeTakesCompanyInfo
 }

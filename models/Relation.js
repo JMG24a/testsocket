@@ -14,6 +14,7 @@ const relationSchema = Schema({
   country: {type: String},
   tag: {type: String, default: "Cliente" },
   userId:[{ type: Schema.Types.ObjectId, ref: 'User' }],
+  companyId:[{ type: Schema.Types.ObjectId, ref: 'Company' }],
 },
 {
   timestamps: true,

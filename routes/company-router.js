@@ -122,15 +122,124 @@ const deleteCompany = async (req, res) => {
   });
 };
 
+
+//acciones del empleado
+const addEmployeeCompany = async (req, res) => {
+  const token = req.myPayload;
+  const {userId} = req.body;
+
+  try{
+    const addUser = await CompanyController.addEmployeeCompany(token, userId)
+
+    res.status(200).json({
+      ok: true,
+      msg: "company",
+      employees: addUser
+    });
+  }catch(e){
+    res.status(400).json({
+      ok: false,
+      msg: "Intenta mas tarde",
+    });
+  }
+}
+
+const getEmployeeTakesCompanyInfo = async (req, res) => {
+  const {idCompany} = req.params;
+  const token = req.myPayload;
+
+  try{
+    const companyContacts = await CompanyController.getEmployeeTakesCompanyInfo(token, idCompany)
+
+    res.status(200).json({
+      ok: true,
+      msg: "contacts",
+      company: companyContacts
+    });
+  }catch(e){
+    res.status(400).json({
+      ok: false,
+      msg: "Intenta mas tarde",
+    });
+  }
+}
+
+const createEmployeeTakesCompanyInfo = async (req, res) => {
+  const {idCompany} = req.params;
+  const body = req.body
+  const token = req.myPayload;
+  try{
+    const companyContacts = await CompanyController.createEmployeeTakesCompanyInfo(token, idCompany, body)
+
+    res.status(200).json({
+      ok: true,
+      msg: "contacts",
+      company: companyContacts
+    });
+  }catch(e){
+    res.status(400).json({
+      ok: false,
+      msg: "Intenta mas tarde",
+    });
+  }
+}
+
+const editEmployeeTakesCompanyInfo = async (req, res) => {
+  const {idCompany} = req.params;
+  const body = req.body
+  const token = req.myPayload;
+  try{
+    const companyContacts = await CompanyController.editEmployeeTakesCompanyInfo(token, idCompany, body)
+
+    res.status(200).json({
+      ok: true,
+      msg: "contacts",
+      company: companyContacts
+    });
+  }catch(e){
+    res.status(400).json({
+      ok: false,
+      msg: "Intenta mas tarde",
+    });
+  }
+}
+
+const deleteEmployeeTakesCompanyInfo = async (req, res) => {
+  const {idCompany} = req.params;
+  const body = req.body
+  const token = req.myPayload;
+  try{
+    const companyContacts = await CompanyController.deleteEmployeeTakesCompanyInfo(token, idCompany, body)
+
+    res.status(200).json({
+      ok: true,
+      msg: "contacts",
+      company: companyContacts
+    });
+  }catch(e){
+    res.status(400).json({
+      ok: false,
+      msg: "Intenta mas tarde",
+    });
+  }
+}
+
 router.get(
   "/",
   validatorRoles(['employee']),
   getCompanies
 );
+
 router.get("/user", validateToken, getCompaniesUser);
 router.get("/user/:idCompany", validateToken, getCompanyRepLegal);
 router.post("/", validateToken, postCompany);
 router.put("/:id", putCompany);
 router.delete("/:id", validateToken, deleteCompany);
+//employee
+router.put("/employee/add", validateToken, addEmployeeCompany);
+router.get("/employee/:idCompany", validateToken, getEmployeeTakesCompanyInfo);
+router.put("/employee/post/:idCompany", validateToken, createEmployeeTakesCompanyInfo);
+router.put("/employee/put/:idCompany", validateToken, editEmployeeTakesCompanyInfo);
+router.put("/employee/del/:idCompany", validateToken, deleteEmployeeTakesCompanyInfo);
 
 module.exports = router

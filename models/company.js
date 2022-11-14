@@ -120,6 +120,19 @@ const companySchema = Schema(
       ActualDealValue: { type: String },
       dealLength: { type: String },
     },
+    contacts: {
+      name :{type: String},
+      lastName :{type: String},
+      accountID	:{type: String},
+      email :{type: String},
+      priority :{type: String},
+      type :{type: String},
+      mobile :{type: String},
+      phone	: {type: String},
+      title	: {type: String},
+      observations: {type: String},
+      source: {type: String}
+    }
   },
   {
     timestamps: true,

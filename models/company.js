@@ -1,3 +1,4 @@
+const { ObjectId } = require("mongodb");
 const { Schema, model } = require("mongoose");
 
 const companySchema = Schema({
@@ -30,6 +31,7 @@ const companySchema = Schema({
     invoice: {type: String}
   },
   workOrders:[{
+    id: {type: ObjectId},
     date: {type: String},
     contact: { type: Schema.Types.ObjectId, ref: 'Relation'},
     status: {type: String},
@@ -67,7 +69,41 @@ const companySchema = Schema({
     description: {type: String},
     price: {type: String},
     image: {type: String}
-  }]
+  }],
+  account:{
+    contactId: { type: Schema.Types.ObjectId, ref: 'Relation' },
+    accountName: {type: String},
+    accountId: {type: ObjectId},
+    type: {type: String, enum: ['Vendedor', 'Cliente', 'partner']},
+    priority: {type: String, enum: ['Vendedor', 'Cliente', 'partner']},
+    category: {type: String},
+    subCategory: {type: String},
+    email: {type: String},
+    accountValue: {type: String},
+    website: {type: String},
+    commentaries: {type: String},
+    source: {type: String},
+    city: {type: String},
+    address: {type: String},
+    country: {type: String},
+    nit: {type: String},
+    stage: {type: String}
+  },
+  opportunities: {
+    dealName: {type: String},
+    dealValue: {type: String},
+    closeProbability: {type: String},
+    expiredCloseDate: {type: String},
+    dealCreateDate: {type: String},
+    notes: {type: String},
+    accountId: {type: ObjectId},
+    contactId: { type: Schema.Types.ObjectId, ref: 'Relation' },
+    stage: {type: String},
+    priority: {type: String},
+    forecastValue: {type: String},
+    ActualDealValue: {type: String},
+    dealLength: {type: String},
+  }
 },
 {
   timestamps: true,

@@ -118,7 +118,9 @@ const getEmployeeTakesCompanyInfo = async (token, idCompany) => {
     workOrders: companies.workOrders,
     sales: companies.sales,
     quotations: companies.quotations,
-    products: companies.products
+    products: companies.products,
+    account: companies.account,
+    opportunities: companies.opportunities,
   }
 
   return infoCompany

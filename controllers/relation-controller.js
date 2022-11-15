@@ -23,15 +23,13 @@ const getRelationsUser = async (id) => {
 };
 
 const getRelationsCompany = async (id) => {
-  console.log(id)
   if(!id){
     return 'La propiedad no fue encontrada'
   }
 
   const user = await userController.getUser(id)
-  console.log("user",user)
   const relationByCompany = await RelationModel.find({companyId: user.companies[0]._id});
-  console.log("user",relationByCompany)
+
   const relation = [
     ...relationByCompany
   ]
@@ -58,7 +56,6 @@ const postRelation = async (body, token) => {
       const saveObject = await relation.save();
 
       RelationsOwner = await getRelationsCompany(token.sub.id)
-      console.log("???", "s, ",RelationsOwner)
     }else{
       body.userId = token.sub.id;
       const relation = new RelationModel(body);

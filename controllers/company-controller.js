@@ -105,7 +105,7 @@ const getEmployeeTakesCompanyInfo = async (token, idCompany) => {
   const contactsCompany = await RelationModel.find({companyId: idCompany})
   const contactsUser = await RelationModel.find({userId: token.sub.id})
   const contacts = [
-    ...contactsCompany,
+    ...companies.contacts,
     ...contactsUser
   ]
 

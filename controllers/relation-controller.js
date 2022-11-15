@@ -1,5 +1,7 @@
 const RelationModel = require("../models/Relation");
+const CompanyModel = require("../models/company");
 const userController = require("../controllers/user-controller");
+const { ObjectId } = require("mongodb");
 
 const getRelations = async () => {
   const relation = await RelationModel.find();
@@ -10,7 +12,6 @@ const getRelationsUser = async (id) => {
   if(!id){
     return 'La propiedad no fue encontrada'
   }
-  const user = await userController.getUser(id)
   const relationByUser = await RelationModel.find({userId: id});
   const relationByCompany = await RelationModel.find({companyId: user.companies});
 
@@ -87,11 +88,18 @@ const putRelation= async (id, body) => {
 
 const deleteRelation = async (id, token) => {
   let user = await userController.getUser(token.sub.id)
-  user.contacts = user.contacts.filter(_id => _id === id)
-  await userController.putUser(token, {contacts: user.contacts})
+  let deleteRelation
 
-  const deleteRelation = await RelationModel.findByIdAndDelete(id);
-  return deleteRelation ? true : false;
+  if(user.contacts.includes(id)){
+    user.contacts = user.contacts.filter(_id => _id === id)
+    await userController.putUser(token, {contacts: user.contacts})
+    deleteRelation = await RelationModel.findByIdAndDelete(id);
+  }
+
+  let company = await CompanyModel.find({employeesId: token.sub.id});
+  company[0].contacts = company[0].contacts.filter(_id => _id === id)
+
+  return deleteRelation;
 };
 
 module.exports = {

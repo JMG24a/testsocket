@@ -1,5 +1,7 @@
 const RelationModel = require("../models/Relation");
+const CompanyModel = require("../models/company");
 const userController = require("../controllers/user-controller");
+const { ObjectId } = require("mongodb");
 
 const getRelations = async () => {
   const relation = await RelationModel.find();
@@ -10,15 +12,22 @@ const getRelationsUser = async (id) => {
   if(!id){
     return 'La propiedad no fue encontrada'
   }
-  const user = await userController.getUser(id)
   const relationByUser = await RelationModel.find({userId: id});
-  const relationByCompany = await RelationModel.find({userId: user.companyProfile.idCompany});
+  const company = await CompanyModel.find({employeesId: id});
+  let relation
 
-  const relation = [
-    ...relationByUser,
-    ...relationByCompany
-  ]
+  if(!company){
+    relation = [
+      ...relationByUser,
+    ]
+  }else{
+    relation = [
+      ...relationByUser,
+      ...company[0].contacts
+    ]
+  }
 
+  console.log("company", relation)
   return relation
 };
 
@@ -32,16 +41,31 @@ const getRelation = async (id, idRelation) => {
 
 const postRelation = async (body, token) => {
   try {
-    body.userId = token.sub.id;
-    const relation = new RelationModel(body);
-    const saveObject = await relation.save();
-
     const user = await userController.getUser(token.sub.id)
-    user.contacts.push(saveObject.id)
+    const company = await CompanyModel.find({employeesId: token.sub.id});
 
-    await userController.putUser(token, {contacts: user.contacts})
 
-    const RelationsOwner = await getRelation(token.sub.id)
+    let RelationsOwner = []
+    if(!company){
+      body.userId = token.sub.id;
+      const relation = new RelationModel(body);
+      const saveObject = await relation.save();
+
+      user.contacts.push(saveObject.id)
+      await userController.putUser(token, {contacts: user.contacts})
+      RelationsOwner = await getRelation(token.sub.id)
+    }else{
+      body._id = ObjectId();
+      if(company[0].contacts === undefined){
+        company[0].contacts = []
+      }
+      company[0].contacts.push(body)
+      const saveObject = await CompanyModel.findByIdAndUpdate(company[0].id, {
+        contacts: company[0].contacts
+      }, { new: true });
+
+      RelationsOwner = await getRelationsUser(token.sub.id)
+    }
 
     return RelationsOwner
   }catch(e){
@@ -62,11 +86,18 @@ const putRelation= async (id, body) => {
 
 const deleteRelation = async (id, token) => {
   let user = await userController.getUser(token.sub.id)
-  user.contacts = user.contacts.filter(_id => _id === id)
-  await userController.putUser(token, {contacts: user.contacts})
+  let deleteRelation
 
-  const deleteRelation = await RelationModel.findByIdAndDelete(id);
-  return deleteRelation ? true : false;
+  if(user.contacts.includes(id)){
+    user.contacts = user.contacts.filter(_id => _id === id)
+    await userController.putUser(token, {contacts: user.contacts})
+    deleteRelation = await RelationModel.findByIdAndDelete(id);
+  }
+
+  let company = await CompanyModel.find({employeesId: token.sub.id});
+  company[0].contacts = company[0].contacts.filter(_id => _id === id)
+
+  return deleteRelation;
 };
 
 module.exports = {

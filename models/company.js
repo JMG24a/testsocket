@@ -1,4 +1,4 @@
-const { ObjectId } = require('mongodb');
+const { ObjectId, ObjectID } = require('mongodb');
 const { Schema, model } = require('mongoose');
 
 const companySchema = Schema(
@@ -120,7 +120,7 @@ const companySchema = Schema(
       ActualDealValue: { type: String },
       dealLength: { type: String },
     },
-    contacts: {
+    contacts: [{
       name :{type: String},
       lastName :{type: String},
       accountID	:{type: String},
@@ -131,8 +131,10 @@ const companySchema = Schema(
       phone	: {type: String},
       title	: {type: String},
       observations: {type: String},
-      source: {type: String}
-    }
+      source: {type: String},
+      updatedAt: {type: Date},
+      createdAt: {type: Date},
+    }]
   },
   {
     timestamps: true,

@@ -12,7 +12,7 @@ const getRelationsUser = async (id) => {
   }
   const user = await userController.getUser(id)
   const relationByUser = await RelationModel.find({userId: id});
-  const relationByCompany = await RelationModel.find({userId: user.companyProfile.idCompany});
+  const relationByCompany = await RelationModel.find({userId: user.company});
 
   const relation = [
     ...relationByUser,

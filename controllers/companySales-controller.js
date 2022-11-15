@@ -1,22 +1,22 @@
-const CompanyProductsModel = require("../models/companyProducts.js");
+const CompanySalesModel = require("../models/companySales.js");
 const CompanyModel = require("../models/company");
 
-const getCompanyProducts = async (idCompany, token, options) => {
+const getCompanySales = async (idCompany, token, options) => {
   const company = await CompanyModel.findById(idCompany)
 
   if(company.employeesId.includes(token.sub.id) === false){
     return "este usuario no es un empleado"
   }
 
-  const Products = await CompanyProductsModel
+  const sales = await CompanySalesModel
     .find({idCompany: idCompany})
     .limit(options.limit)
     .skip(options.offset);
 
-  return Products
+  return sales
 };
 
-const postCompanyProduct = async (body, token, idCompany) => {
+const postCompanySale = async (body, token, idCompany) => {
   try {
     const company = await CompanyModel.findById(idCompany)
 
@@ -24,8 +24,8 @@ const postCompanyProduct = async (body, token, idCompany) => {
       return "este usuario no es un empleado"
     }
     body.idCompany = idCompany
-    const newProducts = new CompanyProductsModel(body);
-    const saveObject = await newProducts.save();
+    const newSales = new CompanySalesModel(body);
+    const saveObject = await newSales.save();
 
     return saveObject
   }catch(e){
@@ -33,30 +33,30 @@ const postCompanyProduct = async (body, token, idCompany) => {
   }
 };
 
-const putCompanyProduct = async (id, body, token) => {
+const putCompanySale = async (id, body, token) => {
 
   const company = await CompanyModel.findById(body.idCompany);
   if(!company.employeesId.includes(token.sub.id)){
     return "este usuario no es un empleado"
   }
 
-  const editCompanyProducts = await CompanyProductsModel.findByIdAndUpdate(id, body, { new: true });
-  return editCompanyProducts
+  const editCompanySales = await CompanySalesModel.findByIdAndUpdate(id, body, { new: true });
+  return editCompanySales
 };
 
-const deleteCompanyProduct = async (id, token, idCompany) => {
+const deleteCompanySale = async (id, token, idCompany) => {
   const company = await CompanyModel.findById(idCompany);
   if(!company.employeesId.includes(token.sub.id)){
     return "este usuario no es un empleado"
   }
 
-  const delCompanyOrder = await CompanyProductsModel.findByIdAndDelete(id);
+  const delCompanyOrder = await CompanySalesModel.findByIdAndDelete(id);
   return delCompanyOrder ? true : false;
 };
 
 module.exports = {
-  getCompanyProducts,
-  postCompanyProduct,
-  putCompanyProduct,
-  deleteCompanyProduct
+  getCompanySales,
+  postCompanySale,
+  putCompanySale,
+  deleteCompanySale
 }

@@ -33,6 +33,24 @@ const getRelationsUser = async (req, res) => {
   }
 };
 
+const getRelationsCompany = async (req, res) => {
+  const token = req.myPayload
+  try{
+    const relation = await relationsController.getRelationsCompany(token.sub.id)
+
+    res.status(200).json({
+      ok: true,
+      msg: "Propiedad",
+      relation
+    });
+  }catch(e){
+    res.status(400).json({
+      ok: false,
+      msg: "Intenta mas tarde",
+    });
+  }
+};
+
 const getRelation = async (req, res) => {
   const token = req.myPayload
   const { idRelation } = req.params
@@ -112,6 +130,7 @@ const deleteRelation = async (req, res) => {
 
 router.get("/", getRelations);
 router.get("/user", validateToken, getRelationsUser);
+router.get("/company", validateToken, getRelationsCompany);
 router.get("/user/:idRelation", validateToken, getRelation);
 router.post("/", validateToken, postRelation);
 router.put("/:id", putRelation);

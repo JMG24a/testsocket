@@ -12,7 +12,7 @@ const getRelationsUser = async (id) => {
   }
   const user = await userController.getUser(id)
   const relationByUser = await RelationModel.find({userId: id});
-  const relationByCompany = await RelationModel.find({userId: user.company});
+  const relationByCompany = await RelationModel.find({companyId: user.companies});
 
   const relation = [
     ...relationByUser,
@@ -21,6 +21,24 @@ const getRelationsUser = async (id) => {
 
   return relation
 };
+
+const getRelationsCompany = async (id) => {
+  console.log(id)
+  if(!id){
+    return 'La propiedad no fue encontrada'
+  }
+
+  const user = await userController.getUser(id)
+  console.log("user",user)
+  const relationByCompany = await RelationModel.find({companyId: user.companies[0]._id});
+  console.log("user",relationByCompany)
+  const relation = [
+    ...relationByCompany
+  ]
+
+  return relation
+};
+
 
 const getRelation = async (id, idRelation) => {
   if(!id){
@@ -32,16 +50,26 @@ const getRelation = async (id, idRelation) => {
 
 const postRelation = async (body, token) => {
   try {
-    body.userId = token.sub.id;
-    const relation = new RelationModel(body);
-    const saveObject = await relation.save();
-
+    let RelationsOwner
     const user = await userController.getUser(token.sub.id)
-    user.contacts.push(saveObject.id)
+    if(user.companies[0]._id){
+      body.companyId = user.companies[0]._id;
+      const relation = new RelationModel(body);
+      const saveObject = await relation.save();
 
-    await userController.putUser(token, {contacts: user.contacts})
+      RelationsOwner = await getRelationsCompany(token.sub.id)
+      console.log("???", "s, ",RelationsOwner)
+    }else{
+      body.userId = token.sub.id;
+      const relation = new RelationModel(body);
+      const saveObject = await relation.save();
 
-    const RelationsOwner = await getRelation(token.sub.id)
+      user.contacts.push(saveObject.id)
+
+      await userController.putUser(token, {contacts: user.contacts})
+
+      RelationsOwner = await getRelation(token.sub.id)
+    }
 
     return RelationsOwner
   }catch(e){
@@ -72,6 +100,7 @@ const deleteRelation = async (id, token) => {
 module.exports = {
   getRelations,
   getRelationsUser,
+  getRelationsCompany,
   getRelation,
   postRelation,
   putRelation,

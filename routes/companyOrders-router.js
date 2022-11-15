@@ -90,4 +90,4 @@ router.post("/:idCompany", validateToken, postCompanyOrder);
 router.put("/:id",validateToken, putCompanyOrder);
 router.delete("/:idCompany/:id", validateToken, deleteCompanyOrder);
 
-module.exports = router
+module.exports = router;

@@ -97,10 +97,9 @@ const deleteRelation = async (id, token) => {
     user.contacts = user.contacts.filter(_id => _id === id)
     await userController.putUser(token, {contacts: user.contacts})
     deleteRelation = await RelationModel.findByIdAndDelete(id);
+  }else{
+    deleteRelation = await RelationModel.findByIdAndDelete(id);
   }
-
-  let company = await CompanyModel.find({employeesId: token.sub.id});
-  company[0].contacts = company[0].contacts.filter(_id => _id === id)
 
   return deleteRelation;
 };

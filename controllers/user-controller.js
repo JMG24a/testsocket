@@ -13,7 +13,7 @@ const getUser = async (id) => {
   if (!id) {
     return 'El usuario no fue encontrado';
   }
-
+  console.log("this")
   const userR = await UsersModel.findById(id)
     .populate('favoriteForms')
     .populate('propertiesOwned')

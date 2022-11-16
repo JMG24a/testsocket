@@ -15,6 +15,12 @@ const relationSchema = Schema({
   tag: {type: String, default: "Cliente" },
   userId:[{ type: Schema.Types.ObjectId, ref: 'User' }],
   companyId:[{ type: Schema.Types.ObjectId, ref: 'Company' }],
+  accountId: { type: Schema.Types.ObjectId, ref: 'CompanyAccounts' },
+  priority :{type: String},
+  type :{type: String},
+  title	: {type: String},
+  observations: {type: String},
+  source: {type: String},
 },
 {
   timestamps: true,

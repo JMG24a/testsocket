@@ -1,5 +1,6 @@
 const CompanyAccountsModel = require("../models/companyAccounts");
 const CompanyModel = require("../models/company");
+const { importAccountsFromXLSX } = require("../services/importAccounts")
 
 const getCompanyAccounts = async (idCompany, token, options) => {
   const company = await CompanyModel.findById(idCompany)
@@ -33,6 +34,15 @@ const postCompanyAccount = async (body, token, idCompany) => {
   }
 };
 
+const importCompanyAccount = async (body, token, idCompany) => {
+  try {
+    // importAccountsFromXLSX(body)
+    return "/'"
+  }catch(e){
+    throw new Error ('El usuario no pudo ser creado')
+  }
+};
+
 const putCompanyAccount = async (id, body, token) => {
 
   const company = await CompanyModel.findById(body.idCompany);
@@ -57,6 +67,7 @@ const deleteCompanyAccount = async (id, token, idCompany) => {
 module.exports = {
   getCompanyAccounts,
   postCompanyAccount,
+  importCompanyAccount,
   putCompanyAccount,
   deleteCompanyAccount
 }

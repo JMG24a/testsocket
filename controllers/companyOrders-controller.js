@@ -20,7 +20,7 @@ const postCompanyOrder = async (body, token, idCompany) => {
     if(!company.employeesId.includes(token.sub.id)){
       return "este usuario no es un empleado"
     }
-
+    body.idCompany = idCompany
     const companyOrder = new CompanyOrdersModel(body);
     const saveObject = await companyOrder.save();
 

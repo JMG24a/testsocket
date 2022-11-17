@@ -7,9 +7,10 @@ const router = Router();
 
 const getCompanyOrders = async (req, res) => {
   const {idCompany} = req.params;
+  const options = req.query;
   const token = req.myPayload
   try{
-    const orders = await companyOrdersController.getCompanyOrders(idCompany, token)
+    const orders = await companyOrdersController.getCompanyOrders(idCompany, token, options)
 
     res.status(200).json({
       ok: true,

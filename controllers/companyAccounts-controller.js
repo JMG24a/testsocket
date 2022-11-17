@@ -11,6 +11,7 @@ const getCompanyAccounts = async (idCompany, token, options) => {
 
   const Accounts = await CompanyAccountsModel
     .find({idCompany: idCompany})
+    .populate("contactId")
     .limit(options.limit)
     .skip(options.offset);
 

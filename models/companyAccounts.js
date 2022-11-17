@@ -17,7 +17,9 @@ const companyAccountSchema = Schema({
   address: {type: String},
   country: {type: String},
   nit: {type: String},
-  stage: {type: String}
+  stage: {type: String},
+  phone: {type: String},
+  mobile: {type: String}
 },
 {
   timestamps: true,

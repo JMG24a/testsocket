@@ -82,7 +82,7 @@ const deleteCompanyProduct = async (req, res) => {
 
   res.status(200).json({
     msg: "Eliminado con exito",
-    success: isDelete
+    ok: isDelete
   });
 };
 

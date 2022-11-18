@@ -82,13 +82,13 @@ const deleteCompanyAccount = async (req, res) => {
 
   res.status(200).json({
     msg: "Eliminado con exito",
-    success: isDelete
+    ok: isDelete
   });
 };
 
 router.get("/:idCompany", validateToken, getCompanyAccounts);
 router.post("/:idCompany", validateToken, postCompanyAccount);
-router.put("/:id",validateToken, putCompanyAccount);
+router.put("/:id", validateToken, putCompanyAccount);
 router.delete("/:idCompany/:id", validateToken, deleteCompanyAccount);
 
 module.exports = router

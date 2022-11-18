@@ -39,13 +39,16 @@ const postCompanyOrder = async (body, token, idCompany) => {
 
 const putCompanyOrder= async (id, body, token) => {
   const user = await UserModel.findById(token.sub.id)
+
   const company = await CompanyModel.findById(user.companies);
   if(!company.employeesId.includes(token.sub.id)){
     return "este usuario no es un empleado"
   }
 
-  const editCompanyOrder = await CompanyOrdersModel.findByIdAndUpdate(id, body, { new: true });
-  return editCompanyOrder
+  await CompanyOrdersModel.findByIdAndUpdate(id, body, { new: true });
+
+  const orderPopulate = await CompanyOrdersModel.findById(id).populate('contact')
+  return orderPopulate
 };
 
 const deleteCompanyOrder = async (id, token, idCompany) => {

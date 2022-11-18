@@ -1,6 +1,6 @@
 const CompanyOrdersModel = require("../models/companyOrders");
 const CompanyModel = require("../models/company");
-const userController = require("../controllers/user-controller");
+const UserModel = require("../models/User");
 
 const getCompanyOrders = async (idCompany, token, options) => {
   const company = await CompanyModel.findById(idCompany)
@@ -38,8 +38,8 @@ const postCompanyOrder = async (body, token, idCompany) => {
 };
 
 const putCompanyOrder= async (id, body, token) => {
-
-  const company = await CompanyModel.findById(body.idCompany);
+  const user = await UserModel.findById(token.sub.id)
+  const company = await CompanyModel.findById(user.companies);
   if(!company.employeesId.includes(token.sub.id)){
     return "este usuario no es un empleado"
   }

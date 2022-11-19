@@ -16,6 +16,7 @@ const companyAccountSchema = Schema({
   city: {type: String},
   address: {type: String},
   country: {type: String},
+  state: {type: String},
   nit: {type: String},
   stage: {type: String},
   phone: {type: String},

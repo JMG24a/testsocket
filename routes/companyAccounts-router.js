@@ -5,6 +5,26 @@ const { validateToken } = require('../auth/middleware/jwt');
 
 const router = Router();
 
+const getSearchAccounts = async (req, res) => {
+  const {value} = req.params;
+  const options = req.query;
+  const token = req.myPayload;
+  try{
+    const accounts = await companyAccountController.getSearchAccounts(value, token, options)
+
+    res.status(200).json({
+      ok: true,
+      msg: "Listado de productos",
+      accounts,
+    });
+  }catch(e){
+    res.status(400).json({
+      ok: false,
+      msg: "Intenta mas tarde",
+    });
+  }
+}
+
 const getCompanyAccounts = async (req, res) => {
   const {idCompany} = req.params;
   const options = req.query;
@@ -86,6 +106,7 @@ const deleteCompanyAccount = async (req, res) => {
   });
 };
 
+router.get("/search/:value", validateToken, getSearchAccounts);
 router.get("/:idCompany", validateToken, getCompanyAccounts);
 router.post("/:idCompany", validateToken, postCompanyAccount);
 router.put("/:id", validateToken, putCompanyAccount);

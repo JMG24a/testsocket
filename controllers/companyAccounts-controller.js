@@ -1,6 +1,31 @@
 const CompanyAccountsModel = require("../models/companyAccounts");
 const CompanyModel = require("../models/company");
+const UserModel = require("../models/User")
 const { importAccountsFromXLSX } = require("../services/importAccounts")
+
+const getSearchAccounts = async (value, token, options) => {
+  try {
+    const user = await UserModel.findById(token.sub.id)
+    if(!user){
+      return "este no es un usuario"
+    }
+    const company = await CompanyModel.findById(user.companies);
+    if(!company.employeesId.includes(token.sub.id)){
+      return "este usuario no es un empleado"
+    }
+
+    const regex = new RegExp(value.replace("_", " "));
+
+    const Accounts = await CompanyAccountsModel
+      .find({$and: [{accountName: {$regex: regex, $options: 'gi'}},{id: user.companies}]})
+      .limit(options.limit)
+      .skip(options.offset);
+
+    return Accounts
+  } catch (error) {
+    console.log(error)
+  }
+};
 
 const getCompanyAccounts = async (idCompany, token, options) => {
   const company = await CompanyModel.findById(idCompany)
@@ -66,6 +91,7 @@ const deleteCompanyAccount = async (id, token, idCompany) => {
 };
 
 module.exports = {
+  getSearchAccounts,
   getCompanyAccounts,
   postCompanyAccount,
   importCompanyAccount,

@@ -10,6 +10,7 @@ const getCompanyQuotations = async (idCompany, token, options) => {
 
   const quotations = await CompanyQuotationsModel
     .find({idCompany: idCompany})
+    .populate('contact')
     .limit(options.limit)
     .skip(options.offset);
 

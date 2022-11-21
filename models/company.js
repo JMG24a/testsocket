@@ -10,6 +10,10 @@ const companySchema = Schema(
     mobile: { type: String },
     userId: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     employeesId: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    employees: [{
+      id: { type: Schema.Types.ObjectId, ref: 'User' },
+      status: { type: Boolean, default: false },
+    }],
     socialNetworks: {
       webPage: { type: String },
       facebookUrl: { type: String },

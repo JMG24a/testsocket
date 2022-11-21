@@ -55,6 +55,7 @@ const putCompany = async (id, body) => {
   if (typeof company === 'string') {
     return company
   }
+  console.log(body, id)
 
   const newCompany = await CompanyModel.findByIdAndUpdate(id, body, { new: true });
   return newCompany
@@ -70,19 +71,60 @@ const deleteCompany = async (id, token) => {
 };
 
 //employees
-const addEmployeeCompany = async (token, userId) => {
-  const companies = await CompanyModel.find({userId: token.sub.id});
-  companies[0].employeesId.push(userId)
+// Se comento esta ruta ya que se cambio la estrategia de relacion usuaro/empresa
+// const addEmployeeCompany = async (token, userId) => {
+//   const companies = await CompanyModel.find({userId: token.sub.id});
+//   companies[0].employeesId.push(userId)
+//   companies[0].employees.push({id: userId, status: false})
 
-  const tokenEmployeeUser = {
-    sub: {
-      id: userId
+//   const tokenEmployeeUser = {
+//     sub: {
+//       id: userId
+//     }
+//   }
+//   await userController.putUser(tokenEmployeeUser, {idCompany: companies._id})
+
+//   const newCompany = await CompanyModel.updateOne({userId: token.sub.id}, {
+//     employeesId: companies[0].employeesId
+//   }, { new: true });
+
+//   return  newCompany
+// }
+
+const addEmployeeCompanyById = async (token, idCompany) => {
+  try {
+    const companies = await CompanyModel.find({id: idCompany});
+    companies[0].employeesId.push(userId)
+    companies[0].employees.push({id: token.sub.id, status: false})
+
+    const tokenEmployeeUser = {
+      sub: {
+        id: userId
+      }
     }
+    await userController.putUser(tokenEmployeeUser, {idCompany: companies._id})
+
+    const newCompany = await CompanyModel.updateOne({userId: token.sub.id}, {
+      employeesId: companies[0].employeesId,
+      employees: companies[0].employees
+    }, { new: true });
+
+    return  newCompany
+  } catch (error) {
+    console.log(error.message)
   }
-  await userController.putUser(tokenEmployeeUser, {idCompany: companies._id})
+}
+
+const disabledEmployeeCompany = async (token, userId) => {
+  const companies = await CompanyModel.find({userId: token.sub.id});
+  const index = companies[0].employeesId.indexOf(userId);
+  const userObject = companies[0].employees[index];
+
+  userObject.status = !userObject.status;
+  companies[0].employees[index] = userObject;
 
   const newCompany = await CompanyModel.updateOne({userId: token.sub.id}, {
-    employeesId: companies[0].employeesId
+    employeesId: companies[0].employees
   }, { new: true });
 
   return  newCompany
@@ -213,7 +255,9 @@ module.exports = {
   putCompany,
   deleteCompany,
   //employees
-  addEmployeeCompany,
+  // addEmployeeCompany,
+  addEmployeeCompanyById,
+  disabledEmployeeCompany,
   getEmployeeTakesCompanyInfo,
   createEmployeeTakesCompanyInfo,
   editEmployeeTakesCompanyInfo,

@@ -144,6 +144,46 @@ const addEmployeeCompany = async (req, res) => {
   }
 }
 
+const addEmployeeCompanyById = async(req, res) => {
+  const token = req.myPayload;
+  const {idCompany} = req.body;
+
+  try{
+    const addUser = await CompanyController.addEmployeeCompanyById(token, idCompany)
+
+    res.status(200).json({
+      ok: true,
+      msg: "company",
+      employees: addUser
+    });
+  }catch(e){
+    res.status(400).json({
+      ok: false,
+      msg: "Intenta mas tarde",
+    });
+  }
+}
+
+const disabledEmployeeCompany = async (req, res) => {
+  const token = req.myPayload;
+  const {userId} = req.body;
+
+  try{
+    const disabledUser = await CompanyController.disabledEmployeeCompany(token, userId)
+
+    res.status(200).json({
+      ok: true,
+      msg: "company",
+      employees: disabledUser
+    });
+  }catch(e){
+    res.status(400).json({
+      ok: false,
+      msg: "Intenta mas tarde",
+    });
+  }
+}
+
 const getEmployeeTakesCompanyInfo = async (req, res) => {
   const {idCompany} = req.params;
   const token = req.myPayload;
@@ -236,7 +276,9 @@ router.post("/", validateToken, postCompany);
 router.put("/:id", putCompany);
 router.delete("/:id", validateToken, deleteCompany);
 //employee
-router.put("/employee/add", validateToken, addEmployeeCompany);
+// router.put("/employee/add", validateToken, addEmployeeCompany);
+router.put("/employee/addById", validateToken, addEmployeeCompanyById);
+router.put("/employee/disable", validateToken, disabledEmployeeCompany);
 router.get("/employee/:idCompany", validateToken, getEmployeeTakesCompanyInfo);
 router.put("/employee/post/:idCompany", validateToken, createEmployeeTakesCompanyInfo);
 router.put("/employee/put/:idCompany", validateToken, editEmployeeTakesCompanyInfo);

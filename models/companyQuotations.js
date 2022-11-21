@@ -2,7 +2,7 @@ const { Schema, model } = require("mongoose");
 
 const companyQuotationSchema = Schema({
   idCompany: { type: Schema.Types.ObjectId, ref: 'Company' },
-  contact: { type: Schema.Types.ObjectId, ref: 'Relation'},
+  contact: { type: Schema.Types.ObjectId, ref: 'CompanyAccounts'},
   products: { type: Schema.Types.ObjectId, ref: 'companyProduct'},
   date: {type: String},
   paymentMethod: {type: String},
@@ -10,7 +10,8 @@ const companyQuotationSchema = Schema({
   observations: {type: String},
   subTotal: {type: String},
   valueIva: {type: String},
-  sendValue: {type: String},
+  shippingValue: {type: String},
+  quotationNumber: {type: Number},
   total: {type: String},
 },
 {

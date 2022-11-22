@@ -5,15 +5,14 @@ const companyOrderSchema = Schema({
   contact: { type: Schema.Types.ObjectId, ref: 'CompanyAccounts' },
   products: [{
     name: {type: String},
-    price: {type: Number},
+    price: {type: String},
     description: {type: String},
     unity: {type: Number}
   }],
-  orderNumber: {type: Number},
+  orderNumber: {type: String},
   accountPhone: {type: String},
   accountName: {type: String},
   status: { type: String },
-  importation: { type: String },
   shippingDate: { type: String },
   DateOfReceipt: { type: String },
   observations: { type: String },

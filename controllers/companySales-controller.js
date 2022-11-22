@@ -10,7 +10,7 @@ const getCompanySales = async (idCompany, token, options) => {
 
   const sales = await CompanySalesModel
     .find({idCompany: idCompany})
-    .populate("contactId")
+    .populate("contact")
     .limit(options.limit)
     .skip(options.offset);
 

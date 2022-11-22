@@ -61,9 +61,9 @@ const postCompanyAccount = async (body, token, idCompany) => {
 };
 
 const importCompanyAccount = async (body, token, idCompany) => {
+  console.log('%cMyProject%cline:63%cbody', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(178, 190, 126);padding:3px;border-radius:2px', body)
   try {
-    // importAccountsFromXLSX(body)
-    return "/'"
+    return "cargando documento"
   }catch(e){
     throw new Error ('El usuario no pudo ser creado')
   }

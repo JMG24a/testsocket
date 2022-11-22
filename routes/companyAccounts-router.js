@@ -66,6 +66,27 @@ const postCompanyAccount = async (req, res) => {
   }
 };
 
+const importCompanyAccount = async (req, res) => {
+  const {idCompany} = req.params;
+  const token = req.myPayload
+  const body = req.body;
+
+  try {
+    const newAccounts = await companyAccountController.importCompanyAccount(body, token, idCompany);
+    res.status(201).json({
+      ok: true,
+      msg: "Creado",
+      newAccounts
+    });
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      msg: "Error en la peticion",
+      error,
+    });
+  }
+}
+
 const putCompanyAccount = async (req, res) => {
   const { id } = req.params;
   const body = req.body;
@@ -108,6 +129,7 @@ const deleteCompanyAccount = async (req, res) => {
 
 router.get("/search/:value", validateToken, getSearchAccounts);
 router.get("/:idCompany", validateToken, getCompanyAccounts);
+router.post("/import/:idCompany", validateToken, importCompanyAccount)
 router.post("/:idCompany", validateToken, postCompanyAccount);
 router.put("/:id", validateToken, putCompanyAccount);
 router.delete("/:idCompany/:id", validateToken, deleteCompanyAccount);

@@ -69,7 +69,6 @@ const postCompanyPurchaseOrder = async (body, token, idCompany) => {
 };
 
 const putCompanyPurchase = async (id, body, token) => {
-  console.log('%cMyProject%cline:71%cbody', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(60, 79, 57);padding:3px;border-radius:2px', body)
   const user = await UserModel.findById(token.sub.id)
   if(!user){
     return "este no es un usuario"
@@ -85,8 +84,12 @@ const putCompanyPurchase = async (id, body, token) => {
   return PurchasePopulate
 };
 
-const deleteCompanyPurchase = async (id, token, idCompany) => {
-  const company = await CompanyModel.findById(idCompany);
+const deleteCompanyPurchaseOrder = async (id, token) => {
+  const user = await UserModel.findById(token.sub.id)
+  if(!user){
+    return "este no es un usuario"
+  }
+  const company = await CompanyModel.findById(user.companies);
   if(!company.employeesId.includes(token.sub.id)){
     return "este usuario no es un empleado"
   }
@@ -100,5 +103,5 @@ module.exports = {
   getCompanyPurchases,
   postCompanyPurchaseOrder,
   putCompanyPurchase,
-  deleteCompanyPurchase
+  deleteCompanyPurchaseOrder
 }

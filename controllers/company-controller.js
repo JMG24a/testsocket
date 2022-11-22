@@ -94,17 +94,12 @@ const deleteCompany = async (id, token) => {
 const addEmployeeCompanyById = async (token, idCompany) => {
   try {
     const companies = await CompanyModel.find({id: idCompany});
-    companies[0].employeesId.push(userId)
+    companies[0].employeesId.push(token.sub.id)
     companies[0].employees.push({id: token.sub.id, status: false})
 
-    const tokenEmployeeUser = {
-      sub: {
-        id: userId
-      }
-    }
-    await userController.putUser(tokenEmployeeUser, {idCompany: companies._id})
+    await userController.putUser(token, {idCompany: companies._id})
 
-    const newCompany = await CompanyModel.updateOne({userId: token.sub.id}, {
+    const newCompany = await CompanyModel.updateOne({id: companies._id}, {
       employeesId: companies[0].employeesId,
       employees: companies[0].employees
     }, { new: true });

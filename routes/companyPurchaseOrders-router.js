@@ -97,9 +97,9 @@ const putCompanyPurchase = async (req, res) => {
 };
 
 const deleteCompanyPurchaseOrder = async (req, res) => {
-  const {id, idCompany} = req.params;
+  const {id} = req.params;
   const token = req.myPayload
-  const isDelete = await companyPurchaseOrdersController.deleteCompanyPurchaseOrder(id, token, idCompany)
+  const isDelete = await companyPurchaseOrdersController.deleteCompanyPurchaseOrder(id, token)
 
   res.status(200).json({
     msg: "Eliminado con exito",
@@ -111,6 +111,6 @@ router.get("/search/:value", validateToken, getSearchPurchases);
 router.get("/:idCompany", validateToken, getCompanyPurchases);
 router.post("/:idCompany", validateToken, postCompanyPurchaseOrder);
 router.put("/:id",validateToken, putCompanyPurchase);
-router.delete("/:idCompany/:id", validateToken, deleteCompanyPurchaseOrder);
+router.delete("/:id", validateToken, deleteCompanyPurchaseOrder);
 
 module.exports = router;

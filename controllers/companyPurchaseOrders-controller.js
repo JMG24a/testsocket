@@ -1,9 +1,9 @@
-const CompanyOrdersModel = require("../models/companyOrders");
+const CompanyPurchasesModel = require("../models/companyPurchaseOrders");
 const CompanyAccountsModel = require("../models/companyAccounts");
 const CompanyModel = require("../models/company");
 const UserModel = require("../models/User");
 
-const getSearchOrders = async (value, token, options) => {
+const getSearchPurchases = async (value, token, options) => {
   const user = await UserModel.findById(token.sub.id)
   if(!user){
     return "este no es un usuario"
@@ -13,47 +13,37 @@ const getSearchOrders = async (value, token, options) => {
     return "este usuario no es un empleado"
   }
   try {
-    const er = new RegExp(value.replace("_", " ")); //query
+    const regex = new RegExp(value.replace("_", " ")); //query
 
-    const orders = await CompanyOrdersModel
-      .find({
-        $and: [
-          {
-            $or: [
-              {"accountName": {$regex: er, $options: 'gi'}},
-              {"accountPhone": {$regex: er, $options: 'gi'}},
-            ]
-          },
-            {id: user.companies}
-        ]
-      })
+    const Purchases = await CompanyPurchasesModel
+      .find({ $and: [{accountPhone: {$regex: regex, $options: 'gi'}},{id: user.companies}]})
       .populate('contact')
       .limit(options.limit)
       .skip(options.offset);
 
-    return orders
+    return Purchases
   } catch (error) {
     console.log(error)
   }
 };
 
-const getCompanyOrders = async (idCompany, token, options) => {
+const getCompanyPurchases = async (idCompany, token, options) => {
   const company = await CompanyModel.findById(idCompany)
 
   if(company.employeesId.includes(token.sub.id) === false){
     return "este usuario no es un empleado"
   }
 
-  const orders = await CompanyOrdersModel
+  const Purchases = await CompanyPurchasesModel
     .find({idCompany: idCompany})
     .populate('contact')
     .limit(options.limit)
     .skip(options.offset);
 
-  return orders
+  return Purchases
 };
 
-const postCompanyOrder = async (body, token, idCompany) => {
+const postCompanyPurchaseOrder = async (body, token, idCompany) => {
   try {
     const company = await CompanyModel.findById(idCompany)
 
@@ -67,18 +57,19 @@ const postCompanyOrder = async (body, token, idCompany) => {
     }
     body.idCompany = idCompany
 
-    const companyOrder = new CompanyOrdersModel(body);
-    const saveObject = await companyOrder.save();
+    const companyPurchase = new CompanyPurchasesModel(body);
+    const saveObject = await companyPurchase.save();
 
-    const newOrder = await CompanyOrdersModel.findById(saveObject._id).populate('contact')
-    return newOrder
+    const newPurchase = await CompanyPurchasesModel.findById(saveObject._id).populate('contact')
+    return newPurchase
   }catch(e){
     console.log(e)
     throw new Error ('El usuario no pudo ser creado')
   }
 };
 
-const putCompanyOrder= async (id, body, token) => {
+const putCompanyPurchase = async (id, body, token) => {
+  console.log('%cMyProject%cline:71%cbody', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(60, 79, 57);padding:3px;border-radius:2px', body)
   const user = await UserModel.findById(token.sub.id)
   if(!user){
     return "este no es un usuario"
@@ -88,26 +79,26 @@ const putCompanyOrder= async (id, body, token) => {
     return "este usuario no es un empleado"
   }
 
-  await CompanyOrdersModel.findByIdAndUpdate(id, body, { new: true });
+  await CompanyPurchasesModel.findByIdAndUpdate(id, body, { new: true });
 
-  const orderPopulate = await CompanyOrdersModel.findById(id).populate('contact')
-  return orderPopulate
+  const PurchasePopulate = await CompanyPurchasesModel.findById(id).populate('contact')
+  return PurchasePopulate
 };
 
-const deleteCompanyOrder = async (id, token, idCompany) => {
+const deleteCompanyPurchase = async (id, token, idCompany) => {
   const company = await CompanyModel.findById(idCompany);
   if(!company.employeesId.includes(token.sub.id)){
     return "este usuario no es un empleado"
   }
 
-  const delCompanyOrder = await CompanyOrdersModel.findByIdAndDelete(id);
-  return delCompanyOrder ? true : false;
+  const delCompanyPurchase = await CompanyPurchasesModel.findByIdAndDelete(id);
+  return delCompanyPurchase ? true : false;
 };
 
 module.exports = {
-  getSearchOrders,
-  getCompanyOrders,
-  postCompanyOrder,
-  putCompanyOrder,
-  deleteCompanyOrder
+  getSearchPurchases,
+  getCompanyPurchases,
+  postCompanyPurchaseOrder,
+  putCompanyPurchase,
+  deleteCompanyPurchase
 }

@@ -28,7 +28,8 @@ const postCompanyQuotation = async (body, token, idCompany) => {
     const newQuotations = new CompanyQuotationsModel(body);
     const saveObject = await newQuotations.save();
 
-    return saveObject
+    const newQuotation = await CompanyQuotationsModel.findById(saveObject._id).populate('contact')
+    return newQuotation
   }catch(e){
     throw new Error ('El usuario no pudo ser creado')
   }
@@ -41,8 +42,9 @@ const putCompanyQuotation = async (id, body, token) => {
     return "este usuario no es un empleado"
   }
 
-  const editCompanyQuotations = await CompanyQuotationsModel.findByIdAndUpdate(id, body, { new: true });
-  return editCompanyQuotations
+  await CompanyQuotationsModel.findByIdAndUpdate(id, body, { new: true });
+  const editQuotation = await CompanyQuotationsModel.findById(id).populate('contact')
+  return editQuotation
 };
 
 const deleteCompanyQuotation = async (id, token, idCompany) => {

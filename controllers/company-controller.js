@@ -3,11 +3,6 @@ const RelationModel = require("../models/Relation");
 const userController = require("../controllers/user-controller");
 const {editObject, createObject, delObject} = require("./tools/company-tools")
 
-const getCompanies = async () => {
-  const companies = await CompanyModel.find();
-  return companies
-};
-
 const getCompaniesUser = async (id) => {
   if(!id){
     return 'La propiedad no fue encontrada'
@@ -28,7 +23,7 @@ const getCompany = async (id, idCompany) => {
   if(!id){
     return 'La propiedad no fue encontrada'
   }
-  const company = await CompanyModel.find({id: idCompany});
+  const company = await CompanyModel.find({id: idCompany}).populate('employees');
   return company
 };
 
@@ -92,14 +87,15 @@ const deleteCompany = async (id, token) => {
 // }
 
 const addEmployeeCompanyById = async (token, idCompany) => {
+  console.log('%cMyProject%cline:94%cidCompany', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(38, 157, 128);padding:3px;border-radius:2px', idCompany)
   try {
     const companies = await CompanyModel.find({id: idCompany});
     companies[0].employeesId.push(token.sub.id)
-    companies[0].employees.push({id: token.sub.id, status: false})
+    companies[0].employees.push({idEmployeeRef: token.sub.id, status: false})
 
-    await userController.putUser(token, {idCompany: companies._id})
+    await userController.putUser(token, {idCompany: idCompany})
 
-    const newCompany = await CompanyModel.updateOne({id: companies._id}, {
+    const newCompany = await CompanyModel.updateOne({id: idCompany}, {
       employeesId: companies[0].employeesId,
       employees: companies[0].employees
     }, { new: true });
@@ -242,7 +238,6 @@ const deleteEmployeeTakesCompanyInfo = async (token, idCompany, id) => {
 }
 
 module.exports = {
-  getCompanies,
   getCompaniesUser,
   getCompanyRepLegal,
   getCompany,

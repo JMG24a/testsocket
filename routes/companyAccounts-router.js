@@ -44,6 +44,25 @@ const getCompanyAccounts = async (req, res) => {
   }
 };
 
+const getCompanyAccountsById = async (req, res) => {
+  const options = req.query;
+  const token = req.myPayload;
+  try{
+    const accounts = await companyAccountController.getCompanyAccountsById(token, options)
+
+    res.status(200).json({
+      ok: true,
+      msg: "Listado de Accountos",
+      accounts,
+    });
+  }catch(e){
+    res.status(400).json({
+      ok: false,
+      msg: "Intenta mas tarde",
+    });
+  }
+};
+
 const postCompanyAccount = async (req, res) => {
   const token = req.myPayload
   const body = req.body;
@@ -127,6 +146,7 @@ const deleteCompanyAccount = async (req, res) => {
 
 router.get("/search/:value", validateToken, getSearchAccounts);
 router.get("/", validateToken, getCompanyAccounts);
+router.get("/:id", validateToken, getCompanyAccountsById);
 router.post("/import", validateToken, importCompanyAccount)
 router.post("/", validateToken, postCompanyAccount);
 router.put("/:id", validateToken, putCompanyAccount);

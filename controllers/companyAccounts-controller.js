@@ -55,6 +55,26 @@ const getCompanyAccounts = async (token, options) => {
   return Accounts
 };
 
+const getCompanyAccountsById = async (token, id) => {
+  const user = await UserModel.findById(token.sub.id)
+  if(!user){
+    return "este no es un usuario"
+  }
+  const company = await CompanyModel.findById(user.companies)
+  if(company !== null){
+    if(company.employeesId.includes(token.sub.id) === false){
+      return "este usuario no es un empleado"
+    }
+  }
+
+  const Accounts = await CompanyAccountsModel
+    .findById(id)
+    .populate("contactId")
+
+  return Accounts
+};
+
+
 const postCompanyAccount = async (body, token) => {
   try {
     const user = await UserModel.findById(token.sub.id)
@@ -156,6 +176,7 @@ const deleteCompanyAccount = async (id, token) => {
 module.exports = {
   getSearchAccounts,
   getCompanyAccounts,
+  getCompanyAccountsById,
   postCompanyAccount,
   importCompanyAccount,
   putCompanyAccount,

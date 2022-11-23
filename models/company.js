@@ -11,7 +11,7 @@ const companySchema = Schema(
     userId: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     employeesId: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     employees: [{
-      id: { type: Schema.Types.ObjectId, ref: 'User' },
+      idEmployeeRef: { type: Schema.Types.ObjectId, ref: 'User' },
       status: { type: Boolean, default: false },
     }],
     socialNetworks: {

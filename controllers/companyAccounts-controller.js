@@ -96,7 +96,7 @@ const importCompanyAccount = async (body, token) => {
         account.idCompany = user.companies
         return account
       })
-
+      console.log("CC",company)
       const options = { ordered: true };
       result = await CompanyAccountsModel.insertMany(accounts, options);
       await uploadedAccounts(token.sub.email)
@@ -106,7 +106,7 @@ const importCompanyAccount = async (body, token) => {
         account.idUser = token.sub.id
         return account
       })
-
+      console.log("aC",accounts)
       const options = { ordered: true };
       result = await CompanyAccountsModel.insertMany(accounts, options);
       await uploadedAccounts(token.sub.email)

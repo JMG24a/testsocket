@@ -3,6 +3,8 @@ const { Schema, model } = require("mongoose");
 const companyQuotationSchema = Schema({
   idCompany: { type: Schema.Types.ObjectId, ref: 'Company' },
   contact: { type: Schema.Types.ObjectId, ref: 'CompanyAccounts'},
+  accountName: {type: String},
+  accountPhone: {type: String},
   products: [{
     name: {type: String},
     price: {type: String},

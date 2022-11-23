@@ -45,10 +45,10 @@ const getCompanyAccounts = async (req, res) => {
 };
 
 const getCompanyAccountsById = async (req, res) => {
-  const options = req.query;
   const token = req.myPayload;
+  const {id} = req.params
   try{
-    const accounts = await companyAccountController.getCompanyAccountsById(token, options)
+    const accounts = await companyAccountController.getCompanyAccountsById(token, id)
 
     res.status(200).json({
       ok: true,

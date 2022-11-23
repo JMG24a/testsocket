@@ -39,6 +39,9 @@ const getUserByEmail = async (email) => {
     .populate('vehiclesOwned')
     .populate('contacts')
     .populate('companies')
+    .populate(
+      "companies"
+)
     .populate('profileLicense')
     .populate('plan.planInfo');
 

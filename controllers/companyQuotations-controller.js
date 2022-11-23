@@ -1,4 +1,5 @@
 const CompanyQuotationsModel = require("../models/companyQuotations.js");
+const CompanyAccountsModel = require("../models/companyQuotations.js")
 const CompanyModel = require("../models/company");
 
 const getCompanyQuotations = async (idCompany, token, options) => {
@@ -24,6 +25,13 @@ const postCompanyQuotation = async (body, token, idCompany) => {
     if(!company.employeesId.includes(token.sub.id)){
       return "este usuario no es un empleado"
     }
+    const contact = await CompanyAccountsModel.findById(body.contact)
+    if(contact){
+      body.accountName = contact.accountName
+      body.accountPhone = contact.phone
+    }
+    body.idCompany = idCompany
+
     body.idCompany = idCompany
     const newQuotations = new CompanyQuotationsModel(body);
     const saveObject = await newQuotations.save();

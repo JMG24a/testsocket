@@ -1,6 +1,9 @@
 const { Schema, model } = require("mongoose");
 
 const relationSchema = Schema({
+  userId:[{ type: Schema.Types.ObjectId, ref: 'User' }],
+  companyId:[{ type: Schema.Types.ObjectId, ref: 'Company' }],
+  accountId: { type: Schema.Types.ObjectId, ref: 'CompanyAccounts' },
   name: { type: String, required: true },
   firstLastName: { type: String, required: false },
   email: { type: String, required: false },
@@ -13,9 +16,6 @@ const relationSchema = Schema({
   department: {type: String},
   country: {type: String},
   tag: {type: String, default: "Cliente" },
-  userId:[{ type: Schema.Types.ObjectId, ref: 'User' }],
-  companyId:[{ type: Schema.Types.ObjectId, ref: 'Company' }],
-  accountId: { type: Schema.Types.ObjectId, ref: 'CompanyAccounts' },
   priority :{type: String},
   type :{type: String},
   title	: {type: String},

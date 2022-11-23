@@ -6,12 +6,18 @@ const passport = require("passport");
 const { passport_sessions } = require('./auth')
 require("dotenv").config();
 const { isLoggedIn } = require('./auth/middleware/login')
+const bodyParser = require('body-parser')
 
 // Crear el servidor de express
 const app = express();
 
 // Lectura y parseo del body
-app.use(express.json());
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({
+  extended: true,
+  parameterLimit:100000,
+  limit: "50mb" // limite de los archivo enviados al back
+}))
 app.use(cors());
 // Base de datos
 dbConnection();

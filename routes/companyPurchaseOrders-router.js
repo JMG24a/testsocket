@@ -49,7 +49,6 @@ const postCompanyPurchaseOrder = async (req, res) => {
   const {idCompany} = req.params;
   const token = req.myPayload
   const body = req.body;
-  console.log('%cMyProject%cline:51%cbody', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(20, 68, 106);padding:3px;border-radius:2px', body)
 
   try {
     const newCompanyPurchaseOrder = await companyPurchaseOrdersController.postCompanyPurchaseOrder(body, token, idCompany);

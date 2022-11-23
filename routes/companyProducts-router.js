@@ -9,6 +9,8 @@ const getSearchProducts = async (req, res) => {
   const {value} = req.params;
   const options = req.query;
   const token = req.myPayload;
+  console.log('%cMyProject%cline:11%ctoken', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(131, 175, 155);padding:3px;border-radius:2px', token)
+
   try{
     const products = await companyProductController.getSearchProducts(value, token, options)
 

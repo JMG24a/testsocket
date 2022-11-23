@@ -26,11 +26,10 @@ const getSearchAccounts = async (req, res) => {
 }
 
 const getCompanyAccounts = async (req, res) => {
-  const {idCompany} = req.params;
   const options = req.query;
   const token = req.myPayload;
   try{
-    const accounts = await companyAccountController.getCompanyAccounts(idCompany, token, options)
+    const accounts = await companyAccountController.getCompanyAccounts(token, options)
 
     res.status(200).json({
       ok: true,
@@ -46,12 +45,11 @@ const getCompanyAccounts = async (req, res) => {
 };
 
 const postCompanyAccount = async (req, res) => {
-  const {idCompany} = req.params;
   const token = req.myPayload
   const body = req.body;
 
   try {
-    const newAccount = await companyAccountController.postCompanyAccount(body, token, idCompany);
+    const newAccount = await companyAccountController.postCompanyAccount(body, token);
     res.status(201).json({
       ok: true,
       msg: "Creado",
@@ -117,9 +115,9 @@ const putCompanyAccount = async (req, res) => {
 };
 
 const deleteCompanyAccount = async (req, res) => {
-  const {id, idCompany} = req.params;
+  const {id} = req.params;
   const token = req.myPayload
-  const isDelete = await companyAccountController.deleteCompanyAccount(id, token, idCompany)
+  const isDelete = await companyAccountController.deleteCompanyAccount(id, token)
 
   res.status(200).json({
     msg: "Eliminado con exito",
@@ -128,10 +126,10 @@ const deleteCompanyAccount = async (req, res) => {
 };
 
 router.get("/search/:value", validateToken, getSearchAccounts);
-router.get("/:idCompany", validateToken, getCompanyAccounts);
-router.post("/import/:idCompany", validateToken, importCompanyAccount)
-router.post("/:idCompany", validateToken, postCompanyAccount);
+router.get("/", validateToken, getCompanyAccounts);
+router.post("/import", validateToken, importCompanyAccount)
+router.post("/", validateToken, postCompanyAccount);
 router.put("/:id", validateToken, putCompanyAccount);
-router.delete("/:idCompany/:id", validateToken, deleteCompanyAccount);
+router.delete("/:id", validateToken, deleteCompanyAccount);
 
 module.exports = router

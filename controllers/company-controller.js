@@ -11,11 +11,11 @@ const getCompaniesUser = async (id) => {
   return companies
 };
 
-const getCompanyRepLegal = async (id) => {
+const getCompanyByEmployee = async (id) => {
   if(!id){
     return 'La propiedad no fue encontrada'
   }
-  const companies = await CompanyModel.find({userId: id});
+  const companies = await CompanyModel.find({employeesId: id}).populate('employees.idEmployeeRef')
   return companies
 };
 
@@ -87,16 +87,13 @@ const deleteCompany = async (id, token) => {
 // }
 
 const addEmployeeCompanyById = async (token, idCompany) => {
-  console.log('%cMyProject%cline:94%cidCompany', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(38, 157, 128);padding:3px;border-radius:2px', idCompany)
   try {
     const companies = await CompanyModel.find({id: idCompany});
-    companies[0].employeesId.push(token.sub.id)
     companies[0].employees.push({idEmployeeRef: token.sub.id, status: false})
 
     await userController.putUser(token, {idCompany: idCompany})
 
     const newCompany = await CompanyModel.updateOne({id: idCompany}, {
-      employeesId: companies[0].employeesId,
       employees: companies[0].employees
     }, { new: true });
 
@@ -106,19 +103,42 @@ const addEmployeeCompanyById = async (token, idCompany) => {
   }
 }
 
-const disabledEmployeeCompany = async (token, userId) => {
+const disabledEmployeeCompany = async (token, id) => {
   const companies = await CompanyModel.find({userId: token.sub.id});
-  const index = companies[0].employeesId.indexOf(userId);
-  const userObject = companies[0].employees[index];
 
-  userObject.status = !userObject.status;
-  companies[0].employees[index] = userObject;
+  companies[0].employees = companies[0].employees.map(item => {
+    if(item?.idEmployeeRef == id){
+      item.status = !item.status
+      if(!item.status){
+        companies[0].employeesId = companies[0].employeesId.filter(item => item != id);
+      }else{
+        companies[0].employeesId = companies[0].employeesId.push(id);
+      }
+      return item
+    }
+    return item
+  });
 
   const newCompany = await CompanyModel.updateOne({userId: token.sub.id}, {
-    employeesId: companies[0].employees
+    employeesId: companies[0].employeesId,
+    employees: companies[0].employees
   }, { new: true });
 
-  return  newCompany
+  return newCompany
+}
+
+const delEmployeeCompany = async (token, id) => {
+  const companies = await CompanyModel.find({userId: token.sub.id});
+
+  companies[0].employeesId = companies[0].employeesId.filter(item => item != id);
+  companies[0].employees = companies[0].employees.filter(item => item?.idEmployeeRef != id);
+
+  const newCompany = await CompanyModel.updateOne({userId: token.sub.id}, {
+    employeesId: companies[0].employeesId,
+    employees: companies[0].employees
+  }, { new: true });
+
+  return newCompany
 }
 
 const getEmployeeTakesCompanyInfo = async (token, idCompany) => {
@@ -239,7 +259,7 @@ const deleteEmployeeTakesCompanyInfo = async (token, idCompany, id) => {
 
 module.exports = {
   getCompaniesUser,
-  getCompanyRepLegal,
+  getCompanyByEmployee,
   getCompany,
   postCompany,
   putCompany,
@@ -248,6 +268,7 @@ module.exports = {
   // addEmployeeCompany,
   addEmployeeCompanyById,
   disabledEmployeeCompany,
+  delEmployeeCompany,
   getEmployeeTakesCompanyInfo,
   createEmployeeTakesCompanyInfo,
   editEmployeeTakesCompanyInfo,

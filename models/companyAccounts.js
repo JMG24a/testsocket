@@ -3,10 +3,10 @@ const { Schema, model } = require("mongoose");
 const companyAccountSchema = Schema({
   idCompany: { type: Schema.Types.ObjectId, ref: 'Company' },
   idUser: { type: Schema.Types.ObjectId, ref: 'User' },
-  contactId: { type: Schema.Types.ObjectId, ref: 'Relation' },
-  accountName: {type: String},
-  type: {type: String, enum: ['Vendedor', 'Cliente', 'partner']},
+  contactId: [{ type: Schema.Types.ObjectId, ref: 'Relation' }],
   priority: {type: String, enum: ['Vendedor', 'Cliente', 'partner']},
+  type: {type: String, enum: ['Vendedor', 'Cliente', 'partner']},
+  accountName: {type: String},
   category: {type: String},
   subCategory: {type: String},
   email: {type: String},

@@ -17,7 +17,7 @@ companyProductSchema.method("toJSON", function () {
   return object;
 });
 
-module.exports = model("companyProduct", companyProductSchema);
+module.exports = model("CompanyProduct", companyProductSchema);
 
 
 

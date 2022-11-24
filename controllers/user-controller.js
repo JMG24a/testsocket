@@ -39,9 +39,6 @@ const getUserByEmail = async (email) => {
     .populate('vehiclesOwned')
     .populate('contacts')
     .populate('companies')
-    .populate(
-      "companies"
-)
     .populate('profileLicense')
     .populate('plan.planInfo');
 
@@ -67,8 +64,6 @@ const postUser = async (body) => {
     },
     profileLicense: '63068b13e4bb2ceac56b77ed',
   };
-
-
 
   const user = new UsersModel(bodyUser);
   await user.populate('plan.planInfo');

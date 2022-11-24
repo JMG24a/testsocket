@@ -46,10 +46,11 @@ const getCompaniesUser = async (req, res) => {
   }
 };
 
-const getCompanyRepLegal = async (req, res) => {
+const getCompanyByEmployee = async (req, res) => {
   const token = req.myPayload
+
   try{
-    const company = await CompanyController.getCompanyRepLegal(token.sub.id)
+    const company = await CompanyController.getCompanyByEmployee(token.sub.id)
 
     res.status(200).json({
       ok: true,
@@ -166,10 +167,30 @@ const addEmployeeCompanyById = async(req, res) => {
 
 const disabledEmployeeCompany = async (req, res) => {
   const token = req.myPayload;
-  const {userId} = req.body;
+  const {id} = req.params;
 
   try{
-    const disabledUser = await CompanyController.disabledEmployeeCompany(token, userId)
+    const disabledUser = await CompanyController.disabledEmployeeCompany(token, id)
+
+    res.status(200).json({
+      ok: true,
+      msg: "company",
+      employees: disabledUser
+    });
+  }catch(e){
+    res.status(400).json({
+      ok: false,
+      msg: "Intenta mas tarde",
+    });
+  }
+}
+
+const delEmployeeCompany = async (req, res) => {
+  const token = req.myPayload;
+  const {id} = req.params;
+
+  try{
+    const disabledUser = await CompanyController.delEmployeeCompany(token, id)
 
     res.status(200).json({
       ok: true,
@@ -271,14 +292,15 @@ router.get(
 );
 
 router.get("/user", validateToken, getCompaniesUser);
-router.get("/user/:idCompany", validateToken, getCompanyRepLegal);
+router.get("/employee", validateToken, getCompanyByEmployee);
 router.post("/", validateToken, postCompany);
 router.put("/:id", putCompany);
 router.delete("/:id", validateToken, deleteCompany);
 //employee
 // router.put("/employee/add", validateToken, addEmployeeCompany);
 router.put("/employee/addById", validateToken, addEmployeeCompanyById);
-router.put("/employee/disable", validateToken, disabledEmployeeCompany);
+router.put("/employee/disable/:id", validateToken, disabledEmployeeCompany);
+router.put("/employee/del/:id", validateToken, delEmployeeCompany);
 router.get("/employee/:idCompany", validateToken, getEmployeeTakesCompanyInfo);
 router.put("/employee/post/:idCompany", validateToken, createEmployeeTakesCompanyInfo);
 router.put("/employee/put/:idCompany", validateToken, editEmployeeTakesCompanyInfo);

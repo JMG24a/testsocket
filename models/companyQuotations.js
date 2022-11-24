@@ -31,7 +31,7 @@ companyQuotationSchema.method("toJSON", function () {
   return object;
 });
 
-module.exports = model("companyQuotation", companyQuotationSchema);
+module.exports = model("CompanyQuotation", companyQuotationSchema);
 
 
 

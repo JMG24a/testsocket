@@ -40,4 +40,4 @@ companyOrderSchema.method("toJSON", function () {
   return object;
 });
 
-module.exports = model("companyPurchaseOrders", companyOrderSchema);
+module.exports = model("CompanyPurchaseOrders", companyOrderSchema);

@@ -22,7 +22,7 @@ companyOrderSchema.method("toJSON", function () {
   return object;
 });
 
-module.exports = model("companyOrder", companyOrderSchema);
+module.exports = model("CompanyOrder", companyOrderSchema);
 
 
 

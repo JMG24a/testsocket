@@ -1,4 +1,3 @@
-const { ObjectId, ObjectID } = require('mongodb');
 const { Schema, model } = require('mongoose');
 
 const companySchema = Schema(
@@ -40,35 +39,11 @@ const companySchema = Schema(
       quotation: { type: String },
       invoice: { type: String },
     },
-    opportunities: {
-      accountId: { type: ObjectId },
-      contactId: { type: Schema.Types.ObjectId, ref: 'Relation' },
-      dealName: { type: String },
-      dealValue: { type: String },
-      closeProbability: { type: String },
-      expiredCloseDate: { type: String },
-      dealCreateDate: { type: String },
-      notes: { type: String },
-      stage: { type: String },
-      priority: { type: String },
-      forecastValue: { type: String },
-      ActualDealValue: { type: String },
-      dealLength: { type: String },
-    },
-    contacts: [{
-      name :{type: String},
-      lastName :{type: String},
-      accountID	:{type: String},
-      email :{type: String},
-      priority :{type: String},
-      type :{type: String},
-      mobile :{type: String},
-      phone	: {type: String},
-      title	: {type: String},
-      observations: {type: String},
-      source: {type: String},
-      updatedAt: {type: Date},
-      createdAt: {type: Date},
+    settings: [{
+      orderWorkNumber :{type: String},
+      purchaseNumber  :{type: String},
+      quotationsNumber:{type: String},
+      SalesNumber     :{type: String},
     }]
   },
   {

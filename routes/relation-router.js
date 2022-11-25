@@ -5,6 +5,27 @@ const { validateToken } = require('../auth/middleware/jwt');
 
 const router = Router();
 
+const getSearchRelations = async (req, res) => {
+  const {value} = req.params;
+  const options = req.query;
+  const token = req.myPayload;
+
+  try{
+    const accounts = await relationsController.getSearchRelations(value, token, options)
+
+    res.status(200).json({
+      ok: true,
+      msg: "Listado de Contactos",
+      accounts,
+    });
+  }catch(e){
+    res.status(400).json({
+      ok: false,
+      msg: "Intenta mas tarde",
+    });
+  }
+};
+
 const getRelations = async (req, res) => {
   const relation = await relationsController.getRelations()
 
@@ -128,7 +149,7 @@ const deleteRelation = async (req, res) => {
   });
 };
 
-router.get("/", getRelations);
+router.get("/search/:value", validateToken, getSearchRelations);
 router.get("/user", validateToken, getRelationsUser);
 router.get("/company", validateToken, getRelationsCompany);
 router.get("/user/:idRelation", validateToken, getRelation);

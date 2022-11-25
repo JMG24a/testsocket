@@ -1,7 +1,6 @@
 const CompanyAccountsModel = require("../models/companyAccounts");
 const CompanyModel = require("../models/company");
 const UserModel = require("../models/User")
-const { importAccountsFromXLSX } = require("../services/importAccounts");
 const { uploadedAccounts } = require("../mails/uploadedAccounts");
 
 const getSearchAccounts = async (value, token, options) => {

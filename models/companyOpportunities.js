@@ -24,4 +24,4 @@ companyOpportunitySchema.method("toJSON", function () {
   return object;
 });
 
-module.exports = model("companyOpportunity", companyOpportunitySchema);
+module.exports = model("CompanyOpportunity", companyOpportunitySchema);

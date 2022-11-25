@@ -1,7 +1,38 @@
 const RelationModel = require("../models/Relation");
+const UserModel = require("../models/User");
 const CompanyModel = require("../models/company");
 const userController = require("../controllers/user-controller");
 const { ObjectId } = require("mongodb");
+
+const getSearchRelations = async (value, token, options) => {
+  try {
+    const user = await UserModel.findById(token.sub.id)
+    if(!user){
+      return "este no es un usuario"
+    }
+    const company = await CompanyModel.findById(user.companies);
+    if(company !== null){
+      if(!company.employeesId.includes(token.sub.id)){
+        return "este usuario no es un empleado"
+      }
+    }
+
+    const regex = new RegExp(value.replace("_", " "));
+
+    const relations = await RelationModel
+      .find({
+        $and: [
+          {name: {$regex: regex, $options: 'gi'}},
+          {$or: [{companyId: user.companies},{userId: token.sub.id}]}
+        ]})
+      .limit(options.limit)
+      .skip(options.offset);
+
+    return relations
+  } catch (error) {
+    console.log(error)
+  }
+};
 
 const getRelations = async () => {
   const relation = await RelationModel.find();
@@ -105,6 +136,7 @@ const deleteRelation = async (id, token) => {
 };
 
 module.exports = {
+  getSearchRelations,
   getRelations,
   getRelationsUser,
   getRelationsCompany,

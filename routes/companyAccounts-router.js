@@ -14,7 +14,7 @@ const getSearchAccounts = async (req, res) => {
 
     res.status(200).json({
       ok: true,
-      msg: "Listado de productos",
+      msg: "Listado de Cuentas",
       accounts,
     });
   }catch(e){

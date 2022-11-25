@@ -27,13 +27,22 @@ const getSearchRelations = async (req, res) => {
 };
 
 const getRelations = async (req, res) => {
-  const relation = await relationsController.getRelations()
+  const options = req.query;
+  const token = req.myPayload;
+  try{
+    const relation = await relationsController.getRelations(token, options)
 
-  res.status(200).json({
-    ok: true,
-    msg: "Listado de relaciones",
-    relation,
-  });
+    res.status(200).json({
+      ok: true,
+      msg: "Listado de Accountos",
+      relation,
+    });
+  }catch(e){
+    res.status(400).json({
+      ok: false,
+      msg: "Intenta mas tarde",
+    });
+  }
 };
 
 const getRelationsUser = async (req, res) => {
@@ -148,7 +157,7 @@ const deleteRelation = async (req, res) => {
     success: isDelete
   });
 };
-
+router.get("/", validateToken, getRelations);
 router.get("/search/:value", validateToken, getSearchRelations);
 router.get("/user", validateToken, getRelationsUser);
 router.get("/company", validateToken, getRelationsCompany);

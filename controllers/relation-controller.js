@@ -2,7 +2,6 @@ const RelationModel = require("../models/Relation");
 const UserModel = require("../models/User");
 const CompanyModel = require("../models/company");
 const userController = require("../controllers/user-controller");
-const { ObjectId } = require("mongodb");
 
 const getSearchRelations = async (value, token, options) => {
   try {
@@ -34,8 +33,24 @@ const getSearchRelations = async (value, token, options) => {
   }
 };
 
-const getRelations = async () => {
-  const relation = await RelationModel.find();
+const getRelations = async (token, options) => {
+  const user = await UserModel.findById(token.sub.id)
+  if(!user){
+    return "este no es un usuario"
+  }
+  const company = await CompanyModel.findById(user.companies)
+  if(company !== null){
+    if(company.employeesId.includes(token.sub.id) === false){
+      return "este usuario no es un empleado"
+    }
+  }
+
+  const relation = await RelationModel
+  .find({$or: [{companyId: user.companies}, {userId: token.sub.id}]})
+  .limit(options.limit)
+  .skip(options.offset);
+
+  console.log('%cMyProject%cline:48%crelation', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(89, 61, 67);padding:3px;border-radius:2px', relation)
   return relation
 };
 

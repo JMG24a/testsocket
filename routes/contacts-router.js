@@ -45,6 +45,25 @@ const getContacts = async (req, res) => {
   }
 };
 
+const getContactById = async (req, res) => {
+  const {id} = req.params;
+  const token = req.myPayload;
+  try{
+    const contact = await ContactsController.getContactById(token, id)
+
+    res.status(200).json({
+      ok: true,
+      msg: "Listado de Accountos",
+      contact,
+    });
+  }catch(e){
+    res.status(400).json({
+      ok: false,
+      msg: "Intenta mas tarde",
+    });
+  }
+};
+
 const getContactsUser = async (req, res) => {
   const token = req.myPayload
   try{
@@ -159,10 +178,7 @@ const deleteContact = async (req, res) => {
 };
 router.get("/", validateToken, getContacts);
 router.get("/search/:value", validateToken, getSearchContacts);
-router.get("/user", validateToken, getContactsUser);
-router.get("/user/:idContact", validateToken, getContact);
-router.get("/company", validateToken, getContactsCompany);
-router.get("/:id", validateToken, getContacts);
+router.get("/:id", validateToken, getContactById);
 router.post("/", validateToken, postContact);
 router.put("/:id", putContact);
 router.delete("/:id", validateToken, deleteContact);

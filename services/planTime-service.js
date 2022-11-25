@@ -25,7 +25,7 @@ const addTimeAdditional = (expiredDay) => {
   return inOneMonth
 }
 
-const RemovingRemainingTime = (expiredDay, ) => {
+const RemovingRemainingTime = (expiredDay) => {
   const today = new Date();
   const expired = new Date(expiredDay);
   const removing = expired.getTime() - today.getTime();

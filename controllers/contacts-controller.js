@@ -45,55 +45,28 @@ const getContacts = async (token, options) => {
     }
   }
 
-  const Contact = await ContactModel
+  const contacts = await ContactModel
   .find({$or: [{companyId: user.companies}, {userId: token.sub.id}]})
   .limit(options.limit)
   .skip(options.offset);
 
-  console.log('%cMyProject%cline:48%cContact', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(89, 61, 67);padding:3px;border-radius:2px', Contact)
-  return Contact
+  return contacts
 };
 
-const getContactsUser = async (id) => {
-  if(!id){
-    return 'La propiedad no fue encontrada'
+const getContactById = async (token, id) => {
+  const user = await UserModel.findById(token.sub.id)
+  if(!user){
+    return "este no es un usuario"
+  }
+  const company = await CompanyModel.findById(user.companies)
+  if(company !== null){
+    if(company.employeesId.includes(token.sub.id) === false){
+      return "este usuario no es un empleado"
+    }
   }
 
-  const user = await userController.getUser(id)
-
-  const ContactByUser = await ContactModel.find({userId: id});
-  const ContactByCompany = await ContactModel.find({companyId: user.companies[0]._id});
-
-  const Contact = [
-    ...ContactByUser,
-    ...ContactByCompany
-  ]
-
-  return Contact
-};
-
-const getContactsCompany = async (id) => {
-  if(!id){
-    return 'La propiedad no fue encontrada'
-  }
-
-  const user = await userController.getUser(id)
-  const ContactByCompany = await ContactModel.find({companyId: user.companies[0]._id});
-
-  const Contact = [
-    ...ContactByCompany
-  ]
-
-  return Contact
-};
-
-
-const getContact = async (id, idContact) => {
-  if(!id){
-    return 'La propiedad no fue encontrada'
-  }
-  const Contact = await ContactModel.find({userId: id, id: idContact});
-  return Contact
+  const contact = await ContactModel.findById(id)
+  return contact
 };
 
 const postContact = async (body, token) => {
@@ -153,9 +126,7 @@ const deleteContact = async (id, token) => {
 module.exports = {
   getSearchContacts,
   getContacts,
-  getContactsUser,
-  getContactsCompany,
-  getContact,
+  getContactById,
   postContact,
   putContact,
   deleteContact

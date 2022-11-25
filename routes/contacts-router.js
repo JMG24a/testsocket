@@ -1,22 +1,22 @@
 const { Router } = require('express')
-const relationsController = require('../controllers/relation-controller')
+const ContactsController = require('../controllers/contacts-controller')
 //middleware
 const { validateToken } = require('../auth/middleware/jwt');
 
 const router = Router();
 
-const getSearchRelations = async (req, res) => {
+const getSearchContacts = async (req, res) => {
   const {value} = req.params;
   const options = req.query;
   const token = req.myPayload;
 
   try{
-    const accounts = await relationsController.getSearchRelations(value, token, options)
+    const contacts = await ContactsController.getSearchContacts(value, token, options)
 
     res.status(200).json({
       ok: true,
       msg: "Listado de Contactos",
-      accounts,
+      contacts,
     });
   }catch(e){
     res.status(400).json({
@@ -26,16 +26,16 @@ const getSearchRelations = async (req, res) => {
   }
 };
 
-const getRelations = async (req, res) => {
+const getContacts = async (req, res) => {
   const options = req.query;
   const token = req.myPayload;
   try{
-    const relation = await relationsController.getRelations(token, options)
+    const contact = await ContactsController.getContacts(token, options)
 
     res.status(200).json({
       ok: true,
       msg: "Listado de Accountos",
-      relation,
+      contact,
     });
   }catch(e){
     res.status(400).json({
@@ -45,15 +45,15 @@ const getRelations = async (req, res) => {
   }
 };
 
-const getRelationsUser = async (req, res) => {
+const getContactsUser = async (req, res) => {
   const token = req.myPayload
   try{
-    const relation = await relationsController.getRelationsUser(token.sub.id)
+    const contact = await ContactsController.getContactsUser(token.sub.id)
 
     res.status(200).json({
       ok: true,
       msg: "Propiedad",
-      relation
+      contact
     });
   }catch(e){
     res.status(400).json({
@@ -63,15 +63,15 @@ const getRelationsUser = async (req, res) => {
   }
 };
 
-const getRelationsCompany = async (req, res) => {
+const getContactsCompany = async (req, res) => {
   const token = req.myPayload
   try{
-    const relation = await relationsController.getRelationsCompany(token.sub.id)
+    const contact = await ContactsController.getContactsCompany(token.sub.id)
 
     res.status(200).json({
       ok: true,
       msg: "Propiedad",
-      relation
+      contact
     });
   }catch(e){
     res.status(400).json({
@@ -81,16 +81,16 @@ const getRelationsCompany = async (req, res) => {
   }
 };
 
-const getRelation = async (req, res) => {
+const getContact = async (req, res) => {
   const token = req.myPayload
-  const { idRelation } = req.params
+  const { idContact } = req.params
   try{
-    const relation = await relationsController.getRelation(token.sub.id, idRelation)
+    const contact = await ContactsController.getContact(token.sub.id, idContact)
 
     res.status(200).json({
       ok: true,
       msg: "Propiedad",
-      relation
+      contact
     });
   }catch(e){
     res.status(400).json({
@@ -100,15 +100,15 @@ const getRelation = async (req, res) => {
   }
 };
 
-const postRelation = async (req, res) => {
+const postContact = async (req, res) => {
   const token = req.myPayload
   const body = req.body;
   try {
-    const newRelation = await relationsController.postRelation(body, token);
+    const newContact = await ContactsController.postContact(body, token);
     res.status(201).json({
       ok: true,
       msg: "Creado",
-      relation: newRelation
+      contact: newContact
     });
   } catch (error) {
     res.status(500).json({
@@ -119,14 +119,14 @@ const postRelation = async (req, res) => {
   }
 };
 
-const putRelation = async (req, res) => {
+const putContact = async (req, res) => {
   const { id } = req.params;
   const body = req.body;
 
   try {
-    const newRelation = await relationsController.putRelation(id, body)
+    const newContact = await ContactsController.putContact(id, body)
 
-    if (typeof newRelation === 'string') {
+    if (typeof newContact === 'string') {
       res.status(404).json({
         ok: false,
         msg: "No Encontrado",
@@ -136,7 +136,7 @@ const putRelation = async (req, res) => {
     res.status(200).json({
       ok: true,
       msg: "Actualizado Correctamente",
-      newRelation,
+      newContact,
     });
   } catch (error) {
     res.status(501).json({
@@ -147,23 +147,24 @@ const putRelation = async (req, res) => {
   }
 };
 
-const deleteRelation = async (req, res) => {
+const deleteContact = async (req, res) => {
   const {id} = req.params;
   const token = req.myPayload
-  const isDelete = await relationsController.deleteRelation(id, token)
+  const isDelete = await ContactsController.deleteContact(id, token)
 
   res.status(200).json({
     msg: "Eliminado con exito",
-    success: isDelete
+    ok: isDelete
   });
 };
-router.get("/", validateToken, getRelations);
-router.get("/search/:value", validateToken, getSearchRelations);
-router.get("/user", validateToken, getRelationsUser);
-router.get("/company", validateToken, getRelationsCompany);
-router.get("/user/:idRelation", validateToken, getRelation);
-router.post("/", validateToken, postRelation);
-router.put("/:id", putRelation);
-router.delete("/:id", validateToken, deleteRelation);
+router.get("/", validateToken, getContacts);
+router.get("/search/:value", validateToken, getSearchContacts);
+router.get("/user", validateToken, getContactsUser);
+router.get("/user/:idContact", validateToken, getContact);
+router.get("/company", validateToken, getContactsCompany);
+router.get("/:id", validateToken, getContacts);
+router.post("/", validateToken, postContact);
+router.put("/:id", putContact);
+router.delete("/:id", validateToken, deleteContact);
 
 module.exports = router

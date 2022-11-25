@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const relationSchema = Schema({
+const contactsSchema = Schema({
   userId:[{ type: Schema.Types.ObjectId, ref: 'User' }],
   companyId:[{ type: Schema.Types.ObjectId, ref: 'Company' }],
   accountId: { type: Schema.Types.ObjectId, ref: 'CompanyAccounts' },
@@ -26,10 +26,10 @@ const relationSchema = Schema({
   timestamps: true,
 });
 
-relationSchema.method("toJSON", function () {
+contactsSchema.method("toJSON", function () {
   const { __v, _id, ...object } = this.toObject();
   object.id = _id;
   return object;
 });
 
-module.exports = model("Relation", relationSchema);
+module.exports = model("contacts", contactsSchema);

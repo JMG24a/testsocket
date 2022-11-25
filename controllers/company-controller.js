@@ -1,5 +1,5 @@
 const CompanyModel = require("../models/company");
-const RelationModel = require("../models/Relation");
+const ContactModel = require("../models/contacts");
 const userController = require("../controllers/user-controller");
 const {editObject, createObject, delObject} = require("./tools/company-tools")
 
@@ -155,8 +155,8 @@ const getEmployeeTakesCompanyInfo = async (token, idCompany) => {
     return "this user does not have permissions"
   }
 
-  const contactsCompany = await RelationModel.find({companyId: idCompany})
-  const contactsUser = await RelationModel.find({userId: token.sub.id})
+  const contactsCompany = await ContactModel.find({companyId: idCompany})
+  const contactsUser = await ContactModel.find({userId: token.sub.id})
   const contacts = [
     ...companies.contacts,
     ...contactsUser

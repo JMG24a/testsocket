@@ -28,7 +28,7 @@ const postCompanySale = async (body, token, idCompany) => {
     const newSale = new CompanySalesModel(body);
     const saveObject = await newSale.save();
 
-    const newSales = await CompanyQuotationsModel.findById(saveObject._id).populate('contact')
+    const newSales = await CompanySalesModel.findById(saveObject._id).populate('contact')
     return newSales
   }catch(e){
     throw new Error ('El usuario no pudo ser creado')
@@ -36,14 +36,15 @@ const postCompanySale = async (body, token, idCompany) => {
 };
 
 const putCompanySale = async (id, body, token) => {
-
   const company = await CompanyModel.findById(body.idCompany);
   if(!company.employeesId.includes(token.sub.id)){
     return "este usuario no es un empleado"
   }
 
-  const editCompanySales = await CompanySalesModel.findByIdAndUpdate(id, body, { new: true });
-  return editCompanySales
+  await CompanySalesModel.findByIdAndUpdate(id, body, { new: true });
+
+  const newSales = await CompanySalesModel.findById(id).populate('contact')
+  return newSales
 };
 
 const deleteCompanySale = async (id, token, idCompany) => {

@@ -76,9 +76,9 @@ const postContact = async (body, token) => {
     if(user.companies[0]._id){
       body.companyId = user.companies[0]._id;
       const Contact = new ContactModel(body);
-      const saveObject = await Contact.save();
+      await Contact.save();
 
-      ContactsOwner = await getContactsCompany(token.sub.id)
+      ContactsOwner = await getContacts(token.sub.id)
     }else{
       body.userId = token.sub.id;
       const Contact = new ContactModel(body);
@@ -88,7 +88,7 @@ const postContact = async (body, token) => {
 
       await userController.putUser(token, {contacts: user.contacts})
 
-      ContactsOwner = await getContact(token.sub.id)
+      ContactsOwner = await getContacts(token.sub.id)
     }
 
     return ContactsOwner

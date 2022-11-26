@@ -25,10 +25,11 @@ const postCompanySale = async (body, token, idCompany) => {
       return "este usuario no es un empleado"
     }
     body.idCompany = idCompany
-    const newSales = new CompanySalesModel(body);
-    const saveObject = await newSales.save();
+    const newSale = new CompanySalesModel(body);
+    const saveObject = await newSale.save();
 
-    return saveObject
+    const newSales = await CompanyQuotationsModel.findById(saveObject._id).populate('contact')
+    return newSales
   }catch(e){
     throw new Error ('El usuario no pudo ser creado')
   }

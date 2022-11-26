@@ -1,5 +1,6 @@
 const CompanyModel = require("../models/company");
 const ContactModel = require("../models/contacts");
+const UserModel = require("../models/User")
 const userController = require("../controllers/user-controller");
 const {editObject, createObject, delObject} = require("./tools/company-tools")
 
@@ -15,7 +16,7 @@ const getCompanyByEmployee = async (id) => {
   if(!id){
     return 'La propiedad no fue encontrada'
   }
-  const companies = await CompanyModel.find({employeesId: id}).populate('employees.idEmployeeRef')
+  const companies = await CompanyModel.find({$or:[{employeesId: id},{userId: id}]}).populate('employees.idEmployeeRef')
   return companies
 };
 
@@ -30,20 +31,28 @@ const getCompany = async (id, idCompany) => {
 const postCompany = async (body, token) => {
   try {
     body.employeesId = token.sub.id
+    body.userId = token.sub.id
     const company = new CompanyModel(body);
     const saveObject = await company.save();
 
-    const user = await userController.getUser(token.sub.id)
+    const user = await UserModel.findById(token.sub.id)
     user.companies.push(saveObject.id)
-    await userController.putUser(token, {companies: user.companies})
+    const CompanyOwner = await UserModel.findByIdAndUpdate(token.sub.id, {
+      companies: user.companies,
+      plan:{
+        planInfo:       "6356f191e8d78287a074838e",
+        expireDate:     "01/12/2023",
+        extraTime:      "nothing"
+      }
+    },{ new: true })
 
-    const CompanyOwner = await getCompaniesUser(token.sub.id)
-
+    console.log('%cMyProject%cline:52%cCompanyOwner', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(39, 72, 98);padding:3px;border-radius:2px', CompanyOwner)
     return CompanyOwner
   }catch(e){
     throw new Error ('El usuario no pudo ser creado')
   }
 };
+
 
 const putCompany = async (id, body) => {
   const company = await getCompaniesUser(id);
@@ -88,14 +97,32 @@ const deleteCompany = async (id, token) => {
 
 const addEmployeeCompanyById = async (token, idCompany) => {
   try {
-    const companies = await CompanyModel.find({id: idCompany});
-    companies[0].employees.push({idEmployeeRef: token.sub.id, status: false})
+    const companies = await CompanyModel.findById(idCompany).populate("userId");
 
-    await userController.putUser(token, {idCompany: idCompany})
+    if(companies?.employees.length === 0){
+      companies.employees.push({idEmployeeRef: token.sub.id, status: false})
+    }else{
+      companies.employees.filter(item => item?.idEmployeeRef != token.sub.id)
+      companies.employees.push({idEmployeeRef: token.sub.id, status: false})
+    }
 
-    const newCompany = await CompanyModel.updateOne({id: idCompany}, {
-      employees: companies[0].employees
+    console.log("userPlan", companies.userId[0].plan)
+
+    await UserModel.findByIdAndUpdate(token.sub.id,
+      {
+        companies: idCompany,
+        plan:{
+          ...companies.userId[0].plan
+        }
+      }, {new: true})
+
+    console.log('%cMyProject%cline:101%ccompanies1', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(222, 125, 44);padding:3px;border-radius:2px', companies.employees)
+
+    const newCompany = await CompanyModel.findByIdAndUpdate(idCompany, {
+      employees: companies.employees
     }, { new: true });
+
+    console.log('%cMyProject%cline:101%ccompanies', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(222, 125, 44);padding:3px;border-radius:2px', newCompany)
 
     return  newCompany
   } catch (error) {

@@ -46,7 +46,6 @@ const postCompany = async (body, token) => {
       }
     },{ new: true })
 
-    console.log('%cMyProject%cline:52%cCompanyOwner', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(39, 72, 98);padding:3px;border-radius:2px', CompanyOwner)
     return CompanyOwner
   }catch(e){
     throw new Error ('El usuario no pudo ser creado')
@@ -116,13 +115,11 @@ const addEmployeeCompanyById = async (token, idCompany) => {
         }
       }, {new: true})
 
-    console.log('%cMyProject%cline:101%ccompanies1', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(222, 125, 44);padding:3px;border-radius:2px', companies.employees)
 
     const newCompany = await CompanyModel.findByIdAndUpdate(idCompany, {
       employees: companies.employees
     }, { new: true });
 
-    console.log('%cMyProject%cline:101%ccompanies', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(222, 125, 44);padding:3px;border-radius:2px', newCompany)
 
     return  newCompany
   } catch (error) {

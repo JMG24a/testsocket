@@ -68,10 +68,9 @@ const postCompanyOrder = async (body, token, idCompany) => {
     body.idCompany = idCompany
 
     const companyOrder = new CompanyOrdersModel(body);
-    const saveObject = await companyOrder.save();
+    const saveObject = (await companyOrder.save()).populate('contact');
 
-    const newOrder = await CompanyOrdersModel.findById(saveObject._id).populate('contact')
-    return newOrder
+    return saveObject
   }catch(e){
     console.log(e)
     throw new Error ('El usuario no pudo ser creado')

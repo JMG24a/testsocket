@@ -34,10 +34,9 @@ const postCompanyQuotation = async (body, token, idCompany) => {
 
     body.idCompany = idCompany
     const newQuotations = new CompanyQuotationsModel(body);
-    const saveObject = await newQuotations.save();
+    const saveObject = (await newQuotations.save()).populate('contact');
 
-    const newQuotation = await CompanyQuotationsModel.findById(saveObject._id).populate('contact')
-    return newQuotation
+    return saveObject
   }catch(e){
     throw new Error ('El usuario no pudo ser creado')
   }

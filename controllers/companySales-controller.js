@@ -26,10 +26,46 @@ const postCompanySale = async (body, token, idCompany) => {
     }
     body.idCompany = idCompany
     const newSale = new CompanySalesModel(body);
-    const saveObject = await newSale.save();
+    const saveObject = (await newSale.save()).populate('contact');
 
-    const newSales = await CompanySalesModel.findById(saveObject._id).populate('contact')
-    return newSales
+    return saveObject
+  }catch(e){
+    throw new Error ('El usuario no pudo ser creado')
+  }
+};
+
+const importCompanySale = async (body, token) => {
+  console.time();
+  try {
+    let result = "Error no encontrado"
+    const user = await UserModel.findById(token.sub.id)
+    if(!user){
+      return "este no es un usuario"
+    }
+    const company = await CompanyModel.findById(user.companies)
+    if(company !== null){
+      if(!company.employeesId.includes(token.sub.id)){
+        return "este usuario no es un empleado"
+      }
+      const sales = body.map(sale => {
+        sale.idCompany = user.companies
+        return sale
+      })
+      const options = { ordered: true };
+      result = await CompanySalesModel.insertMany(sales, options);
+      // await uploadedSale(token.sub.email)
+
+    }else{
+      const sales = body.map(sale => {
+        sale.idCompany = user.companies
+        return sale
+      })
+      const options = { ordered: true };
+      result = await CompanySalesModel.insertMany(sales, options);
+      // await uploadedSale(token.sub.email)
+    }
+    console.timeEnd();
+    return result
   }catch(e){
     throw new Error ('El usuario no pudo ser creado')
   }
@@ -60,6 +96,7 @@ const deleteCompanySale = async (id, token, idCompany) => {
 module.exports = {
   getCompanySales,
   postCompanySale,
+  importCompanySale,
   putCompanySale,
   deleteCompanySale
 }

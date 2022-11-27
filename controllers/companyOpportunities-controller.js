@@ -51,7 +51,7 @@ const postCompanyOpportunities = async (body, token, idCompany) => {
     }
     body.idCompany = idCompany
     const newOpportunities = new CompanyOpportunitiesModel(body);
-    const saveObject = await newOpportunities.save();
+    const saveObject = (await newOpportunities.save()).populate('contactId');
 
     return saveObject
   }catch(e){

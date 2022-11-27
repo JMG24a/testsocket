@@ -49,8 +49,7 @@ const putCompanyQuotation = async (id, body, token) => {
     return "este usuario no es un empleado"
   }
 
-  await CompanyQuotationsModel.findByIdAndUpdate(id, body, { new: true });
-  const editQuotation = await CompanyQuotationsModel.findById(id).populate('contact')
+  const editQuotation = await CompanyQuotationsModel.findByIdAndUpdate(id, body, { new: true }).populate('contact');
   return editQuotation
 };
 

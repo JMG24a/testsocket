@@ -77,10 +77,8 @@ const putCompanyPurchase = async (id, body, token) => {
     return "este usuario no es un empleado"
   }
 
-  await CompanyPurchasesModel.findByIdAndUpdate(id, body, { new: true });
-
-  const PurchasePopulate = await CompanyPurchasesModel.findById(id).populate('contact')
-  return PurchasePopulate
+  const editPurchase = await CompanyPurchasesModel.findByIdAndUpdate(id, body, { new: true }).populate('contact');
+  return editPurchase
 };
 
 const deleteCompanyPurchaseOrder = async (id, token) => {

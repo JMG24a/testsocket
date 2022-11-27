@@ -1,4 +1,5 @@
 const CompanySalesModel = require("../models/companySales.js");
+const UserModel = require("../models/User");
 const CompanyModel = require("../models/company");
 
 const getCompanySales = async (idCompany, token, options) => {
@@ -72,14 +73,20 @@ const importCompanySale = async (body, token) => {
 };
 
 const putCompanySale = async (id, body, token) => {
-  const company = await CompanyModel.findById(body.idCompany);
-  if(!company.employeesId.includes(token.sub.id)){
-    return "este usuario no es un empleado"
+  const user = await UserModel.findById(token.sub.id)
+  if(!user){
+    console.log("SALES")
+    return "este no es un usuario"
+  }
+  const company = await CompanyModel.findById(user.companies)
+  if(company !== null){
+    if(!company.employeesId.includes(token.sub.id)){
+      console.log("fuck")
+      return "este usuario no es un empleado"
+    }
   }
 
-  await CompanySalesModel.findByIdAndUpdate(id, body, { new: true });
-
-  const newSales = await CompanySalesModel.findById(id).populate('contact')
+  const newSales = await CompanySalesModel.findByIdAndUpdate(id, body, { new: true }).populate('contact');
   return newSales
 };
 

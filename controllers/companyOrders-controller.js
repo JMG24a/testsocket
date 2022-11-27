@@ -87,10 +87,8 @@ const putCompanyOrder= async (id, body, token) => {
     return "este usuario no es un empleado"
   }
 
-  await CompanyOrdersModel.findByIdAndUpdate(id, body, { new: true });
-
-  const orderPopulate = await CompanyOrdersModel.findById(id).populate('contact')
-  return orderPopulate
+  const editOrder = await CompanyOrdersModel.findByIdAndUpdate(id, body, { new: true }).populate('contact');
+  return editOrder
 };
 
 const deleteCompanyOrder = async (id, token, idCompany) => {

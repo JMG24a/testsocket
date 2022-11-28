@@ -35,7 +35,7 @@ const postCompanySale = async (body, token, idCompany) => {
   }
 };
 
-const importCompanySale = async (body, token) => {
+const importCompanySales = async (body, token) => {
   console.time();
   try {
     let result = "Error no encontrado"
@@ -103,7 +103,7 @@ const deleteCompanySale = async (id, token, idCompany) => {
 module.exports = {
   getCompanySales,
   postCompanySale,
-  importCompanySale,
+  importCompanySales,
   putCompanySale,
   deleteCompanySale
 }

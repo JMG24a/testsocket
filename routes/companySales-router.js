@@ -52,11 +52,11 @@ const importCompanySales = async (req, res) => {
   const body = req.body;
 
   try {
-    const newCompanySale = await companySalesController.importCompanySales(body, token, idCompany);
+    const newCompanySales = await companySalesController.importCompanySales(body, token, idCompany);
     res.status(201).json({
       ok: true,
       msg: "Creado",
-      newCompanySale
+      newCompanySales
     });
   } catch (error) {
     res.status(500).json({

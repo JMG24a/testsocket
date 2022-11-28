@@ -46,6 +46,28 @@ const postCompanySale = async (req, res) => {
   }
 };
 
+const importCompanySales = async (req, res) => {
+  const {idCompany} = req.params;
+  const token = req.myPayload
+  const body = req.body;
+
+  try {
+    const newCompanySale = await companySalesController.importCompanySales(body, token, idCompany);
+    res.status(201).json({
+      ok: true,
+      msg: "Creado",
+      newCompanySale
+    });
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      msg: "Error en la peticion",
+      error,
+    });
+  }
+};
+
+
 const putCompanySale = async (req, res) => {
   const { id } = req.params;
   const body = req.body;
@@ -88,6 +110,7 @@ const deleteCompanySale = async (req, res) => {
 
 router.get("/:idCompany", validateToken, getCompanySales);
 router.post("/:idCompany", validateToken, postCompanySale);
+router.post("/:idCompany/import", validateToken, importCompanySales)
 router.put("/:id",validateToken, putCompanySale);
 router.delete("/:idCompany/:id", validateToken, deleteCompanySale);
 

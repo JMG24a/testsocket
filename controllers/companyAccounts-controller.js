@@ -18,7 +18,7 @@ const getSearchAccounts = async (value, token, options) => {
 
     const regex = new RegExp(value.replace("_", " "));
 
-    const Accounts = await CompanyAccountsModel
+    const accounts = await CompanyAccountsModel
       .find({
         $and: [
           {accountName: {$regex: regex, $options: 'gi'}},
@@ -27,7 +27,15 @@ const getSearchAccounts = async (value, token, options) => {
       .limit(options.limit)
       .skip(options.offset);
 
-    return Accounts
+    const count = await CompanyAccountsModel
+      .find({
+        $and: [
+          {accountName: {$regex: regex, $options: 'gi'}},
+          {$or: [{idCompany: user.companies},{idUser: token.sub.id}]}
+        ]})
+      .count()
+
+    return {accounts, count}
   } catch (error) {
     console.log(error)
   }
@@ -45,13 +53,20 @@ const getCompanyAccounts = async (token, options) => {
     }
   }
 
-  const Accounts = await CompanyAccountsModel
+  const accounts = await CompanyAccountsModel
     .find({$or: [{idCompany: user.companies}, {idUser: token.sub.id}]})
     .populate("contactId")
     .limit(options.limit)
     .skip(options.offset);
 
-  return Accounts
+    const count = await CompanyAccountsModel
+    .find({$or: [{idCompany: user.companies}, {idUser: token.sub.id}]})
+    .count()
+
+  return {
+    accounts,
+    count
+  }
 };
 
 const getCompanyAccountsById = async (token, id) => {

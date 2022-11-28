@@ -10,12 +10,13 @@ const getSearchAccounts = async (req, res) => {
   const options = req.query;
   const token = req.myPayload;
   try{
-    const accounts = await companyAccountController.getSearchAccounts(value, token, options)
+    const {accounts, count} = await companyAccountController.getSearchAccounts(value, token, options)
 
     res.status(200).json({
       ok: true,
       msg: "Listado de Cuentas",
       accounts,
+      count
     });
   }catch(e){
     res.status(400).json({
@@ -29,12 +30,13 @@ const getCompanyAccounts = async (req, res) => {
   const options = req.query;
   const token = req.myPayload;
   try{
-    const accounts = await companyAccountController.getCompanyAccounts(token, options)
+    const { accounts, count } = await companyAccountController.getCompanyAccounts(token, options)
 
     res.status(200).json({
       ok: true,
       msg: "Listado de Accountos",
       accounts,
+      count
     });
   }catch(e){
     res.status(400).json({

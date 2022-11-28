@@ -5,17 +5,39 @@ const { validateToken } = require('../auth/middleware/jwt');
 
 const router = Router();
 
+const getSearchCompanyQuotations = async() => {
+  const {value} = req.params;
+  const options = req.query;
+  const token = req.myPayload;
+  try{
+    const {quotations, count} = await companyQuotationController.getSearchCompanyQuotations(value, token, options)
+
+    res.status(200).json({
+      ok: true,
+      msg: "Listado de Cuentas",
+      quotations,
+      count
+    });
+  }catch(e){
+    res.status(400).json({
+      ok: false,
+      msg: "Intenta mas tarde",
+    });
+  }
+}
+
 const getCompanyQuotations = async (req, res) => {
   const {idCompany} = req.params;
   const options = req.query;
   const token = req.myPayload;
   try{
-    const quotations = await companyQuotationController.getCompanyQuotations(idCompany, token, options)
+    const {quotations, count} = await companyQuotationController.getCompanyQuotations(idCompany, token, options)
 
     res.status(200).json({
       ok: true,
       msg: "Listado de Quotationos",
       quotations,
+      count
     });
   }catch(e){
     res.status(400).json({
@@ -86,6 +108,7 @@ const deleteCompanyQuotation = async (req, res) => {
   });
 };
 
+router.get("/search/:value", validateToken, getSearchCompanyQuotations);
 router.get("/:idCompany", validateToken, getCompanyQuotations);
 router.post("/:idCompany", validateToken, postCompanyQuotation);
 router.put("/:id",validateToken, putCompanyQuotation);

@@ -5,17 +5,39 @@ const { validateToken } = require('../auth/middleware/jwt');
 
 const router = Router();
 
-const getCompanyOpportunities = async (req, res) => {
-  const {idCompany} = req.params;
+const getSearchOpportunities = async (req, res) => {
+  const {value} = req.params;
   const options = req.query;
   const token = req.myPayload;
   try{
-    const opportunities = await companyOpportunitiesController.getCompanyOpportunities(idCompany, token, options)
+    const {opportunities, count} = await companyOpportunitiesController.getSearchOpportunities(value, token, options)
 
     res.status(200).json({
       ok: true,
       msg: "Listado de Opportunitiesos",
       opportunities,
+      count
+    });
+  }catch(e){
+    res.status(400).json({
+      ok: false,
+      msg: "Intenta mas tarde",
+    });
+  }
+};
+
+const getCompanyOpportunities = async (req, res) => {
+  const {idCompany} = req.params;
+  const options = req.query;
+  const token = req.myPayload;
+  try{
+    const {opportunities, count} = await companyOpportunitiesController.getCompanyOpportunities(idCompany, token, options)
+
+    res.status(200).json({
+      ok: true,
+      msg: "Listado de Opportunitiesos",
+      opportunities,
+      count
     });
   }catch(e){
     res.status(400).json({
@@ -86,6 +108,7 @@ const deleteCompanyOpportunities = async (req, res) => {
   });
 };
 
+router.get("/search/:value", validateToken, getSearchOpportunities);
 router.get("/:idCompany", validateToken, getCompanyOpportunities);
 router.post("/:idCompany", validateToken, postCompanyOpportunities);
 router.put("/:id",validateToken, putCompanyOpportunities);

@@ -3,6 +3,7 @@ const CompanyModel = require("../models/company");
 const UserModel = require("../models/User")
 
 const getSearchOpportunities = async (value, token, options) => {
+  console.log('%cMyProject%cline:5%cvalue', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(248, 147, 29);padding:3px;border-radius:2px', value)
   try {
     const user = await UserModel.findById(token.sub.id)
     if(!user){
@@ -15,12 +16,16 @@ const getSearchOpportunities = async (value, token, options) => {
 
     const regex = new RegExp(value.replace("_", " "));
 
-    const Opportunities = await CompanyOpportunitiesModel
+    const opportunities = await CompanyOpportunitiesModel
       .find({ $and: [{name: {$regex: regex, $options: 'gi'}},{idCompany: user.companies}]})
       .limit(options.limit)
       .skip(options.offset);
 
-    return Opportunities
+    const count = await CompanyOpportunitiesModel
+      .find({ $and: [{name: {$regex: regex, $options: 'gi'}},{idCompany: user.companies}]})
+      .count()
+
+    return {opportunities,count}
   } catch (error) {
     console.log(error.message)
   }
@@ -34,12 +39,19 @@ const getCompanyOpportunities = async (idCompany, token, options) => {
     return "este usuario no es un empleado"
   }
 
-  const Opportunities = await CompanyOpportunitiesModel
+  const opportunities = await CompanyOpportunitiesModel
     .find({idCompany: idCompany})
     .limit(options.limit)
     .skip(options.offset);
 
-  return Opportunities
+  const count = await CompanyOpportunitiesModel
+    .find({idCompany: idCompany})
+    .count()
+
+  return {
+    opportunities,
+    count
+  }
 };
 
 const postCompanyOpportunities = async (body, token, idCompany) => {

@@ -2,6 +2,45 @@ const CompanyQuotationsModel = require("../models/companyQuotations.js");
 const CompanyAccountsModel = require("../models/companyQuotations.js")
 const CompanyModel = require("../models/company");
 
+const getSearchCompanyQuotations = async (value, token, options) => {
+  try {
+    const user = await UserModel.findById(token.sub.id)
+    if(!user){
+      return "este no es un usuario"
+    }
+    const company = await CompanyModel.findById(user.companies);
+    if(company !== null){
+      if(!company.employeesId.includes(token.sub.id)){
+        return "este usuario no es un empleado"
+      }
+    }
+
+    const regex = new RegExp(value.replace("_", " "));
+
+    const quotations = await CompanySalesModel
+      .find({
+        $and: [
+          {$or: [{accountName: {$regex: regex, $options: 'gi'}}, {accountPhone: {$regex: regex, $options: 'gi'}}]},
+          {$or: [{idCompany: user.companies},{idUser: token.sub.id}]}
+        ]})
+      .limit(options.limit)
+      .skip(options.offset);
+
+    const count = await CompanySalesModel
+      .find({
+        $and: [
+          {$or: [{accountName: {$regex: regex, $options: 'gi'}}, {accountPhone: {$regex: regex, $options: 'gi'}}]},
+          {$or: [{idCompany: user.companies},{idUser: token.sub.id}]}
+        ]
+      })
+      .count()
+
+    return {quotations, count}
+  } catch (error) {
+    console.log(error)
+  }
+};
+
 const getCompanyQuotations = async (idCompany, token, options) => {
   const company = await CompanyModel.findById(idCompany)
 
@@ -15,7 +54,11 @@ const getCompanyQuotations = async (idCompany, token, options) => {
     .limit(options.limit)
     .skip(options.offset);
 
-  return quotations
+  const count = await CompanyQuotationsModel
+    .find({idCompany: idCompany})
+    .count()
+
+  return {quotations, count}
 };
 
 const postCompanyQuotation = async (body, token, idCompany) => {
@@ -64,6 +107,7 @@ const deleteCompanyQuotation = async (id, token, idCompany) => {
 };
 
 module.exports = {
+  getSearchCompanyQuotations,
   getCompanyQuotations,
   postCompanyQuotation,
   putCompanyQuotation,

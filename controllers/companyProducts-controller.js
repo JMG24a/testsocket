@@ -15,12 +15,16 @@ const getSearchProducts = async (value, token, options) => {
 
     const regex = new RegExp(value.replace("_", " "));
 
-    const Products = await CompanyProductsModel
+    const products = await CompanyProductsModel
       .find({ $and: [{name: {$regex: regex, $options: 'gi'}},{idCompany: user.companies}]})
       .limit(options.limit)
       .skip(options.offset);
 
-    return Products
+    const count = await CompanyProductsModel
+      .find({ $and: [{name: {$regex: regex, $options: 'gi'}},{idCompany: user.companies}]})
+      .count()
+
+    return {products, count}
   } catch (error) {
     console.log(error.message)
   }
@@ -34,12 +38,16 @@ const getCompanyProducts = async (idCompany, token, options) => {
     return "este usuario no es un empleado"
   }
 
-  const Products = await CompanyProductsModel
+  const products = await CompanyProductsModel
     .find({idCompany: idCompany})
     .limit(options.limit)
     .skip(options.offset);
 
-  return Products
+    const count = await CompanyProductsModel
+      .find({idCompany: idCompany})
+      .count()
+
+  return {products, count}
 };
 
 const postCompanyProduct = async (body, token, idCompany) => {

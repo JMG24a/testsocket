@@ -12,12 +12,13 @@ const getSearchProducts = async (req, res) => {
   console.log('%cMyProject%cline:11%ctoken', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(131, 175, 155);padding:3px;border-radius:2px', token)
 
   try{
-    const products = await companyProductController.getSearchProducts(value, token, options)
+    const {products, count} = await companyProductController.getSearchProducts(value, token, options)
 
     res.status(200).json({
       ok: true,
       msg: "Listado de productos",
       products,
+      count
     });
   }catch(e){
     res.status(400).json({
@@ -32,12 +33,13 @@ const getCompanyProducts = async (req, res) => {
   const options = req.query;
   const token = req.myPayload;
   try{
-    const products = await companyProductController.getCompanyProducts(idCompany, token, options)
+    const {products, count} = await companyProductController.getCompanyProducts(idCompany, token, options)
 
     res.status(200).json({
       ok: true,
       msg: "Listado de productos",
       products,
+      count
     });
   }catch(e){
     res.status(400).json({

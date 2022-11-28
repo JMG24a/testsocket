@@ -31,7 +31,24 @@ const getSearchOrders = async (value, token, options) => {
       .limit(options.limit)
       .skip(options.offset);
 
-    return orders
+    const count = await CompanyOrdersModel
+      .find({
+        $and: [
+          {
+            $or: [
+              {"accountName": {$regex: er, $options: 'gi'}},
+              {"accountPhone": {$regex: er, $options: 'gi'}},
+            ]
+          },
+            {id: user.companies}
+        ]
+      })
+      .count()
+
+    return {
+      orders,
+      count
+    }
   } catch (error) {
     console.log(error)
   }
@@ -50,7 +67,11 @@ const getCompanyOrders = async (idCompany, token, options) => {
     .limit(options.limit)
     .skip(options.offset);
 
-  return orders
+  const count = await CompanyOrdersModel
+    .find({idCompany: idCompany})
+    .count()
+
+  return {orders, count}
 };
 
 const postCompanyOrder = async (body, token, idCompany) => {

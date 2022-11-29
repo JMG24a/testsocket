@@ -5,7 +5,7 @@ const { validateToken } = require('../auth/middleware/jwt');
 
 const router = Router();
 
-const getSearchCompanySales = async() => {
+const getSearchCompanySales = async(req, res) => {
   const {value} = req.params;
   const options = req.query;
   const token = req.myPayload;

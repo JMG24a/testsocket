@@ -5,10 +5,11 @@ const { validateToken } = require('../auth/middleware/jwt');
 
 const router = Router();
 
-const getSearchCompanyQuotations = async() => {
+const getSearchCompanyQuotations = async(req, res) => {
   const {value} = req.params;
   const options = req.query;
   const token = req.myPayload;
+
   try{
     const {quotations, count} = await companyQuotationController.getSearchCompanyQuotations(value, token, options)
 

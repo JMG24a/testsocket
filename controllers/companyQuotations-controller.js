@@ -1,6 +1,7 @@
 const CompanyQuotationsModel = require("../models/companyQuotations.js");
 const CompanyAccountsModel = require("../models/companyQuotations.js")
 const CompanyModel = require("../models/company");
+const UserModel = require("../models/User");
 
 const getSearchCompanyQuotations = async (value, token, options) => {
   try {
@@ -17,7 +18,7 @@ const getSearchCompanyQuotations = async (value, token, options) => {
 
     const regex = new RegExp(value.replace("_", " "));
 
-    const quotations = await CompanySalesModel
+    const quotations = await CompanyQuotationsModel
       .find({
         $and: [
           {$or: [{accountName: {$regex: regex, $options: 'gi'}}, {accountPhone: {$regex: regex, $options: 'gi'}}]},
@@ -26,7 +27,7 @@ const getSearchCompanyQuotations = async (value, token, options) => {
       .limit(options.limit)
       .skip(options.offset);
 
-    const count = await CompanySalesModel
+    const count = await CompanyQuotationsModel
       .find({
         $and: [
           {$or: [{accountName: {$regex: regex, $options: 'gi'}}, {accountPhone: {$regex: regex, $options: 'gi'}}]},

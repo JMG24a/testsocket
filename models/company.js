@@ -24,6 +24,7 @@ const companySchema = Schema(
       address: { type: String },
       city: { type: String },
       department: { type: String },
+      country: { type: String }
     },
     paymentMethod: [
       '100% anticipado',

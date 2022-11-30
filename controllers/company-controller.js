@@ -95,6 +95,7 @@ const deleteCompany = async (id, token) => {
 // }
 
 const addEmployeeCompanyById = async (token, idCompany) => {
+  console.log('%cMyProject%cline:97%cidCompany', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(229, 187, 129);padding:3px;border-radius:2px', idCompany)
   try {
     const companies = await CompanyModel.findById(idCompany).populate("userId");
 
@@ -105,15 +106,15 @@ const addEmployeeCompanyById = async (token, idCompany) => {
       companies.employees.push({idEmployeeRef: token.sub.id, status: false})
     }
 
-    console.log("userPlan", companies.userId[0].plan)
+    // console.log("userPlan", companies.userId[0].plan)
 
-    await UserModel.findByIdAndUpdate(token.sub.id,
-      {
-        companies: idCompany,
-        plan:{
-          ...companies.userId[0].plan
-        }
-      }, {new: true})
+    // await UserModel.findByIdAndUpdate(token.sub.id,
+    //   {
+    //     companies: idCompany,
+    //     plan:{
+    //       ...companies.userId[0].plan
+    //     }
+    //   }, {new: true})
 
 
     const newCompany = await CompanyModel.findByIdAndUpdate(idCompany, {
@@ -128,15 +129,37 @@ const addEmployeeCompanyById = async (token, idCompany) => {
 }
 
 const disabledEmployeeCompany = async (token, id) => {
-  const companies = await CompanyModel.find({userId: token.sub.id});
+  const companies = await CompanyModel.find({userId: token.sub.id}).populate("userId");
 
   companies[0].employees = companies[0].employees.map(item => {
     if(item?.idEmployeeRef == id){
       item.status = !item.status
       if(!item.status){
         companies[0].employeesId = companies[0].employeesId.filter(item => item != id);
+        new Promise(async(resolve, reject)=>{
+          await UserModel.findByIdAndUpdate(id,
+            {
+              companies: null,
+              plan:{
+                ...companies[0].userId[0].plan,
+                planInfo: "63068b13e4bb2ceac56b77ed",//plan basic
+                paymentMethod:  null,
+                expireDate:     "expired",
+                extraTime:      "aun no se para que usarlo"
+              }
+            }, {new: true})
+        })
       }else{
         companies[0].employeesId = companies[0].employeesId.push(id);
+         new Promise(async(resolve, reject)=>{
+          await  UserModel.findByIdAndUpdate(id,
+            {
+              companies: [companies[0]._id],
+              plan:{
+                ...companies[0].userId[0].plan
+              }
+            }, {new: true})
+        })
       }
       return item
     }

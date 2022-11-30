@@ -148,6 +148,7 @@ const addEmployeeCompany = async (req, res) => {
 const addEmployeeCompanyById = async(req, res) => {
   const token = req.myPayload;
   const {idCompany} = req.body;
+  console.log('%cMyProject%cline:150%cidCompany', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(95, 92, 51);padding:3px;border-radius:2px', idCompany)
 
   try{
     const addUser = await CompanyController.addEmployeeCompanyById(token, idCompany)

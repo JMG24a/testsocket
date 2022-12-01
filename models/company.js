@@ -40,12 +40,12 @@ const companySchema = Schema(
       quotation: { type: String },
       invoice: { type: String },
     },
-    settings: [{
-      orderWorkNumber :{type: String},
-      purchaseNumber  :{type: String},
-      quotationsNumber:{type: String},
-      SalesNumber     :{type: String},
-    }]
+    settings:{
+      orderWorkNumber :{type: String, default: "0"},
+      purchaseNumber  :{type: String, default: "0"},
+      quotationsNumber:{type: String, default: "0"},
+      SalesNumber     :{type: String, default: "0"},
+    }
   },
   {
     timestamps: true,

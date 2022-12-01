@@ -1,5 +1,5 @@
 const CompanyQuotationsModel = require("../models/companyQuotations.js");
-const CompanyAccountsModel = require("../models/companyQuotations.js")
+const CompanyAccountsModel = require("../models/companyAccounts")
 const CompanyModel = require("../models/company");
 const UserModel = require("../models/User");
 
@@ -24,6 +24,7 @@ const getSearchCompanyQuotations = async (value, token, options) => {
           {$or: [{accountName: {$regex: regex, $options: 'gi'}}, {accountPhone: {$regex: regex, $options: 'gi'}}]},
           {$or: [{idCompany: user.companies},{idUser: token.sub.id}]}
         ]})
+      .populate('contact')
       .limit(options.limit)
       .skip(options.offset);
 
@@ -76,9 +77,20 @@ const postCompanyQuotation = async (body, token, idCompany) => {
     }
     body.idCompany = idCompany
 
-    body.idCompany = idCompany
+    body.quotationNumber = (parseInt(company.settings.quotationsNumber, 10) + 1)
+
     const newQuotations = new CompanyQuotationsModel(body);
     const saveObject = (await newQuotations.save()).populate('contact');
+
+    new Promise(async(resolve, reject)=>{
+      await CompanyModel.findByIdAndUpdate(idCompany,
+        {
+          settings: {
+            ...company.settings,
+            quotationsNumber:( parseInt(company.settings.quotationsNumber, 10) + 1)}
+        },
+        { new: true })
+    })
 
     return saveObject
   }catch(e){

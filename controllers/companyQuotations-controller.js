@@ -76,7 +76,6 @@ const postCompanyQuotation = async (body, token, idCompany) => {
       body.accountPhone = contact.phone
     }
     body.idCompany = idCompany
-
     body.quotationNumber = (parseInt(company.settings.quotationsNumber, 10) + 1)
 
     const newQuotations = new CompanyQuotationsModel(body);

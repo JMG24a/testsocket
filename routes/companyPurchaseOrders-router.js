@@ -31,12 +31,12 @@ const getCompanyPurchases = async (req, res) => {
   const options = req.query;
   const token = req.myPayload
   try{
-    const {purchaseOrders, count} = await companyPurchaseOrdersController.getCompanyPurchases(idCompany, token, options)
+    const {purchases, count} = await companyPurchaseOrdersController.getCompanyPurchases(idCompany, token, options)
 
     res.status(200).json({
       ok: true,
       msg: "Listado de ordenes",
-      purchaseOrders,
+      purchases,
       count
     });
   }catch(e){

@@ -41,10 +41,10 @@ const companySchema = Schema(
       invoice: { type: String },
     },
     settings:{
-      orderWorkNumber :{type: String, default: "0"},
-      purchaseNumber  :{type: String, default: "0"},
+      orderWorksNumber :{type: String, default: "0"},
+      purchasesNumber  :{type: String, default: "0"},
       quotationsNumber:{type: String, default: "0"},
-      SalesNumber     :{type: String, default: "0"},
+      salesNumber     :{type: String, default: "0"},
     }
   },
   {

@@ -9,6 +9,7 @@ const companySaleSchema = Schema({
     description: {type: String},
     unity: {type: Number}
   }],
+  saleNumber: {type: String},
   date: {type: String},
   paymentMethod: {type: String},
   seller: {type: String},

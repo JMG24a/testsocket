@@ -63,10 +63,21 @@ const postCompanyPurchaseOrder = async (body, token, idCompany) => {
       body.accountName = contact.accountName
       body.accountPhone = contact.phone
     }
-    body.idCompany = idCompany
+    body.idCompany = idCompany;
+    body.purchaseNumber = (parseInt(company.settings.purchasesNumber, 10) + 1);
 
     const companyPurchase = new CompanyPurchasesModel(body);
     const saveObject = (await companyPurchase.save()).populate('contact');
+
+    new Promise(async(resolve, reject)=>{
+      await CompanyModel.findByIdAndUpdate(idCompany,
+        {
+          settings: {
+            ...company.settings,
+            purchasesNumber:( parseInt(company.settings.purchasesNumber, 10) + 1)}
+        },
+        { new: true })
+    })
 
     return saveObject
   }catch(e){

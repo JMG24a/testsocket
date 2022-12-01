@@ -86,10 +86,21 @@ const postCompanyOrder = async (body, token, idCompany) => {
       body.accountName = contact.accountName
       body.accountPhone = contact.phone
     }
-    body.idCompany = idCompany
+    body.idCompany = idCompany;
+    body.orderWorkNumber = (parseInt(company.settings.orderWorksNumber, 10) + 1);
 
     const companyOrder = new CompanyOrdersModel(body);
     const saveObject = (await companyOrder.save()).populate('contact');
+
+    new Promise(async(resolve, reject)=>{
+      await CompanyModel.findByIdAndUpdate(idCompany,
+        {
+          settings: {
+            ...company.settings,
+            orderWorksNumber:( parseInt(company.settings.orderWorksNumber, 10) + 1)}
+        },
+        { new: true })
+    })
 
     return saveObject
   }catch(e){

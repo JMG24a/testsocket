@@ -68,11 +68,24 @@ const postCompanySale = async (body, token, idCompany) => {
       return "este usuario no es un empleado"
     }
     body.idCompany = idCompany
+    body.saleNumber = (parseInt(company.settings.salesNumber, 10) + 1)
+
     const newSale = new CompanySalesModel(body);
     const saveObject = (await newSale.save()).populate('contact');
 
+    new Promise(async(resolve, reject)=>{
+      await CompanyModel.findByIdAndUpdate(idCompany,
+        {
+          settings: {
+            ...company.settings,
+            salesNumber:( parseInt(company.settings.salesNumber, 10) + 1)}
+        },
+        { new: true })
+    })
+
     return saveObject
   }catch(e){
+    console.log(e)
     throw new Error ('El usuario no pudo ser creado')
   }
 };

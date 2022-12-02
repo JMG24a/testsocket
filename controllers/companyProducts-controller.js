@@ -68,10 +68,19 @@ const postCompanyProduct = async (body, token, idCompany) => {
 };
 
 const putCompanyProduct = async (id, body, token) => {
-
-  const company = await CompanyModel.findById(body.idCompany);
+  const user = await UserModel.findById(token.sub.id)
+  if(!user){
+    return "este no es un usuario"
+  }
+  const company = await CompanyModel.findById(user.companies);
   if(!company.employeesId.includes(token.sub.id)){
     return "este usuario no es un empleado"
+  }
+
+  if(!company.employeesId.includes(token.sub.id) ){
+    if(!company.userId.includes(token.sub.id)){
+      return "este usuario no es un empleado"
+    }
   }
 
   const editCompanyProducts = await CompanyProductsModel.findByIdAndUpdate(id, body, { new: true });

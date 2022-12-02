@@ -77,7 +77,6 @@ const putCompanyProduct = async (req, res) => {
 
   try {
     const editProduct = await companyProductController.putCompanyProduct(id, body, token)
-
     if (typeof editProduct === 'string') {
       res.status(404).json({
         ok: false,

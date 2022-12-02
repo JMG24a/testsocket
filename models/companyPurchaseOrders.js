@@ -3,6 +3,8 @@ const { Schema, model } = require("mongoose");
 const companyOrderSchema = Schema({
   idCompany: { type: Schema.Types.ObjectId, ref: 'Company' },
   contact: { type: Schema.Types.ObjectId, ref: 'CompanyAccounts' },
+  accountPhone: {type: String},
+  accountName: {type: String},
   products: [{
     name: {type: String},
     price: {type: String},
@@ -10,8 +12,6 @@ const companyOrderSchema = Schema({
     unity: {type: Number}
   }],
   purchaseNumber: {type: String},
-  accountPhone: {type: String},
-  accountName: {type: String},
   status: { type: String },
   shippingDate: { type: String },
   dateOfReceipt: { type: String },

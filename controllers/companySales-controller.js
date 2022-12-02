@@ -1,4 +1,5 @@
 const CompanySalesModel = require("../models/companySales.js");
+const CompanyAccountsModel = require("../models/companyAccounts.js")
 const UserModel = require("../models/User");
 const CompanyModel = require("../models/company");
 
@@ -20,9 +21,10 @@ const getSearchCompanySales = async (value, token, options) => {
     const sales = await CompanySalesModel
       .find({
         $and: [
-          {accountName: {$regex: regex, $options: 'gi'}},
-          {$or: [{idCompany: user.companies},{idUser: token.sub.id}]}
+          {$or: [{accountName: {$regex: regex, $options: 'gi'}},{accountPhone: {$regex: regex, $options: 'gi'}}]},
+          {idCompany: user.companies}
         ]})
+      .populate('contact')
       .limit(options.limit)
       .skip(options.offset);
 
@@ -66,6 +68,12 @@ const postCompanySale = async (body, token, idCompany) => {
 
     if(!company.employeesId.includes(token.sub.id)){
       return "este usuario no es un empleado"
+    }
+
+    const contact = await CompanyAccountsModel.findById(body.contact)
+    if(contact){
+      body.accountName = contact.accountName
+      body.accountPhone = contact.phone
     }
     body.idCompany = idCompany
     body.saleNumber = (parseInt(company.settings.salesNumber, 10) + 1)

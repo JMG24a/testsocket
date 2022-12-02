@@ -1,11 +1,11 @@
 const { Schema, model } = require("mongoose");
 
 const companyOrderSchema = Schema({
-  contact: { type: Schema.Types.ObjectId, ref: 'CompanyAccounts' },
   idCompany: { type: Schema.Types.ObjectId, ref: 'Company' },
-  orderWorkNumber: {type: String},
+  contact: { type: Schema.Types.ObjectId, ref: 'CompanyAccounts' },
   accountName: {type: String},
   accountPhone: {type: String},
+  orderWorkNumber: {type: String},
   date: {type: String},
   status: { type: String },
   importation: { type: String },

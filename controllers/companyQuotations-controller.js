@@ -22,7 +22,7 @@ const getSearchCompanyQuotations = async (value, token, options) => {
       .find({
         $and: [
           {$or: [{accountName: {$regex: regex, $options: 'gi'}}, {accountPhone: {$regex: regex, $options: 'gi'}}]},
-          {$or: [{idCompany: user.companies},{idUser: token.sub.id}]}
+          {idCompany: user.companies}
         ]})
       .populate('contact')
       .limit(options.limit)

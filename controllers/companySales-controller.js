@@ -99,36 +99,35 @@ const postCompanySale = async (body, token, idCompany) => {
 };
 
 const importCompanySales = async (body, token) => {
-  console.time();
   try {
     let result = "Error no encontrado"
     const user = await UserModel.findById(token.sub.id)
     if(!user){
       return "este no es un usuario"
     }
+
     const company = await CompanyModel.findById(user.companies)
+
     if(company !== null){
       if(!company.employeesId.includes(token.sub.id)){
         return "este usuario no es un empleado"
       }
-      const sales = body.map(sale => {
-        sale.idCompany = user.companies
-        return sale
-      })
-      const options = { ordered: true };
-      result = await CompanySalesModel.insertMany(sales, options);
-      // await uploadedSale(token.sub.email)
+      const numberInvoice = company.settings.salesNumber;
+      let invoice = parseInt(numberInvoice,10);
 
-    }else{
-      const sales = body.map(sale => {
+      const sales = body.map((sale) => {
         sale.idCompany = user.companies
+        invoice = invoice + 1
+        sale.saleNumber = invoice
         return sale
       })
+
+      console.log("sales",sales)
       const options = { ordered: true };
       result = await CompanySalesModel.insertMany(sales, options);
       // await uploadedSale(token.sub.email)
     }
-    console.timeEnd();
+
     return result
   }catch(e){
     throw new Error ('El usuario no pudo ser creado')
@@ -138,7 +137,6 @@ const importCompanySales = async (body, token) => {
 const putCompanySale = async (id, body, token) => {
   const user = await UserModel.findById(token.sub.id)
   if(!user){
-    console.log("SALES")
     return "este no es un usuario"
   }
   const company = await CompanyModel.findById(user.companies)

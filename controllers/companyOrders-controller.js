@@ -65,7 +65,8 @@ const getCompanyOrders = async (idCompany, token, options) => {
     .find({idCompany: idCompany})
     .populate('contact')
     .limit(options.limit)
-    .skip(options.offset);
+    .skip(options.offset)
+    .sort({createdAt:'descending'});
 
   const count = await CompanyOrdersModel
     .find({idCompany: idCompany})

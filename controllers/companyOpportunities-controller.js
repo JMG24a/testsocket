@@ -42,7 +42,8 @@ const getCompanyOpportunities = async (idCompany, token, options) => {
   const opportunities = await CompanyOpportunitiesModel
     .find({idCompany: idCompany})
     .limit(options.limit)
-    .skip(options.offset);
+    .skip(options.offset)
+    .sort({createdAt:'descending'});
 
   const count = await CompanyOpportunitiesModel
     .find({idCompany: idCompany})

@@ -57,7 +57,8 @@ const getCompanyAccounts = async (token, options) => {
     .find({$or: [{idCompany: user.companies}, {idUser: token.sub.id}]})
     .populate("contactId")
     .limit(options.limit)
-    .skip(options.offset);
+    .skip(options.offset)
+    .sort({createdAt:'descending'});
 
     const count = await CompanyAccountsModel
     .find({$or: [{idCompany: user.companies}, {idUser: token.sub.id}]})

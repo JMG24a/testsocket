@@ -51,13 +51,15 @@ const postCompanyPurchaseOrder = async (req, res) => {
   const {idCompany} = req.params;
   const token = req.myPayload
   const body = req.body;
+  console.log('%cMyProject%cline:53%cbody', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(237, 222, 139);padding:3px;border-radius:2px', body)
 
   try {
     const newCompanyPurchaseOrder = await companyPurchaseOrdersController.postCompanyPurchaseOrder(body, token, idCompany);
+    console.log('%cMyProject%cline:57%cnewCompanyPurchaseOrder', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(222, 125, 44);padding:3px;border-radius:2px', newCompanyPurchaseOrder)
     res.status(201).json({
       ok: true,
       msg: "Creado",
-      companyPurchaseOrder: newCompanyPurchaseOrder
+      newPurchase: newCompanyPurchaseOrder
     });
   } catch (error) {
     res.status(500).json({
@@ -86,7 +88,7 @@ const putCompanyPurchase = async (req, res) => {
     res.status(200).json({
       ok: true,
       msg: "Actualizado Correctamente",
-      editCompanyPurchaseOrder,
+      editPurchase: editCompanyPurchaseOrder,
     });
   } catch (error) {
     res.status(501).json({

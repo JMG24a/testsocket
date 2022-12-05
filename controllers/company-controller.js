@@ -139,18 +139,20 @@ const disabledEmployeeCompany = async (token, id) => {
         new Promise(async(resolve, reject)=>{
           await UserModel.findByIdAndUpdate(id,
             {
-              companies: null,
+              companies: [],
               plan:{
                 ...companies[0].userId[0].plan,
                 planInfo: "63068b13e4bb2ceac56b77ed",//plan basic
                 paymentMethod:  null,
                 expireDate:     "expired",
-                extraTime:      "aun no se para que usarlo"
+                extraTime:      "aun no se para que usarlo",
+                availableModules: false
               }
             }, {new: true})
         })
       }else{
         companies[0].employeesId = companies[0].employeesId.push(id);
+        console.log("companies[0].userId[0].plan", companies[0].userId[0].plan)
          new Promise(async(resolve, reject)=>{
           await  UserModel.findByIdAndUpdate(id,
             {
@@ -176,6 +178,19 @@ const disabledEmployeeCompany = async (token, id) => {
 
 const delEmployeeCompany = async (token, id) => {
   const companies = await CompanyModel.find({userId: token.sub.id});
+
+  await UserModel.findByIdAndUpdate(id,
+    {
+      companies: [],
+      plan:{
+        ...companies[0].userId[0].plan,
+        planInfo: "63068b13e4bb2ceac56b77ed",//plan basic
+        paymentMethod:  null,
+        expireDate:     "expired",
+        extraTime:      "aun no se para que usarlo",
+        availableModules: false
+      }
+    }, {new: true})
 
   companies[0].employeesId = companies[0].employeesId.filter(item => item != id);
   companies[0].employees = companies[0].employees.filter(item => item?.idEmployeeRef != id);

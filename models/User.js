@@ -19,10 +19,11 @@ const userSchema = new Schema({
   userType: { type: String, enum: ['customer', 'employee'] },
   customerType: { type: String, enum: ['persona', 'empresa'] },
   plan: {
-    planInfo:       { type: Schema.Types.ObjectId, ref: 'Product' },
-    paymentMethod:  { type: Schema.Types.ObjectId, ref: 'Invoice' },
-    expireDate:     { type: String, default: "expired"},
-    extraTime:      { type: String }
+    planInfo:         { type: Schema.Types.ObjectId, ref: 'Product' },
+    paymentMethod:    { type: Schema.Types.ObjectId, ref: 'Invoice' },
+    expireDate:       { type: String, default: "expired"},
+    extraTime:        { type: String },
+    availableModules: { type: Boolean, default: false }
   },
   address: [
     {

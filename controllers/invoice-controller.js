@@ -4,6 +4,7 @@ const Invoice = require('../models/Invoice');
 const UserModel = require('../models/User');
 const PlanModel = require('../models/Product');
 const PlanService = require('../services/planTime-service.js');
+const PLAN = require("../constants/planes")
 const { receiptMail } = require('../mails/receiptMail');
 
 const getAllInvoices = async(req = request, res = response) => {
@@ -98,7 +99,8 @@ const createNewInvoice = async (req = request, res = response) => {
         planInfo: invoice.plan,
         expireDate: expireDate,
         paymentMethod: idInvoice,
-        extraTime: user.plan.extraTime
+        extraTime: user.plan.extraTime,
+        availableModules: invoice.plan == PLAN.employee  ? true : false
       }
     }else{
       plan = {

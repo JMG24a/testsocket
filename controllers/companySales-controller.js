@@ -53,7 +53,8 @@ const getCompanySales = async (idCompany, token, options) => {
     .find({idCompany: idCompany})
     .populate("contact")
     .limit(options.limit)
-    .skip(options.offset);
+    .skip(options.offset)
+    .sort({createdAt:'descending'});;
 
   const count = await CompanySalesModel
     .find({idCompany: idCompany})
@@ -142,8 +143,15 @@ const putCompanySale = async (id, body, token) => {
   const company = await CompanyModel.findById(user.companies)
   if(company !== null){
     if(!company.employeesId.includes(token.sub.id)){
-      console.log("fuck")
       return "este usuario no es un empleado"
+    }
+  }
+
+  if(body.contact){
+    const contact = await CompanyAccountsModel.findById(body.contact)
+    if(contact){
+      body.accountName = contact.accountName
+      body.accountPhone = contact.phone
     }
   }
 

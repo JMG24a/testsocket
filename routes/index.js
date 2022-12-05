@@ -25,9 +25,10 @@ const companyOrdersRouter = require('./companyOrders-router');
 const companySalesRouter = require('./companySales-router');
 const companyQuotationsRouter = require('./companyQuotation-router.js');
 const companyAccountsRouter = require('./companyAccounts-router.js');
-const companyProductsRouter = require('./companyProducts-router')
+const companyProductsRouter = require('./companyProducts-router');
 const companyPurchaseRouter = require('./companyPurchaseOrders-router.js');
-const companyOpportunitiesRouter = require('./companyOpportunities-router.js')
+const companyOpportunitiesRouter = require('./companyOpportunities-router.js');
+const companyReportsRouter = require("./companyReports-router.js");
 
 const appRouter = (app) => {
   const routerV1 = Router();
@@ -60,6 +61,7 @@ const appRouter = (app) => {
   routerV1.use('/companyProducts', companyProductsRouter);
   routerV1.use('/companyPurchase', companyPurchaseRouter);
   routerV1.use('/companyOpportunities', companyOpportunitiesRouter);
+  routerV1.use('/companyReports', companyReportsRouter);
   //V2
 };
 

@@ -24,7 +24,7 @@ const getSearchOrders = async (value, token, options) => {
               {"accountPhone": {$regex: er, $options: 'gi'}},
             ]
           },
-            {id: user.companies}
+            {idCompany: user.companies}
         ]
       })
       .populate('contact')
@@ -40,7 +40,7 @@ const getSearchOrders = async (value, token, options) => {
               {"accountPhone": {$regex: er, $options: 'gi'}},
             ]
           },
-            {id: user.companies}
+            {idCompany: user.companies}
         ]
       })
       .count()
@@ -118,6 +118,14 @@ const putCompanyOrder= async (id, body, token) => {
   const company = await CompanyModel.findById(user.companies);
   if(!company.employeesId.includes(token.sub.id)){
     return "este usuario no es un empleado"
+  }
+
+  if(body.contact){
+    const contact = await CompanyAccountsModel.findById(body.contact)
+    if(contact){
+      body.accountName = contact.accountName
+      body.accountPhone = contact.phone
+    }
   }
 
   const editOrder = await CompanyOrdersModel.findByIdAndUpdate(id, body, { new: true }).populate('contact');

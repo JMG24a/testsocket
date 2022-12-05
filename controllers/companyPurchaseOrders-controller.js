@@ -16,13 +16,16 @@ const getSearchPurchases = async (value, token, options) => {
     const regex = new RegExp(value.replace("_", " ")); //query
 
     const purchases = await CompanyPurchasesModel
-      .find({ $and: [{accountPhone: {$regex: regex, $options: 'gi'}},{id: user.companies}]})
+      .find({ $and: [
+        {$or: [{accountName: {$regex: regex, $options: 'gi'}}, {accountPhone: {$regex: regex, $options: 'gi'}}]},
+        {idCompany: user.companies}
+      ]})
       .populate('contact')
       .limit(options.limit)
       .skip(options.offset);
 
     const count = await CompanyPurchasesModel
-      .find({ $and: [{accountPhone: {$regex: regex, $options: 'gi'}},{id: user.companies}]})
+      .find({ $and: [{accountPhone: {$regex: regex, $options: 'gi'}},{idCompany: user.companies}]})
       .count()
 
     return {purchases, count}
@@ -95,6 +98,14 @@ const putCompanyPurchase = async (id, body, token) => {
   const company = await CompanyModel.findById(user.companies);
   if(!company.employeesId.includes(token.sub.id)){
     return "este usuario no es un empleado"
+  }
+
+  if(body.contact){
+    const contact = await CompanyAccountsModel.findById(body.contact)
+    if(contact){
+      body.accountName = contact.accountName
+      body.accountPhone = contact.phone
+    }
   }
 
   const editPurchase = await CompanyPurchasesModel.findByIdAndUpdate(id, body, { new: true }).populate('contact');

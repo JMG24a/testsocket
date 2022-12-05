@@ -40,9 +40,9 @@ const postCompany = async (body, token) => {
     const CompanyOwner = await UserModel.findByIdAndUpdate(token.sub.id, {
       companies: user.companies,
       plan:{
-        planInfo:       "6356f191e8d78287a074838e",
-        expireDate:     "01/12/2023",
-        extraTime:      "nothing"
+        planInfo:   "6356f191e8d78287a074838e",
+        expireDate: "01/12/2023",
+        extraTime:  "nothing"
       }
     },{ new: true })
 

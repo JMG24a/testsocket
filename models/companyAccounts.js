@@ -24,7 +24,7 @@ const companyAccountSchema = Schema({
   stage: {type: String},
   phone: {type: String, required: true},
   mobile: {type: String},
-  dateImport: { type: Date }
+  dateImport: { type: String }
 },
 {
   timestamps: true,

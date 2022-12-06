@@ -31,7 +31,6 @@ const getCompanyAccounts = async (req, res) => {
   const token = req.myPayload;
   try{
     const { accounts, count } = await companyAccountController.getCompanyAccounts(token, options)
-    console.log('%cMyProject%cline:33%caccounts', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(248, 147, 29);padding:3px;border-radius:2px', accounts)
 
     res.status(200).json({
       ok: true,
@@ -147,6 +146,19 @@ const deleteCompanyAccount = async (req, res) => {
   });
 };
 
+const deleteImportCompanyAccount = async (req, res) => {
+  const body = req.body;
+  const token = req.myPayload;
+  const isDelete = await companyAccountController.deleteImportCompanyAccount(body, token)
+
+  res.status(200).json({
+    msg: "Eliminado con exito",
+    ok: isDelete
+  });
+};
+
+
+
 router.get("/search/:value", validateToken, getSearchAccounts);
 router.get("/", validateToken, getCompanyAccounts);
 router.get("/:id", validateToken, getCompanyAccountsById);
@@ -154,5 +166,6 @@ router.post("/import", validateToken, importCompanyAccount)
 router.post("/", validateToken, postCompanyAccount);
 router.put("/:id", validateToken, putCompanyAccount);
 router.delete("/:id", validateToken, deleteCompanyAccount);
+router.post("/import/del", validateToken, deleteImportCompanyAccount);
 
 module.exports = router

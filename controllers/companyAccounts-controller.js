@@ -2,6 +2,7 @@ const CompanyAccountsModel = require("../models/companyAccounts");
 const CompanyModel = require("../models/company");
 const UserModel = require("../models/User")
 const { uploadedAccounts } = require("../mails/uploadedAccounts");
+const { getDateInString } = require("../helper/getDateInString");
 
 const getSearchAccounts = async (value, token, options) => {
   try {
@@ -130,7 +131,8 @@ const importCompanyAccount = async (body, token) => {
       }
       const accounts = body.map(account => {
         account.idCompany = user.companies
-        account.dateImport = new Date()
+        const dateImport = new Date()
+        account.dateImport = getDateInString(dateImport)
         return account
       })
       const options = { ordered: false };
@@ -148,7 +150,6 @@ const importCompanyAccount = async (body, token) => {
       await uploadedAccounts(token.sub.email)
     }
     console.timeEnd();
-    console.log('%cMyProject%cline:152%cresult', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(23, 44, 60);padding:3px;border-radius:2px', result)
     return result
   }catch(e){
     throw new Error ('El usuario no pudo ser creado')
@@ -191,6 +192,39 @@ const deleteCompanyAccount = async (id, token) => {
   return delCompanyOrder ? true : false;
 };
 
+const deleteImportCompanyAccount = async (body, token) => {
+
+  const user = await UserModel.findById(body.id)
+  if(!user){
+    return "este no es un usuario"
+  }
+  body.idCompany = user.id
+
+  const company = await CompanyModel.findById(user.companies)
+  if(company !== null){
+    if(company.employeesId.includes(token.sub.id) === false){
+      return "este usuario no es un empleado"
+    }
+    body.idCompany = company.id
+  }
+
+  const delCompanyOrder = await CompanyAccountsModel.deleteMany({
+    $and: [
+      {$or:[
+        {idUser: body.id},
+        {idCompany: body.idCompany}
+      ]},
+      {"dateImport": {$eq : body.start}}
+    ]
+  });
+
+  if(delCompanyOrder.deletedCount === 0){
+    return false
+  }
+
+  return delCompanyOrder.acknowledged ? true : false;
+};
+
 module.exports = {
   getSearchAccounts,
   getCompanyAccounts,
@@ -198,5 +232,6 @@ module.exports = {
   postCompanyAccount,
   importCompanyAccount,
   putCompanyAccount,
-  deleteCompanyAccount
+  deleteCompanyAccount,
+  deleteImportCompanyAccount
 }

@@ -31,6 +31,7 @@ const getCompanyAccounts = async (req, res) => {
   const token = req.myPayload;
   try{
     const { accounts, count } = await companyAccountController.getCompanyAccounts(token, options)
+    console.log('%cMyProject%cline:33%caccounts', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(248, 147, 29);padding:3px;border-radius:2px', accounts)
 
     res.status(200).json({
       ok: true,

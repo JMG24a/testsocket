@@ -130,15 +130,17 @@ const importCompanyAccount = async (body, token) => {
       }
       const accounts = body.map(account => {
         account.idCompany = user.companies
+        account.dateImport = new Date()
         return account
       })
-      const options = { ordered: true };
+      const options = { ordered: false };
       result = await CompanyAccountsModel.insertMany(accounts, options);
       await uploadedAccounts(token.sub.email)
 
     }else{
       const accounts = body.map(account => {
         account.idUser = token.sub.id
+        account.dateImport = new Date()
         return account
       })
       const options = { ordered: false };
@@ -146,6 +148,7 @@ const importCompanyAccount = async (body, token) => {
       await uploadedAccounts(token.sub.email)
     }
     console.timeEnd();
+    console.log('%cMyProject%cline:152%cresult', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(23, 44, 60);padding:3px;border-radius:2px', result)
     return result
   }catch(e){
     throw new Error ('El usuario no pudo ser creado')

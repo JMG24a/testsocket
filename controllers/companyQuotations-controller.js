@@ -24,7 +24,7 @@ const getSearchCompanyQuotations = async (value, token, options) => {
           {$or: [{accountName: {$regex: regex, $options: 'gi'}}, {accountPhone: {$regex: regex, $options: 'gi'}}]},
           {idCompany: user.companies}
         ]})
-      .populate('contact')
+      .populate('contact.idCompany')
       .limit(options.limit)
       .skip(options.offset);
 
@@ -53,6 +53,7 @@ const getCompanyQuotations = async (idCompany, token, options) => {
   const quotations = await CompanyQuotationsModel
     .find({idCompany: idCompany})
     .populate('contact')
+    .populate('idCompany')
     .limit(options.limit)
     .skip(options.offset)
     .sort({createdAt:'descending'});

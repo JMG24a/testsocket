@@ -7,7 +7,8 @@ const companyProductSchema = Schema({
   price: {type: String},
   image: {type: String},
   quantity: {type: String},
-  wareHouse: {type: String}
+  wareHouse: {type: String},
+  code: {type: String}
 },
 {
   timestamps: true,

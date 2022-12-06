@@ -123,7 +123,6 @@ const importCompanySales = async (body, token) => {
         return sale
       })
 
-      console.log("sales",sales)
       const options = { ordered: true };
       result = await CompanySalesModel.insertMany(sales, options);
       // await uploadedSale(token.sub.email)

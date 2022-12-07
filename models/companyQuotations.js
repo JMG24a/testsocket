@@ -13,6 +13,7 @@ const companyQuotationSchema = Schema({
   }],
   date: {type: String},
   paymentMethod: {type: String},
+  deliveryTime: {type: String},
   seller: {type: String},
   observations: {type: String},
   subTotal: {type: String},

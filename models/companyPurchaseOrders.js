@@ -23,7 +23,7 @@ const companyOrderSchema = Schema({
   discount: {type: String},
   paymentMethod: {type: String},
   paymentConditions: {type: String},
-  deliveryDate: {type: String},
+  deliveryTime: {type: String},
   deliveryAddress: {type: String},
   guarantee: {type: String},
   policy: {type: String},

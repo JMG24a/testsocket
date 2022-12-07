@@ -82,7 +82,7 @@ const postCompanyQuotation = async (body, token, idCompany) => {
     body.quotationNumber = (parseInt(company.settings.quotationsNumber, 10) + 1)
 
     const newQuotations = new CompanyQuotationsModel(body);
-    const saveObject = (await newQuotations.save()).populate('contact');
+    const saveObject = (await newQuotations.save()).populate('contact').populate('idCompany');
 
     new Promise(async(resolve, reject)=>{
       await CompanyModel.findByIdAndUpdate(idCompany,
@@ -118,7 +118,10 @@ const putCompanyQuotation = async (id, body, token) => {
     }
   }
 
-  const editQuotation = await CompanyQuotationsModel.findByIdAndUpdate(id, body, { new: true }).populate('contact');
+  const editQuotation = await CompanyQuotationsModel.findByIdAndUpdate(id, body, { new: true })
+    .populate('contact')
+    .populate('idCompany');
+
   return editQuotation
 };
 

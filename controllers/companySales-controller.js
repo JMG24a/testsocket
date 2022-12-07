@@ -1,5 +1,6 @@
 const CompanySalesModel = require("../models/companySales.js");
 const CompanyAccountsModel = require("../models/companyAccounts.js")
+const CompanyProductsModel = require("../models/companyProducts.js")
 const UserModel = require("../models/User");
 const CompanyModel = require("../models/company");
 
@@ -70,7 +71,41 @@ const postCompanySale = async (body, token, idCompany) => {
     if(!company.employeesId.includes(token.sub.id)){
       return "este usuario no es un empleado"
     }
-    // const products = await ModelProducts.
+
+    /* Descontar productos */
+
+    // const searchProducts = body.products.map(item => {
+    //   return item.name
+    // })
+
+    // const processProducts = body.products.map(item => {
+    //   return {name: item.name, quantity: item.unity}
+    // })
+
+    // const products = await CompanyProductsModel
+    // .find({$and:[
+    //   {idCompany: idCompany},
+    //   {name: searchProducts}
+    // ]})
+
+    // const productsResult = products.map((item) => {
+    //   processProducts.map(item2 => {
+    //     if(item.name === item2.name){
+    //       item.quantity = item.quantity - item2.quantity
+    //     }
+    //   })
+    //   const data = { case: { $eq: [ "name", item.name ] }, then: item.quantity }
+    //   return data
+    // })
+
+    // console.log("productsResult",productsResult)
+    // console.log("----------------------- O -------------------------------")
+
+    // const res = await CompanyProductsModel.updateMany({},{
+    //   $set: { quantity: { $switch: {
+    //     branches: productsResult,
+    //     default: "0"
+    // }}}})
 
     const contact = await CompanyAccountsModel.findById(body.contact)
     if(contact){

@@ -26,12 +26,22 @@ const companySchema = Schema(
       department: { type: String },
       country: { type: String }
     },
-    paymentMethod: [
-      '100% anticipado',
-      '50% anticipao y 50% contraentrega',
-      'Credito 15 dias',
-      'Credito 30 dias',
-    ],
+    ivaValue: [{
+      value: { type: String, unique: true, required: true },
+      checked: { type: Boolean, default: false }
+    }],
+    paymentMethod: [{
+      value: { type: String, unique: true, required: true },
+      checked: { type: Boolean, default: false }
+    }],
+    deliveryTime: [{
+      value: { type: String, unique: true, required: true },
+      checked: { type: Boolean, default: false }
+    }],
+    sellers: [{
+      value: { type: String, unique: true ,required: true},
+      checked: { type: Boolean, default: false }
+    }],
     corporativeColors: {
       primary: { type: String },
       secondary: { type: String },
@@ -45,7 +55,8 @@ const companySchema = Schema(
       purchasesNumber  :{type: String, default: "0"},
       quotationsNumber:{type: String, default: "0"},
       salesNumber     :{type: String, default: "0"},
-    }
+    },
+    observations: {type: String}
   },
   {
     timestamps: true,

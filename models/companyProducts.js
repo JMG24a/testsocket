@@ -8,7 +8,7 @@ const companyProductSchema = Schema({
   image: {type: String},
   quantity: {type: String},
   wareHouse: {type: String},
-  code: {type: String}
+  code: {type: String, required: true}
 },
 {
   timestamps: true,

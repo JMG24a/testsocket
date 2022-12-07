@@ -70,6 +70,7 @@ const postCompanySale = async (body, token, idCompany) => {
     if(!company.employeesId.includes(token.sub.id)){
       return "este usuario no es un empleado"
     }
+    // const products = await ModelProducts.
 
     const contact = await CompanyAccountsModel.findById(body.contact)
     if(contact){

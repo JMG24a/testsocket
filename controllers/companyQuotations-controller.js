@@ -24,7 +24,8 @@ const getSearchCompanyQuotations = async (value, token, options) => {
           {$or: [{accountName: {$regex: regex, $options: 'gi'}}, {accountPhone: {$regex: regex, $options: 'gi'}}]},
           {idCompany: user.companies}
         ]})
-      .populate('contact.idCompany')
+      .populate('contact')
+      .populate('idCompany')
       .limit(options.limit)
       .skip(options.offset);
 

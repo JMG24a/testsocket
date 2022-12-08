@@ -67,6 +67,7 @@ const getCompanyQuotations = async (idCompany, token, options) => {
 };
 
 const postCompanyQuotation = async (body, token, idCompany) => {
+  console.log('%cMyProject%cline:69%cbody', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(252, 157, 154);padding:3px;border-radius:2px', body)
   try {
     const company = await CompanyModel.findById(idCompany)
 
@@ -82,7 +83,8 @@ const postCompanyQuotation = async (body, token, idCompany) => {
     body.quotationNumber = (parseInt(company.settings.quotationsNumber, 10) + 1)
 
     const newQuotations = new CompanyQuotationsModel(body);
-    const saveObject = (await newQuotations.save()).populate('contact').populate('idCompany');
+    const saveObject = (await newQuotations.save())
+      .populate('contact');
 
     new Promise(async(resolve, reject)=>{
       await CompanyModel.findByIdAndUpdate(idCompany,
@@ -96,6 +98,7 @@ const postCompanyQuotation = async (body, token, idCompany) => {
 
     return saveObject
   }catch(e){
+    console.log(e)
     throw new Error ('El usuario no pudo ser creado')
   }
 };

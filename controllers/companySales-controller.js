@@ -26,6 +26,7 @@ const getSearchCompanySales = async (value, token, options) => {
           {idCompany: user.companies}
         ]})
       .populate('contact')
+      .populate("idCompany")
       .limit(options.limit)
       .skip(options.offset);
 
@@ -53,6 +54,7 @@ const getCompanySales = async (idCompany, token, options) => {
   const sales = await CompanySalesModel
     .find({idCompany: idCompany})
     .populate("contact")
+    .populate("idCompany")
     .limit(options.limit)
     .skip(options.offset)
     .sort({createdAt:'descending'});;
@@ -114,6 +116,7 @@ const postCompanySale = async (body, token, idCompany) => {
     }
     body.idCompany = idCompany
     body.saleNumber = (parseInt(company.settings.salesNumber, 10) + 1)
+    company.settings.salesNumber = (parseInt(company.settings.salesNumber, 10) + 1)
 
     const newSale = new CompanySalesModel(body);
     const saveObject = (await newSale.save()).populate('contact');
@@ -123,10 +126,13 @@ const postCompanySale = async (body, token, idCompany) => {
         {
           settings: {
             ...company.settings,
-            salesNumber:( parseInt(company.settings.salesNumber, 10) + 1)}
+            salesNumber: company.settings.salesNumber
+          }
         },
         { new: true })
     })
+
+    saveObject.idCompany = company
 
     return saveObject
   }catch(e){
@@ -190,7 +196,9 @@ const putCompanySale = async (id, body, token) => {
     }
   }
 
-  const newSales = await CompanySalesModel.findByIdAndUpdate(id, body, { new: true }).populate('contact');
+  const newSales = await CompanySalesModel.findByIdAndUpdate(id, body, { new: true })
+    .populate('contact')
+    .populate("idCompany");
   return newSales
 };
 

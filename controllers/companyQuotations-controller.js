@@ -67,7 +67,6 @@ const getCompanyQuotations = async (idCompany, token, options) => {
 };
 
 const postCompanyQuotation = async (body, token, idCompany) => {
-  console.log('%cMyProject%cline:69%cbody', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(252, 157, 154);padding:3px;border-radius:2px', body)
   try {
     const company = await CompanyModel.findById(idCompany)
 
@@ -81,6 +80,7 @@ const postCompanyQuotation = async (body, token, idCompany) => {
     }
     body.idCompany = idCompany
     body.quotationNumber = (parseInt(company.settings.quotationsNumber, 10) + 1)
+    company.settings.quotationsNumber = (parseInt(company.settings.quotationsNumber, 10) + 1)
 
     const newQuotations = new CompanyQuotationsModel(body);
     const saveObject = (await newQuotations.save())
@@ -91,10 +91,14 @@ const postCompanyQuotation = async (body, token, idCompany) => {
         {
           settings: {
             ...company.settings,
-            quotationsNumber:( parseInt(company.settings.quotationsNumber, 10) + 1)}
+            quotationsNumber: company.settings.quotationsNumber
+          }
         },
         { new: true })
     })
+
+    saveObject.idCompany = company
+
 
     return saveObject
   }catch(e){

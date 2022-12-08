@@ -57,7 +57,7 @@ const getCompanySales = async (idCompany, token, options) => {
     .populate("idCompany")
     .limit(options.limit)
     .skip(options.offset)
-    .sort({createdAt:'descending'});;
+    .sort({createdAt:'descending'});
 
   const count = await CompanySalesModel
     .find({idCompany: idCompany})
@@ -119,7 +119,7 @@ const postCompanySale = async (body, token, idCompany) => {
     company.settings.salesNumber = (parseInt(company.settings.salesNumber, 10) + 1)
 
     const newSale = new CompanySalesModel(body);
-    const saveObject = (await newSale.save()).populate('contact');
+    const saveObject = await newSale.save();
 
     new Promise(async(resolve, reject)=>{
       await CompanyModel.findByIdAndUpdate(idCompany,
@@ -132,9 +132,12 @@ const postCompanySale = async (body, token, idCompany) => {
         { new: true })
     })
 
-    saveObject.idCompany = company
+    const resultSales = await CompanySalesModel
+      .findById(saveObject.id)
+      .populate("contact")
+      .populate("idCompany");
 
-    return saveObject
+    return resultSales
   }catch(e){
     console.log(e)
     throw new Error ('El usuario no pudo ser creado')

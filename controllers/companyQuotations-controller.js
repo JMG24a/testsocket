@@ -83,8 +83,7 @@ const postCompanyQuotation = async (body, token, idCompany) => {
     company.settings.quotationsNumber = (parseInt(company.settings.quotationsNumber, 10) + 1)
 
     const newQuotations = new CompanyQuotationsModel(body);
-    const saveObject = (await newQuotations.save())
-      .populate('contact');
+    const saveObject = await newQuotations.save()
 
     new Promise(async(resolve, reject)=>{
       await CompanyModel.findByIdAndUpdate(idCompany,
@@ -97,10 +96,12 @@ const postCompanyQuotation = async (body, token, idCompany) => {
         { new: true })
     })
 
-    saveObject.idCompany = company
+    const resultQuotations = await CompanyQuotationsModel
+    .findById(saveObject._id)
+    .populate('contact')
+    .populate('idCompany')
 
-
-    return saveObject
+    return resultQuotations
   }catch(e){
     console.log(e)
     throw new Error ('El usuario no pudo ser creado')

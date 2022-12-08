@@ -143,6 +143,7 @@ const importCompanyAccount = async (body, token) => {
       const accounts = body.map(account => {
         account.idUser = token.sub.id
         account.dateImport = new Date()
+        account.dateImport = getDateInString(dateImport)
         return account
       })
       const options = { ordered: false };

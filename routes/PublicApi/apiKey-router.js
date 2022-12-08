@@ -1,5 +1,6 @@
 const keyController = require("../../controllers/key-controller.js")
-const { Router } = require('express')
+const { Router } = require('express');
+const { validateToken } = require("../../auth/middleware/jwt.js");
 
 const router = Router();
 
@@ -38,14 +39,13 @@ const deleteKey = async (req, res) => {
   const isDelete = await keyController.deleteKey(token)
 
   res.status(200).json({
+    ok: isDelete,
     msg: "Eliminado con exito",
-    success: isDelete
   });
 };
 
 router.get("/", validateToken, getKey);
 router.post("/", validateToken, generateKey);
-router.put("/", validateToken, renewKey);
 router.delete("/", validateToken, deleteKey);
 
 module.exports = router;

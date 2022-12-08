@@ -18,7 +18,7 @@ const getArticles = async (req, res) => {
 
 const getArticle = async (req, res) => {
   const {id} = req.params;
-  const token = req.myPayload
+
   try{
     const article = await articleController.getArticle(id)
 

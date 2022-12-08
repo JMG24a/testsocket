@@ -23,12 +23,14 @@ const databasesRouter = require('./databases-router');
 const companyRouter = require('./company-router');
 const companyOrdersRouter = require('./companyOrders-router');
 const companySalesRouter = require('./companySales-router');
-const companyQuotationsRouter = require('./companyQuotation-router.js');
-const companyAccountsRouter = require('./companyAccounts-router.js');
+const companyQuotationsRouter = require('./companyQuotation-router');
+const companyAccountsRouter = require('./companyAccounts-router');
 const companyProductsRouter = require('./companyProducts-router');
-const companyPurchaseRouter = require('./companyPurchaseOrders-router.js');
-const companyOpportunitiesRouter = require('./companyOpportunities-router.js');
-const companyReportsRouter = require("./companyReports-router.js");
+const companyPurchaseRouter = require('./companyPurchaseOrders-router');
+const companyOpportunitiesRouter = require('./companyOpportunities-router');
+const companyReportsRouter = require("./companyReports-router");
+//PublicApi
+const keyRouter = require("./PublicApi/apiKey-router.js");
 
 const appRouter = (app) => {
   const routerV1 = Router();
@@ -62,6 +64,8 @@ const appRouter = (app) => {
   routerV1.use('/companyPurchase', companyPurchaseRouter);
   routerV1.use('/companyOpportunities', companyOpportunitiesRouter);
   routerV1.use('/companyReports', companyReportsRouter);
+  //PublicApi
+  routerV1.use('/key', keyRouter);
   //V2
 };
 

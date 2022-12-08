@@ -18,6 +18,7 @@ const userSchema = new Schema({
   idType: { type: String },
   userType: { type: String, enum: ['customer', 'employee'] },
   customerType: { type: String, enum: ['persona', 'empresa'] },
+  key: { type: String },
   plan: {
     planInfo:         { type: Schema.Types.ObjectId, ref: 'Product' },
     paymentMethod:    { type: Schema.Types.ObjectId, ref: 'Invoice' },

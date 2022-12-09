@@ -30,7 +30,7 @@ const companyPurchaseRouter = require('./companyPurchaseOrders-router');
 const companyOpportunitiesRouter = require('./companyOpportunities-router');
 const companyReportsRouter = require("./companyReports-router");
 //PublicApi
-const keyRouter = require("./PublicApi/apiKey-router.js");
+const keyRouter = require("./PublicApi/apiKey-router");
 
 const appRouter = (app) => {
   const routerV1 = Router();

@@ -3,6 +3,7 @@ const CompanyAccountsModel = require("../models/companyAccounts.js")
 const CompanyProductsModel = require("../models/companyProducts.js")
 const UserModel = require("../models/User");
 const CompanyModel = require("../models/company");
+const { getDateInString } = require("../helper/getDateInString.js");
 
 const getSearchCompanySales = async (value, token, options) => {
   try {
@@ -161,14 +162,38 @@ const importCompanySales = async (body, token) => {
       const numberInvoice = company.settings.salesNumber;
       let invoice = parseInt(numberInvoice,10);
 
+      const accounts = []
+
       const sales = body.map((sale) => {
+        //numero de factura
         sale.idCompany = user.companies
         invoice = invoice + 1
         sale.saleNumber = invoice
+
+        //cuentas
+        accounts.push({accountName: sale.accountName})
+
+
+        const dateImport = new Date()
+        account.dateImport = getDateInString(dateImport)
         return sale
       })
 
-      const options = { ordered: true };
+      company.settings.salesNumber = invoice
+      CompanyModel.findByIdAndUpdate(company.id,
+        {
+          settings: {
+            ...company.settings,
+            salesNumber: company.settings.salesNumber
+          }
+        },
+        { new: true })
+
+
+      const optionsAccount = { ordered: true };
+      CompanyAccountsModel.insertMany(accounts, optionsAccount);
+
+      const options = { ordered: false };
       result = await CompanySalesModel.insertMany(sales, options);
       // await uploadedSale(token.sub.email)
     }

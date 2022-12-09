@@ -63,7 +63,6 @@ const postSupportTicket = async (req, res) => {
 const putSupportUser = async (req, res) => {
   const { id } = req.params;
   const body = req.body;
-  console.log('%cMyProject%cline:65%cbody', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(153, 80, 84);padding:3px;border-radius:2px', body)
 
   try {
     await userModel.findByIdAndUpdate(id, body, {

@@ -203,7 +203,7 @@ const deleteImportCompanyAccount = async (body, token) => {
 
   const company = await CompanyModel.findById(user.companies)
   if(company !== null){
-    if(company.employeesId.includes(token.sub.id) === false){
+    if(!company.employeesId.includes(body.id) || !company.userId.includes(body.id)){
       return "este usuario no es un empleado"
     }
     body.idCompany = company.id

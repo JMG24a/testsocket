@@ -22,7 +22,7 @@ const companyAccountSchema = Schema({
   state: {type: String},
   nit: {type: String},
   stage: {type: String},
-  phone: {type: String, required: true},
+  phone: {type: String},
   mobile: {type: String},
   dateImport: { type: String }
 },

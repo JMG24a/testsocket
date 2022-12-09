@@ -8,6 +8,7 @@ const companyAccountSchema = Schema({
   priority: {type: String, enum: ['Vendedor', 'Cliente', 'partner']},
   type: {type: String, enum: ['Vendedor', 'Cliente', 'partner']},
   accountName: {type: String, required: true},
+  accountContact: {type: String},
   email: {type: String},
   accountValue: {type: String},
   website: {type: String},
@@ -24,7 +25,7 @@ const companyAccountSchema = Schema({
   stage: {type: String},
   phone: {type: String},
   mobile: {type: String},
-  dateImport: { type: String }
+  dateImport: {type: String}
 },
 {
   timestamps: true,

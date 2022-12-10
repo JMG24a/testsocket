@@ -2,7 +2,8 @@ const CompanyModel = require("../models/company");
 const ContactModel = require("../models/contacts");
 const UserModel = require("../models/User")
 const userController = require("../controllers/user-controller");
-const {editObject, createObject, delObject} = require("./tools/company-tools")
+const {editObject, createObject, delObject} = require("./tools/company-tools");
+const planes = require("../constants/planes");
 
 const getCompaniesUser = async (id) => {
   if(!id){
@@ -40,7 +41,7 @@ const postCompany = async (body, token) => {
     const CompanyOwner = await UserModel.findByIdAndUpdate(token.sub.id, {
       companies: user.companies,
       plan:{
-        planInfo:   "6356f191e8d78287a074838e",
+        planInfo:   planes.PLAN_PREMIUM,
         expireDate: "01/12/2023",
         extraTime:  "nothing"
       }
@@ -58,7 +59,6 @@ const putCompany = async (id, body) => {
   if (typeof company === 'string') {
     return company
   }
-  console.log(body, id)
 
   const newCompany = await CompanyModel.findByIdAndUpdate(id, body, { new: true });
   return newCompany

@@ -6,7 +6,8 @@ const passport = require("passport");
 const { passport_sessions } = require('./auth')
 require("dotenv").config();
 const { isLoggedIn } = require('./auth/middleware/login')
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+const { boomError } = require("./middleware/boom")
 
 // Crear el servidor de express
 const app = express();
@@ -55,5 +56,7 @@ app.get("/logout",(req, res) =>{
 appRouter(app)
 // public
 app.use('/app', express.static('public'));
+
+app.use(boomError)
 
 app.listen(process.env.PORT, () => console.log(`My app is running in: http://localhost:${process.env.PORT}`));

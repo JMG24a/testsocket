@@ -15,6 +15,7 @@
   "author": "Alejandro Cabrejo",
   "license": "MIT",
   "dependencies": {
+    "@hapi/boom": "^10.0.0",
     "@sendgrid/mail": "^7.7.0",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.20.1",

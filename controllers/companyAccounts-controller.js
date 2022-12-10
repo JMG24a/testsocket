@@ -22,7 +22,7 @@ const getSearchAccounts = async (value, token, options) => {
     const accounts = await CompanyAccountsModel
       .find({
         $and: [
-          {accountName: {$regex: regex, $options: 'gi'}},
+          {$or: [{accountName: {$regex: regex, $options: 'gi'}},{mobile: {$regex: regex, $options: 'gi'}}]},
           {$or: [{idCompany: user.companies},{idUser: token.sub.id}]}
         ]})
       .limit(options.limit)

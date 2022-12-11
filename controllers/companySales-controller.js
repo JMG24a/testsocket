@@ -176,17 +176,28 @@ const importCompanySales = async (body, token) => {
         invoice = invoice + 1
         sale.saleNumber = invoice
 
-        //cuentas
-        accounts.push({accountName: sale.accountName})
-
-
         const dateImport = new Date()
-        account.dateImport = getDateInString(dateImport)
+        sale.dateImport = getDateInString(dateImport)
+
+        //cuentas
+        accounts.push({
+          accountName: sale.accountName, 
+          nit: sale.nit,
+          address: sale.direction,
+          city: sale.city,
+          state: sale.department,
+          mobile: sale.mobile,
+          email: sale.email,
+          website: sale.web,
+          source: sale.source,
+          observations: sale.observationsAccount,
+          dateImport: getDateInString(dateImport),
+        })
         return sale
       })
 
       company.settings.salesNumber = invoice
-      CompanyModel.findByIdAndUpdate(company.id,
+      await CompanyModel.findByIdAndUpdate(company.id,
         {
           settings: {
             ...company.settings,
@@ -196,16 +207,19 @@ const importCompanySales = async (body, token) => {
         { new: true })
 
 
-      const optionsAccount = { ordered: true };
-      CompanyAccountsModel.insertMany(accounts, optionsAccount);
+      console.log('%cMyProject%cline:200%caccounts', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(1, 77, 103);padding:3px;border-radius:2px', accounts)
+      // const optionsAccount = { ordered: true };
+      // await CompanyAccountsModel.insertMany(accounts, optionsAccount);
 
-      const options = { ordered: false };
-      result = await CompanySalesModel.insertMany(sales, options);
+      console.log('%cMyProject%cline:204%csales', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(217, 104, 49);padding:3px;border-radius:2px', sales)
+      // const options = { ordered: false };
+      // result = await CompanySalesModel.insertMany(sales, options);
       // await uploadedSale(token.sub.email)
     }
 
     return result
   }catch(e){
+    console.log(e)
     throw new Error ('El usuario no pudo ser creado')
   }
 };

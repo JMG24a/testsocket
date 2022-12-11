@@ -3,6 +3,7 @@ const { Schema, model } = require("mongoose");
 const companySaleSchema = Schema({
   idCompany: { type: Schema.Types.ObjectId, ref: 'Company' },
   contact: { type: Schema.Types.ObjectId, ref: 'CompanyAccounts'},
+  contactName: {type: String},
   accountName: {type: String},
   accountPhone: {type: String},
   products: [{
@@ -20,6 +21,7 @@ const companySaleSchema = Schema({
   valueIva: {type: String},
   sendValue: {type: String},
   total: {type: String},
+  dateImport: {type: String}
 },
 {
   timestamps: true,

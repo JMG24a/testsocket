@@ -1,7 +1,7 @@
-function boomError(error, res, req, next){
+function boomError(error, req, res, next){
     if(error.isBoom){
         const { output } = error;
-        res.status(output.statusCode).json(output.payload)
+        res.status(output.statusCode).json({ok: false, error: output.payload})
     }
     next(error)
 }

@@ -4,6 +4,7 @@ const CompanyProductsModel = require("../models/companyProducts.js")
 const UserModel = require("../models/User");
 const CompanyModel = require("../models/company");
 const { getDateInString } = require("../helper/getDateInString.js");
+const boom = require("@hapi/boom");
 
 const getSearchCompanySales = async (value, token, options) => {
   try {
@@ -16,6 +17,8 @@ const getSearchCompanySales = async (value, token, options) => {
       if(!company.employeesId.includes(token.sub.id)){
         return "este usuario no es un empleado"
       }
+    }else{
+      throw boom.notFound("Empresa no encontrada")
     }
 
     const regex = new RegExp(value.replace("_", " "));
@@ -47,9 +50,12 @@ const getSearchCompanySales = async (value, token, options) => {
 
 const getCompanySales = async (idCompany, token, options) => {
   const company = await CompanyModel.findById(idCompany)
-
-  if(company.employeesId.includes(token.sub.id) === false){
-    return "este usuario no es un empleado"
+  if(company !== null){
+    if(!company.employeesId.includes(token.sub.id)){
+      throw boom.notFound("Empresa no encontrada")
+    }
+  }else{
+    throw boom.notFound("Empresa no encontrada")
   }
 
   const sales = await CompanySalesModel

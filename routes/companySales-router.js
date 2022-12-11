@@ -5,7 +5,7 @@ const { validateToken } = require('../auth/middleware/jwt');
 
 const router = Router();
 
-const getSearchCompanySales = async(req, res) => {
+const getSearchCompanySales = async(req, res, next) => {
   const {value} = req.params;
   const options = req.query;
   const token = req.myPayload;
@@ -18,15 +18,12 @@ const getSearchCompanySales = async(req, res) => {
       sales,
       count
     });
-  }catch(e){
-    res.status(400).json({
-      ok: false,
-      msg: "Intenta mas tarde",
-    });
+  }catch(e){  
+    next(e);
   }
 }
 
-const getCompanySales = async (req, res) => {
+const getCompanySales = async (req, res, next) => {
   const {idCompany} = req.params;
   const options = req.query;
   const token = req.myPayload;
@@ -40,10 +37,7 @@ const getCompanySales = async (req, res) => {
       count
     });
   }catch(e){
-    res.status(400).json({
-      ok: false,
-      msg: "Intenta mas tarde",
-    });
+    next(e);
   }
 };
 

@@ -25,7 +25,6 @@ const getReports = async (dates = {}, token) => {
         {"createdAt": {$lte : end}},
         {"idCompany": user.companies}
       ]})
-
       .populate('contact')
 
     const countSales = await CompanySalesModel

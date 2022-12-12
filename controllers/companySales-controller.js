@@ -181,6 +181,7 @@ const importCompanySales = async (body, token) => {
 
         //cuentas
         accounts.push({
+          idCompany: company.id,
           accountName: sale.accountName, 
           nit: sale.nit,
           address: sale.direction,
@@ -193,7 +194,23 @@ const importCompanySales = async (body, token) => {
           observations: sale.observationsAccount,
           dateImport: getDateInString(dateImport),
         })
-        return sale
+        return {
+          idCompany: company.id,
+          contactName: sale.contact,
+          accountName: sale.accountName, 
+          accountPhone: sale.mobile,
+          products: sale.products,
+          saleNumber: sale.saleNumber,
+          date: sale.date,
+          paymentMethod: sale.paymentMethod,
+          seller: sale.seller,
+          observations: sale.observations,
+          subTotal: sale.subTotal,
+          valueIva: sale.valueIva,
+          sendValue: sale.sendValue,
+          total: sale.total,
+          dateImport: sale.dateImport
+        }
       })
 
       company.settings.salesNumber = invoice
@@ -208,13 +225,13 @@ const importCompanySales = async (body, token) => {
 
 
       console.log('%cMyProject%cline:200%caccounts', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(1, 77, 103);padding:3px;border-radius:2px', accounts)
-      // const optionsAccount = { ordered: true };
-      // await CompanyAccountsModel.insertMany(accounts, optionsAccount);
+      const optionsAccount = { ordered: true };
+      await CompanyAccountsModel.insertMany(accounts, optionsAccount);
 
-      console.log('%cMyProject%cline:204%csales', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(217, 104, 49);padding:3px;border-radius:2px', sales)
-      // const options = { ordered: false };
-      // result = await CompanySalesModel.insertMany(sales, options);
+      const options = { ordered: false };
+      result = await CompanySalesModel.insertMany(sales, options);
       // await uploadedSale(token.sub.email)
+      console.log('%cMyProject%cline:204%csales', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(217, 104, 49);padding:3px;border-radius:2px', result)
     }
 
     return result

@@ -124,11 +124,24 @@ const deleteCompanySale = async (req, res) => {
   });
 };
 
+const deleteImportCompanySales = async(req, res) => {
+  const body = req.body;
+  const token = req.myPayload;
+  const isDelete = await companySalesController.deleteImportCompanySales(body, token)
+
+  res.status(200).json({
+    msg: "Eliminado con exito",
+    ok: isDelete
+  });
+  
+} 
+
 router.get("/search/:value", validateToken, getSearchCompanySales)
 router.get("/:idCompany", validateToken, getCompanySales);
 router.post("/:idCompany", validateToken, postCompanySale);
 router.post("/:idCompany/import", validateToken, importCompanySales)
 router.put("/:id",validateToken, putCompanySale);
 router.delete("/:idCompany/:id", validateToken, deleteCompanySale);
+router.post("/import/del", validateToken, deleteImportCompanySales);
 
 module.exports = router

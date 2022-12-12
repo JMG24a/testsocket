@@ -277,11 +277,41 @@ const deleteCompanySale = async (id, token, idCompany) => {
   return delCompanyOrder ? true : false;
 };
 
+const deleteImportCompanySales = async (body, token) => {
+  const user = await UserModel.findById(body.id)
+  if(!user){
+    return "este no es un usuario"
+  }
+  body.idCompany = user.id
+
+  const company = await CompanyModel.findById(user.companies)
+  if(company !== null){
+    if(!company.employeesId.includes(body.id) || !company.userId.includes(body.id)){
+      return "este usuario no es un empleado"
+    }
+    body.idCompany = company.id
+  }
+
+  const delCompanyOrder = await CompanySalesModel.deleteMany({
+    $and: [
+      {idCompany: body.idCompany},
+      {"dateImport": {$eq : body.start}}
+    ]
+  });
+
+  if(delCompanyOrder.deletedCount === 0){
+    return false
+  }
+
+  return delCompanyOrder.acknowledged ? true : false;
+};
+
 module.exports = {
   getSearchCompanySales,
   getCompanySales,
   postCompanySale,
   importCompanySales,
   putCompanySale,
-  deleteCompanySale
+  deleteCompanySale,
+  deleteImportCompanySales
 }

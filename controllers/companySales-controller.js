@@ -165,16 +165,14 @@ const importCompanySales = async (body, token) => {
       if(!company.employeesId.includes(token.sub.id)){
         return "este usuario no es un empleado"
       }
-      const numberInvoice = company.settings.salesNumber;
-      let invoice = parseInt(numberInvoice,10);
 
+      let invoice = 0
       const accounts = []
 
       const sales = body.map((sale) => {
         //numero de factura
         sale.idCompany = user.companies
-        invoice = invoice + 1
-        sale.saleNumber = invoice
+        invoice = sale.saleNumber
 
         const dateImport = new Date()
         sale.dateImport = getDateInString(dateImport)
@@ -213,15 +211,18 @@ const importCompanySales = async (body, token) => {
         }
       })
 
-      company.settings.salesNumber = invoice
-      await CompanyModel.findByIdAndUpdate(company.id,
-        {
-          settings: {
-            ...company.settings,
-            salesNumber: company.settings.salesNumber
-          }
-        },
-        { new: true })
+
+      if(invoice > company.settings.salesNumber){
+        company.settings.salesNumber = invoice
+        await CompanyModel.findByIdAndUpdate(company.id,
+          {
+            settings: {
+              ...company.settings,
+              salesNumber: company.settings.salesNumber
+            }
+          },
+          { new: true })
+      }
 
 
       console.log('%cMyProject%cline:200%caccounts', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(1, 77, 103);padding:3px;border-radius:2px', accounts)

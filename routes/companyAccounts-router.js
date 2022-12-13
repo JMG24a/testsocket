@@ -157,8 +157,6 @@ const deleteImportCompanyAccount = async (req, res) => {
   });
 };
 
-
-
 router.get("/search/:value", validateToken, getSearchAccounts);
 router.get("/", validateToken, getCompanyAccounts);
 router.get("/:id", validateToken, getCompanyAccountsById);

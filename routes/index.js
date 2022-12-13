@@ -31,6 +31,7 @@ const companyOpportunitiesRouter = require('./companyOpportunities-router');
 const companyReportsRouter = require("./companyReports-router");
 //PublicApi
 const keyRouter = require("./PublicApi/apiKey-router");
+const accountsRouterPublic = require("./PublicApi/accounts-router-api")
 
 const appRouter = (app) => {
   const routerV1 = Router();
@@ -64,9 +65,13 @@ const appRouter = (app) => {
   routerV1.use('/companyPurchase', companyPurchaseRouter);
   routerV1.use('/companyOpportunities', companyOpportunitiesRouter);
   routerV1.use('/companyReports', companyReportsRouter);
-  //PublicApi
-  routerV1.use('/key', keyRouter);
   //V2
+  //PublicApi
+  const routerPublicV1 = Router();
+  app.use('/api/public/v1', routerPublicV1);
+  routerV1.use('/key', keyRouter);
+  routerPublicV1.use('/accounts', accountsRouterPublic);
+  //PublicApi V2
 };
 
 module.exports = appRouter;

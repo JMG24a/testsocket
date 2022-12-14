@@ -167,6 +167,7 @@ const importCompanySales = async (body, token) => {
       }
 
       let invoice = 0
+      let validator = {}
       const accounts = []
 
       const sales = body.map((sale) => {
@@ -176,23 +177,26 @@ const importCompanySales = async (body, token) => {
 
         const dateImport = new Date()
         sale.dateImport = getDateInString(dateImport)
-
         //cuentas
-        accounts.push({
-          _id: sale._id,
-          idCompany: company.id,
-          accountName: sale.accountName,
-          nit: sale.nit,
-          address: sale.direction,
-          city: sale.city,
-          state: sale.department,
-          mobile: sale.mobile,
-          email: sale.email,
-          website: sale.web,
-          source: sale.source,
-          observations: sale.observationsAccount,
-          dateImport: getDateInString(dateImport),
-        })
+        if(validator[sale.accountName] === undefined){
+          accounts.push({
+            _id: sale._id,
+            idCompany: company.id,
+            accountName: sale.accountName,
+            nit: sale.nit,
+            address: sale.direction,
+            city: sale.city,
+            state: sale.department,
+            mobile: sale.mobile,
+            email: sale.email,
+            website: sale.web,
+            source: sale.source,
+            observations: sale.observationsAccount,
+            dateImport: sale.dateImport,
+          })
+          validator[sale.accountName] = sale.accountName
+        }
+         
         return {
           idCompany: company.id,
           contactName: sale.contact,
@@ -235,7 +239,7 @@ const importCompanySales = async (body, token) => {
         }
       })
       const optionsAccount = { ordered: false };
-      await CompanyAccountsModel.insertMany(accounts, optionsAccount);
+      await CompanyAccountsModel.insertMany(resultAccounts, optionsAccount);
       // await uploadedSale(token.sub.email)
     }
 

@@ -130,7 +130,6 @@ const postCompanyAccount = async (body, token) => {
       body.idUser = token.sub.id
     }
 
-
     const newAccounts = new CompanyAccountsModel(body);
     const saveObject = await newAccounts.save();
     return saveObject

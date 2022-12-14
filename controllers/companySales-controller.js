@@ -179,8 +179,9 @@ const importCompanySales = async (body, token) => {
 
         //cuentas
         accounts.push({
+          _id: sale._id,
           idCompany: company.id,
-          accountName: `${sale.accountName}=${company.id}`,
+          accountName: sale.accountName,
           nit: sale.nit,
           address: sale.direction,
           city: sale.city,
@@ -227,6 +228,12 @@ const importCompanySales = async (body, token) => {
       const options = { ordered: false };
       result = await CompanySalesModel.insertMany(sales, options);
 
+      const resultAccounts = accounts.filter(item => {
+        if(!item._id){
+          delete(item._id)
+          return true
+        }
+      })
       const optionsAccount = { ordered: false };
       await CompanyAccountsModel.insertMany(accounts, optionsAccount);
       // await uploadedSale(token.sub.email)

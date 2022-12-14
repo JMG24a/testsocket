@@ -40,11 +40,6 @@ const postCompany = async (body, token) => {
     user.companies.push(saveObject.id)
     const CompanyOwner = await UserModel.findByIdAndUpdate(token.sub.id, {
       companies: user.companies,
-      plan:{
-        planInfo:   planes.PLAN_PREMIUM,
-        expireDate: "01/12/2023",
-        extraTime:  "nothing"
-      }
     },{ new: true })
 
     return CompanyOwner

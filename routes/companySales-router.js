@@ -62,7 +62,7 @@ const postCompanySale = async (req, res) => {
   }
 };
 
-const importCompanySales = async (req, res) => {
+const importCompanySales = async (req, res, next) => {
   const {idCompany} = req.params;
   const token = req.myPayload
   const body = req.body;
@@ -75,11 +75,7 @@ const importCompanySales = async (req, res) => {
       newCompanySales
     });
   } catch (error) {
-    res.status(500).json({
-      ok: false,
-      msg: "Error en la peticion",
-      error,
-    });
+    next(error)
   }
 };
 

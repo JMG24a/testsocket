@@ -156,19 +156,21 @@ const importCompanySales = async (body, token) => {
     let result = "Error no encontrado"
     const user = await UserModel.findById(token.sub.id)
     if(!user){
-      return "este no es un usuario"
+      throw boom.notFound("Usuario no encontrado")
     }
 
     const company = await CompanyModel.findById(user.companies)
 
     if(company !== null){
       if(!company.employeesId.includes(token.sub.id)){
-        return "este usuario no es un empleado"
+        throw boom.conflict("este usuario no es un empleado")
       }
 
       let invoice = 0
-      let validator = {}
+      let validatorImport = {}
+      let validatorDB = {}
       const accounts = []
+      const queryAccounts = []
 
       const sales = body.map((sale) => {
         //numero de factura
@@ -178,9 +180,8 @@ const importCompanySales = async (body, token) => {
         const dateImport = new Date()
         sale.dateImport = getDateInString(dateImport)
         //cuentas
-        if(validator[sale.accountName] === undefined){
+        if(validatorImport[sale._id] === undefined){
           accounts.push({
-            _id: sale._id,
             idCompany: company.id,
             accountName: sale.accountName,
             nit: sale.nit,
@@ -193,8 +194,10 @@ const importCompanySales = async (body, token) => {
             source: sale.source,
             observations: sale.observationsAccount,
             dateImport: sale.dateImport,
+            customerId: sale._id,
           })
-          validator[sale.accountName] = sale.accountName
+          queryAccounts.push(sale._id)
+          validatorImport[sale._id] = sale._id
         }
          
         return {
@@ -232,12 +235,24 @@ const importCompanySales = async (body, token) => {
       const options = { ordered: false };
       result = await CompanySalesModel.insertMany(sales, options);
 
-      const resultAccounts = accounts.filter(item => {
-        if(!item._id){
-          delete(item._id)
-          return true
-        }
+      const dbAccounts = await CompanyAccountsModel.find({
+        $and: [
+          {idCompany: user.companies},
+          {customerId: queryAccounts}
+        ]
+      });
+      
+      
+      const resultAccounts = accounts.filter((item) => {
+        let isCopy = true;
+        dbAccounts.forEach(db => {
+          if(item.customerId == db.customerId){
+            isCopy = false 
+          }
+        })
+        return isCopy
       })
+
       const optionsAccount = { ordered: false };
       await CompanyAccountsModel.insertMany(resultAccounts, optionsAccount);
       // await uploadedSale(token.sub.email)
@@ -246,7 +261,7 @@ const importCompanySales = async (body, token) => {
     return result
   }catch(e){
     console.log(e)
-    throw new Error ('El usuario no pudo ser creado')
+    throw boom.conflict('El import no pudo ser procesado')
   }
 };
 

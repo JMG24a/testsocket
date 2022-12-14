@@ -64,7 +64,7 @@ const getCompanySales = async (idCompany, token, options) => {
     .populate("idCompany")
     .limit(options.limit)
     .skip(options.offset)
-    .sort({createdAt:'descending'});
+    .sort({createdAt: "desc"});
 
   const count = await CompanySalesModel
     .find({idCompany: idCompany})
@@ -180,7 +180,7 @@ const importCompanySales = async (body, token) => {
         //cuentas
         accounts.push({
           idCompany: company.id,
-          accountName: sale.accountName, 
+          accountName: `${sale.accountName}=${company.id}`,
           nit: sale.nit,
           address: sale.direction,
           city: sale.city,
@@ -195,7 +195,7 @@ const importCompanySales = async (body, token) => {
         return {
           idCompany: company.id,
           contactName: sale.contact,
-          accountName: sale.accountName, 
+          accountName: `${sale.accountName}=${company.id}`,
           accountPhone: sale.mobile,
           products: sale.products,
           saleNumber: sale.saleNumber,
@@ -224,15 +224,12 @@ const importCompanySales = async (body, token) => {
           { new: true })
       }
 
-
-      console.log('%cMyProject%cline:200%caccounts', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(1, 77, 103);padding:3px;border-radius:2px', accounts)
-      const optionsAccount = { ordered: true };
-      await CompanyAccountsModel.insertMany(accounts, optionsAccount);
-
       const options = { ordered: false };
       result = await CompanySalesModel.insertMany(sales, options);
+
+      const optionsAccount = { ordered: false };
+      await CompanyAccountsModel.insertMany(accounts, optionsAccount);
       // await uploadedSale(token.sub.email)
-      console.log('%cMyProject%cline:204%csales', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(217, 104, 49);padding:3px;border-radius:2px', result)
     }
 
     return result

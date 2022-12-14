@@ -34,7 +34,7 @@ const getCompanyAccounts = async (req, res) => {
 
     res.status(200).json({
       ok: true,
-      msg: "Listado de Accountos",
+      msg: "Listado de cuentas",
       accounts,
       count
     });
@@ -46,6 +46,23 @@ const getCompanyAccounts = async (req, res) => {
   }
 };
 
+const getCompanyAccountByName = async (req, res, next) => {
+  const token = req.myPayload;
+  const { name } = req.params
+  try{
+    const account = await companyAccountController.getCompanyAccountByName(token, name)
+
+    res.status(200).json({
+      ok: true,
+      msg: "Listado de cuentas",
+      account,
+    });
+  }catch(e){
+    next(e)
+  }
+};
+
+
 const getCompanyAccountsById = async (req, res) => {
   const token = req.myPayload;
   const {id} = req.params
@@ -54,7 +71,7 @@ const getCompanyAccountsById = async (req, res) => {
 
     res.status(200).json({
       ok: true,
-      msg: "Listado de Accountos",
+      msg: "Listado de cuentas",
       accounts,
     });
   }catch(e){
@@ -65,7 +82,7 @@ const getCompanyAccountsById = async (req, res) => {
   }
 };
 
-const postCompanyAccount = async (req, res) => {
+const postCompanyAccount = async (req, res, next) => {
   const token = req.myPayload
   const body = req.body;
 
@@ -77,11 +94,7 @@ const postCompanyAccount = async (req, res) => {
       newAccount
     });
   } catch (error) {
-    res.status(500).json({
-      ok: false,
-      msg: "Error en la peticion",
-      error,
-    });
+    next(error)
   }
 };
 
@@ -158,6 +171,7 @@ const deleteImportCompanyAccount = async (req, res) => {
 };
 
 router.get("/search/:value", validateToken, getSearchAccounts);
+router.get("/oneByName/:name", validateToken, getCompanyAccountByName);
 router.get("/", validateToken, getCompanyAccounts);
 router.get("/:id", validateToken, getCompanyAccountsById);
 router.post("/import", validateToken, importCompanyAccount)

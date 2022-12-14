@@ -3,6 +3,7 @@ const CompanyModel = require("../models/company");
 const UserModel = require("../models/User")
 const { uploadedAccounts } = require("../mails/uploadedAccounts");
 const { getDateInString } = require("../helper/getDateInString");
+const boom = require("@hapi/boom")
 
 const getSearchAccounts = async (value, token, options) => {
   try {
@@ -71,6 +72,28 @@ const getCompanyAccounts = async (token, options) => {
   }
 };
 
+const getCompanyAccountByName = async (token, name) => {
+  const user = await UserModel.findById(token.sub.id)
+  if(!user){
+    return "este no es un usuario"
+  }
+  const company = await CompanyModel.findById(user.companies)
+  if(company !== null){
+    if(company.employeesId.includes(token.sub.id) === false){
+      return "este usuario no es un empleado"
+    }
+  }
+  const regex = /_/ig;
+  const querys = name.replace(regex, ' ');
+  console.log('%cMyProject%cline:87%cquery', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(3, 38, 58);padding:3px;border-radius:2px', querys)
+
+  const account = await CompanyAccountsModel
+    .findOne({accountName: querys})
+    .populate("contactId")
+
+  return account
+};
+
 const getCompanyAccountsById = async (token, id) => {
   const user = await UserModel.findById(token.sub.id)
   if(!user){
@@ -103,15 +126,21 @@ const postCompanyAccount = async (body, token) => {
         return "este usuario no es un empleado"
       }
       body.idCompany = user.companies
+      body.accountName = `${body.accountName}=${user.companies}`
     }else{
       body.idUser = token.sub.id
+      body.accountName = `${body.accountName}=${token.sub.id}`
     }
+
 
     const newAccounts = new CompanyAccountsModel(body);
     const saveObject = await newAccounts.save();
-
     return saveObject
+
   }catch(e){
+    if(e.code === 11000){
+      throw boom.conflict('este usuario ya existe')
+    }
     throw new Error ('El usuario no pudo ser creado')
   }
 };
@@ -131,6 +160,7 @@ const importCompanyAccount = async (body, token) => {
       }
       const accounts = body.map(account => {
         account.idCompany = user.companies
+        account.accountName = `${account.accountName}=${user.companies}`
         const dateImport = new Date()
         account.dateImport = getDateInString(dateImport)
         return account
@@ -142,6 +172,7 @@ const importCompanyAccount = async (body, token) => {
     }else{
       const accounts = body.map(account => {
         account.idUser = token.sub.id
+        account.accountName = `${account.accountName}=${token.sub.id}`
         account.dateImport = new Date()
         account.dateImport = getDateInString(dateImport)
         return account
@@ -229,6 +260,7 @@ const deleteImportCompanyAccount = async (body, token) => {
 module.exports = {
   getSearchAccounts,
   getCompanyAccounts,
+  getCompanyAccountByName,
   getCompanyAccountsById,
   postCompanyAccount,
   importCompanyAccount,

@@ -195,7 +195,7 @@ const importCompanySales = async (body, token) => {
         return {
           idCompany: company.id,
           contactName: sale.contact,
-          accountName: `${sale.accountName}=${company.id}`,
+          accountName: sale.accountName,
           accountPhone: sale.mobile,
           products: sale.products,
           saleNumber: sale.saleNumber,

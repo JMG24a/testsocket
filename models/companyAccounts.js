@@ -7,7 +7,7 @@ const companyAccountSchema = Schema({
   opportunityId: [{ type: Schema.Types.ObjectId, ref: 'CompanyOpportunity' }],
   priority: {type: String, enum: ['Vendedor', 'Cliente', 'partner']},
   type: {type: String, enum: ['Vendedor', 'Cliente', 'partner']},
-  accountName: {type: String, index: true, unique: true, required: true},
+  accountName: {type: String, required: true},
   accountContact: {type: String},
   email: {type: String},
   accountValue: {type: String},

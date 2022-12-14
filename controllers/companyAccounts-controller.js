@@ -126,10 +126,8 @@ const postCompanyAccount = async (body, token) => {
         return "este usuario no es un empleado"
       }
       body.idCompany = user.companies
-      body.accountName = `${body.accountName}=${user.companies}`
     }else{
       body.idUser = token.sub.id
-      body.accountName = `${body.accountName}=${token.sub.id}`
     }
 
 
@@ -160,7 +158,6 @@ const importCompanyAccount = async (body, token) => {
       }
       const accounts = body.map(account => {
         account.idCompany = user.companies
-        account.accountName = `${account.accountName}=${user.companies}`
         const dateImport = new Date()
         account.dateImport = getDateInString(dateImport)
         return account
@@ -172,7 +169,6 @@ const importCompanyAccount = async (body, token) => {
     }else{
       const accounts = body.map(account => {
         account.idUser = token.sub.id
-        account.accountName = `${account.accountName}=${token.sub.id}`
         account.dateImport = new Date()
         account.dateImport = getDateInString(dateImport)
         return account

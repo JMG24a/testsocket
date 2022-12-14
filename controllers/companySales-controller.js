@@ -64,7 +64,7 @@ const getCompanySales = async (idCompany, token, options) => {
     .populate("idCompany")
     .limit(options.limit)
     .skip(options.offset)
-    .sort({createdAt: "desc"});
+    .sort({date: "desc"});
 
   const count = await CompanySalesModel
     .find({idCompany: idCompany})

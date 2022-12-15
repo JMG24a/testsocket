@@ -73,44 +73,55 @@ const getCompanyAccounts = async (token, options) => {
 };
 
 const getCompanyAccountByName = async (token, name) => {
-  const user = await UserModel.findById(token.sub.id)
-  if(!user){
-    return "este no es un usuario"
-  }
-  const company = await CompanyModel.findById(user.companies)
-  if(company !== null){
-    if(company.employeesId.includes(token.sub.id) === false){
-      return "este usuario no es un empleado"
+  try{
+    const user = await UserModel.findById(token.sub.id)
+    if(!user){
+      throw boom.notFound("Este no es un usuario")
     }
+    const company = await CompanyModel.findById(user.companies)
+    if(company !== null){
+      if(company.employeesId.includes(token.sub.id) === false){
+        throw boom.conflict("Este usuario no es un empleado")
+      }
+    }
+    const regex = /_/ig;
+    const querys = name.replace(regex, ' ');
+  
+    const account = await CompanyAccountsModel
+      .findOne({accountName: querys})
+      .populate("contactId")
+    
+    if(!account){throw boom.notFound("Esta cuenta no existe")}
+    
+    return account
+  }catch(e){
+    throw boom.badRequest("No se logro encontrar esta cuenta")
   }
-  const regex = /_/ig;
-  const querys = name.replace(regex, ' ');
-  console.log('%cMyProject%cline:87%cquery', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(3, 38, 58);padding:3px;border-radius:2px', querys)
-
-  const account = await CompanyAccountsModel
-    .findOne({accountName: querys})
-    .populate("contactId")
-
-  return account
 };
 
 const getCompanyAccountsById = async (token, id) => {
-  const user = await UserModel.findById(token.sub.id)
-  if(!user){
-    return "este no es un usuario"
-  }
-  const company = await CompanyModel.findById(user.companies)
-  if(company !== null){
-    if(company.employeesId.includes(token.sub.id) === false){
-      return "este usuario no es un empleado"
+  try{
+    const user = await UserModel.findById(token.sub.id)
+    if(!user){
+      throw boom.notFound("este no es un usuario")
     }
+    const company = await CompanyModel.findById(user.companies)
+    if(company !== null){
+      if(company.employeesId.includes(token.sub.id) === false){
+        throw boom.conflict("este usuario no es un empleado")
+      }
+    }
+  
+    const account = await CompanyAccountsModel
+      .findById(id)
+      .populate("contactId")
+
+    console.log(account)
+  
+    return account
+  }catch(e){
+    throw boom.badRequest("No se logro obtener la cuenta")
   }
-
-  const Accounts = await CompanyAccountsModel
-    .findById(id)
-    .populate("contactId")
-
-  return Accounts
 };
 
 

@@ -70,34 +70,104 @@ const postCompanyProduct = async (body, token, idCompany) => {
   }
 };
 
+// const importCompanyProducts = async (body, token) => {
+//   console.time();
+//   try {
+//     let result = "Error no encontrado"
+//     const user = await UserModel.findById(token.sub.id)
+//     if(!user){
+//       throw boom.notFound("este no es un usuario")
+//     }
+//     const company = await CompanyModel.findById(user.companies)
+//     if(company !== null){
+//       if(!company.employeesId.includes(token.sub.id)){
+//         throw boom.notFound("este usuario no es un empleado")
+//       }
+//       const products = body.map(product => {
+//         product.idCompany = user.companies
+//         const dateImport = new Date()
+//         product.dateImport = getDateInString(dateImport)
+//         return product
+//       })
+//       const options = { ordered: false };
+//       result = await CompanyProductsModel.insertMany(products, options);
+//       await uploadedAccounts(token.sub.email)
+//     }
+    
+//     console.timeEnd();
+//     return result
+//   }catch(e){
+//     throw new Error ('El usuario no pudo ser creado')
+//   }
+// };
+
 const importCompanyProducts = async (body, token) => {
-  console.time();
   try {
     let result = "Error no encontrado"
     const user = await UserModel.findById(token.sub.id)
     if(!user){
-      throw boom.notFound("este no es un usuario")
+      throw boom.notFound("Usuario no encontrado")
     }
+
     const company = await CompanyModel.findById(user.companies)
+
     if(company !== null){
       if(!company.employeesId.includes(token.sub.id)){
-        throw boom.notFound("este usuario no es un empleado")
+        throw boom.conflict("este usuario no es un empleado")
       }
-      const products = body.map(product => {
-        product.idCompany = user.companies
-        const dateImport = new Date()
-        product.dateImport = getDateInString(dateImport)
-        return product
-      })
-      const options = { ordered: false };
-      result = await CompanyProductsModel.insertMany(products, options);
-      await uploadedAccounts(token.sub.email)
+    }else{
+      throw boom.notFound("Esta empresa no esta registrada")
     }
+
+    let validatorImport = {}
+    const products = []
+    const queryProducts = []
+
+    body.map((product) => {
+      //fecha de import
+      const date = new Date()
+      //products
+      if(validatorImport[product.code] === undefined){
+        queryProducts.push(product.code)
+        validatorImport[product.code] = {
+          idCompany: user.companies,
+          name: product.name,
+          description: product.description,
+          price: product.price,
+          image: product.image,
+          quantity: product.quantity,
+          wareHouse: product.wareHouse,
+          code: product.code,
+          dateImport: getDateInString(date)
+        }
+      }
+    })
+
+    const dbProducts = await CompanyProductsModel.find({
+      $and: [
+        {idCompany: user.companies},
+        {customerId: queryProducts}
+      ]
+    });
     
-    console.timeEnd();
+    dbProducts.map((db) => {
+      if(db.code == validatorImport[db.code].code){
+        delete(validatorImport[db.code])
+      }
+    })
+
+    Object.keys(validatorImport).map(item => {
+      products.push(validatorImport[item])
+    })
+
+    const options = { ordered: false };
+    await CompanyProductsModel.insertMany(products, options);
+    // await uploadedSale(token.sub.email)
+    
     return result
   }catch(e){
-    throw new Error ('El usuario no pudo ser creado')
+    console.log(e)
+    throw boom.conflict('El import no pudo ser procesado')
   }
 };
 
@@ -131,37 +201,40 @@ const deleteCompanyProduct = async (id, token, idCompany) => {
   return delCompanyOrder ? true : false;
 };
 
-const deleteImportCompanyProduct = async (body, token) => {
-
-  const user = await UserModel.findById(body.id)
-  if(!user){
-    return "este no es un usuario"
-  }
-  body.idCompany = user.id
-
-  const company = await CompanyModel.findById(user.companies)
-  if(company !== null){
-    if(!company.employeesId.includes(body.id) || !company.userId.includes(body.id)){
-      return "este usuario no es un empleado"
+const deleteImportCompanyProducts = async (body) => {
+  try{
+    const user = await UserModel.findById(body.id)
+    if(!user){
+      throw boom.notFound("este usuario no fue encontrado")
     }
-    body.idCompany = company.id
+    body.idCompany = user.id
+  
+    const company = await CompanyModel.findById(user.companies)
+    if(company !== null){
+      if(!company.employeesId.includes(body.id) || !company.userId.includes(body.id)){
+        throw boom.conflict("este usuario no es un empleado")
+      }
+      body.idCompany = company.id
+    }else{
+      throw boom.notFound("Esta empresa no esta registrada")
+    }
+  
+    const delCompanyProducts = await CompanyProductsModel.deleteMany({
+      $and: [
+        {idCompany: body.idCompany},
+        {"dateImport": {$eq : body.start}}
+      ]
+    });
+  
+    if(delCompanyProducts.deletedCount === 0){
+      throw boom.notFound("Sin registros de importaciones")
+    }
+  
+    return delCompanyProducts.acknowledged ? true : false;
+  }catch(e){
+    throw boom.badRequest("Sin registros de importaciones")
   }
 
-  const delCompanyProducts = await CompanyProductsModel.deleteMany({
-    $and: [
-      {$or:[
-        {idUser: body.id},
-        {idCompany: body.idCompany}
-      ]},
-      {"dateImport": {$eq : body.start}}
-    ]
-  });
-
-  if(delCompanyProducts.deletedCount === 0){
-    return false
-  }
-
-  return delCompanyProducts.acknowledged ? true : false;
 };
 
 module.exports = {
@@ -171,5 +244,5 @@ module.exports = {
   importCompanyProducts,
   putCompanyProduct,
   deleteCompanyProduct,
-  deleteImportCompanyProduct
+  deleteImportCompanyProducts
 }

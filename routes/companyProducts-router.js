@@ -70,6 +70,23 @@ const postCompanyProduct = async (req, res) => {
   }
 };
 
+const importCompanyProducts = async (req, res, next) => {
+  const {idCompany} = req.params;
+  const token = req.myPayload
+  const body = req.body;
+
+  try {
+    const newProducts = await companyProductController.importCompanyProducts(body, token, idCompany);
+    res.status(201).json({
+      ok: true,
+      msg: "Creado",
+      newProducts
+    });
+  } catch (error) {
+    next(error)
+  }
+}
+
 const putCompanyProduct = async (req, res) => {
   const { id } = req.params;
   const body = req.body;
@@ -109,8 +126,25 @@ const deleteCompanyProduct = async (req, res) => {
   });
 };
 
+const deleteImportCompanyProducts = async(req, res, next) => {
+  try{
+    const body = req.body;
+    const token = req.myPayload;
+    const isDelete = await companyProductController.deleteImportCompanyProducts(body, token)
+  
+    res.status(200).json({
+      msg: "Eliminado con exito",
+      ok: isDelete
+    });
+  }catch(error){
+    next(error)
+  }
+} 
+
 router.get("/search/:value", validateToken, getSearchProducts);
 router.get("/:idCompany", validateToken, getCompanyProducts);
+router.post("/import/del", validateToken, deleteImportCompanyProducts);
+router.post("/:idCompany/import", validateToken, importCompanyProducts);
 router.post("/:idCompany", validateToken, postCompanyProduct);
 router.put("/:id",validateToken, putCompanyProduct);
 router.delete("/:idCompany/:id", validateToken, deleteCompanyProduct);

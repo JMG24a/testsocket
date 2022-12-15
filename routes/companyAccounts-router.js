@@ -98,7 +98,7 @@ const postCompanyAccount = async (req, res, next) => {
   }
 };
 
-const importCompanyAccount = async (req, res) => {
+const importCompanyAccount = async (req, res, next) => {
   const {idCompany} = req.params;
   const token = req.myPayload
   const body = req.body;
@@ -111,11 +111,7 @@ const importCompanyAccount = async (req, res) => {
       newAccounts
     });
   } catch (error) {
-    res.status(500).json({
-      ok: false,
-      msg: "Error en la peticion",
-      error,
-    });
+    next(error)
   }
 }
 

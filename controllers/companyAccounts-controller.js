@@ -145,41 +145,120 @@ const postCompanyAccount = async (body, token) => {
 const importCompanyAccount = async (body, token) => {
   console.time();
   try {
-    let result = "Error no encontrado"
     const user = await UserModel.findById(token.sub.id)
     if(!user){
-      return "este no es un usuario"
+      throw boom.notFound("este no es un usuario")
     }
+
+    let validatorImport = {}
+    const accounts = []
+    const queryAccounts = []
+
     const company = await CompanyModel.findById(user.companies)
     if(company !== null){
       if(!company.employeesId.includes(token.sub.id)){
-        return "este usuario no es un empleado"
+        throw boom.conflict("este usuario no es un empleado")
       }
-      const accounts = body.map(account => {
-        account.idCompany = user.companies
-        const dateImport = new Date()
-        account.dateImport = getDateInString(dateImport)
-        return account
-      })
-      const options = { ordered: false };
-      result = await CompanyAccountsModel.insertMany(accounts, options);
-      await uploadedAccounts(token.sub.email)
+        body.map((account) => {
+          account.idCompany = user.companies
+          const dateImport = new Date()
+          account.dateImport = getDateInString(dateImport)
 
+          if(validatorImport[account.customerId] === undefined){
+            queryAccounts.push(account.customerId)
+            validatorImport[account.customerId] = {
+              idCompany: company.id,
+              accountName: account.accountName,
+              nit: account.nit,
+              address: account.address,
+              city: account.city,
+              state: account.state,
+              mobile: account.mobile,
+              email: account.email,
+              website: account.website,
+              source: account.source,
+              observations: account.observations,
+              dateImport: account.dateImport,
+              customerId: account.customerId,
+            }
+          }
+        })
+      
+      const dbAccounts = await CompanyAccountsModel.find({
+        $and: [
+          {idCompany: user.companies},
+          {customerId: queryAccounts}
+        ]
+      });
+
+      dbAccounts.map((db) => {
+        if(db.customerId == validatorImport[db.customerId].customerId){
+          delete(validatorImport[db.customerId])
+        }
+      })
+      
+      
+      Object.keys(validatorImport).map(item => {
+        accounts.push(validatorImport[item])
+      })
+
+      const options = { ordered: false };
+      CompanyAccountsModel.insertMany(accounts, options);
+      uploadedAccounts(token.sub.email)
     }else{
-      const accounts = body.map(account => {
+      body.map(account => {
         account.idUser = token.sub.id
         account.dateImport = new Date()
         account.dateImport = getDateInString(dateImport)
-        return account
+
+        if(validatorImport[account.customerId] === undefined){
+          queryAccounts.push(account.customerId)
+          validatorImport[account.customerId] = {
+            idUser: token.sub.id,
+            accountName: account.accountName,
+            nit: account.nit,
+            address: account.address,
+            city: account.city,
+            state: account.state,
+            mobile: account.mobile,
+            email: account.email,
+            website: account.website,
+            source: account.source,
+            observations: account.observations,
+            dateImport: account.dateImport,
+            customerId: account.customerId,
+          }
+        }
+
       })
+
+      const dbAccounts = await CompanyAccountsModel.find({
+        $and: [
+          {idUser: token.sub.id},
+          {customerId: queryAccounts}
+        ]
+      });
+
+      dbAccounts.map((db) => {
+        if(db.customerId == validatorImport[db.customerId].customerId){
+          delete(validatorImport[db.customerId])
+        }
+      })
+      
+      
+      Object.keys(validatorImport).map(item => {
+        accounts.push(validatorImport[item])
+      })
+
       const options = { ordered: false };
       result = await CompanyAccountsModel.insertMany(accounts, options);
-      await uploadedAccounts(token.sub.email)
+      uploadedAccounts(token.sub.email)
     }
     console.timeEnd();
-    return result
+    return "solicitud Enviada"
   }catch(e){
-    throw new Error ('El usuario no pudo ser creado')
+    console.log(e)
+    throw boom.conflict('El import no pudo ser procesado')
   }
 };
 

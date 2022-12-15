@@ -168,7 +168,6 @@ const importCompanySales = async (body, token) => {
 
       let invoice = 0
       let validatorImport = {}
-      let validatorDB = {}
       const accounts = []
       const queryAccounts = []
 
@@ -241,7 +240,6 @@ const importCompanySales = async (body, token) => {
           {customerId: queryAccounts}
         ]
       });
-      
       
       const resultAccounts = accounts.filter((item) => {
         let isCopy = true;

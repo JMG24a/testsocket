@@ -29,6 +29,7 @@ const companyProductsRouter = require('./companyProducts-router');
 const companyPurchaseRouter = require('./companyPurchaseOrders-router');
 const companyOpportunitiesRouter = require('./companyOpportunities-router');
 const companyReportsRouter = require("./companyReports-router");
+const filesGenerationRouter = require("./filesGeneration-router");
 //PublicApi
 const keyRouter = require("./PublicApi/apiKey-router");
 const accountsRouterPublic = require("./PublicApi/accounts-router-api")
@@ -65,6 +66,7 @@ const appRouter = (app) => {
   routerV1.use('/companyPurchase', companyPurchaseRouter);
   routerV1.use('/companyOpportunities', companyOpportunitiesRouter);
   routerV1.use('/companyReports', companyReportsRouter);
+  routerV1.use('/filesGeneration', filesGenerationRouter);
   //V2
   //PublicApi
   const routerPublicV1 = Router();

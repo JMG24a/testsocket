@@ -63,7 +63,7 @@ const getCompanyAccountByName = async (req, res, next) => {
 };
 
 
-const getCompanyAccountsById = async (req, res) => {
+const getCompanyAccountsById = async (req, res, next) => {
   const token = req.myPayload;
   const {id} = req.params
   try{
@@ -75,10 +75,7 @@ const getCompanyAccountsById = async (req, res) => {
       accounts,
     });
   }catch(e){
-    res.status(400).json({
-      ok: false,
-      msg: "Intenta mas tarde",
-    });
+    next(e)
   }
 };
 

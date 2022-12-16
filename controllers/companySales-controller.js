@@ -180,7 +180,8 @@ const importCompanySales = async (body, token) => {
         sale.dateImport = getDateInString(dateImport)
         //cuentas
         if(validatorImport[sale._id] === undefined){
-          accounts.push({
+          queryAccounts.push(sale._id)
+          validatorImport[sale._id] = {
             idCompany: company.id,
             accountName: sale.accountName,
             nit: sale.nit,
@@ -194,9 +195,7 @@ const importCompanySales = async (body, token) => {
             observations: sale.observationsAccount,
             dateImport: sale.dateImport,
             customerId: sale._id,
-          })
-          queryAccounts.push(sale._id)
-          validatorImport[sale._id] = sale._id
+          }
         }
          
         return {
@@ -241,18 +240,18 @@ const importCompanySales = async (body, token) => {
         ]
       });
       
-      const resultAccounts = accounts.filter((item) => {
-        let isCopy = true;
-        dbAccounts.forEach(db => {
-          if(item.customerId == db.customerId){
-            isCopy = false 
-          }
-        })
-        return isCopy
+      dbAccounts.map((db) => {
+        if(db.customerId == validatorImport[db.customerId].customerId){
+          delete(validatorImport[db.customerId])
+        }
       })
 
+      Object.keys(validatorImport).map(item => {
+            accounts.push(validatorImport[item])
+          })
+
       const optionsAccount = { ordered: false };
-      await CompanyAccountsModel.insertMany(resultAccounts, optionsAccount);
+      await CompanyAccountsModel.insertMany(accounts, optionsAccount);
       // await uploadedSale(token.sub.email)
     }
 

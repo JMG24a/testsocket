@@ -134,10 +134,10 @@ const deleteImportCompanySales = async(req, res) => {
 
 router.get("/search/:value", validateToken, getSearchCompanySales)
 router.get("/:idCompany", validateToken, getCompanySales);
+router.post("/import/del", validateToken, deleteImportCompanySales);
 router.post("/:idCompany", validateToken, postCompanySale);
 router.post("/:idCompany/import", validateToken, importCompanySales)
 router.put("/:id",validateToken, putCompanySale);
 router.delete("/:idCompany/:id", validateToken, deleteCompanySale);
-router.post("/import/del", validateToken, deleteImportCompanySales);
 
 module.exports = router

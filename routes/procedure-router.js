@@ -1,3 +1,4 @@
+const boom = require('@hapi/boom');
 const { Router } = require('express');
 const passport = require('passport');
 const { validateToken } = require('../auth/middleware/jwt');
@@ -5,13 +6,17 @@ const procedureController = require('../controllers/procedure-controller')
 
 const router = Router();
 
-const getProcedures = async (req, res) => {
-  const procedure = await procedureController.getProcedures()
-
-  res.status(200).json({
-    msg: "Listado de procedimientos",
-    procedure,
-  });
+const getProcedures = async (req, res, next) => {
+  try{
+    const procedure = await procedureController.getProcedures()
+    res.status(200).json({
+      ok: true,
+      msg: "Listado de procedimientos",
+      procedure,
+    });
+  }catch(e){
+    next(e)
+  }
 };
 
 const getProcedure = async (req, res, next) => {
@@ -50,24 +55,13 @@ const putProcedure = async (req, res) => {
   try {
     const newProcedure = await procedureController.putProcedure(id, body)
 
-    if (typeof newProcedure === 'string') {
-      res.status(404).json({
-        ok: false,
-        msg: "No Encontrado",
-      });
-    }
-
     res.status(200).json({
       ok: true,
       msg: "Actualizado Correctamente",
       newProcedure,
     });
   } catch (error) {
-    res.status(501).json({
-      ok: false,
-      msg: "Error en la peticion",
-      error,
-    });
+    next(error)
   }
 };
 

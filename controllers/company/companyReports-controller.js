@@ -1,9 +1,9 @@
-const CompanyPurchasesModel = require("../models/companyPurchaseOrders");
-const CompanySalesModel = require("../models/companySales");
-const CompanyQuotationsModel = require("../models/companyQuotations.js")
-const CompanyAccountsModel = require("../models/companyAccounts");
-const CompanyModel = require("../models/company");
-const UserModel = require("../models/User");
+const CompanyPurchasesModel = require("../../models/companyPurchaseOrders");
+const CompanySalesModel = require("../../models/companySales");
+const CompanyQuotationsModel = require("../../models/companyQuotations.js")
+const CompanyAccountsModel = require("../../models/companyAccounts");
+const CompanyModel = require("../../models/company");
+const UserModel = require("../../models/User");
 
 const getReports = async (dates = {}, token) => {
   const start = dates.start;

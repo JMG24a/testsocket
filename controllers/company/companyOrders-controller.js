@@ -1,7 +1,7 @@
-const CompanyOrdersModel = require("../models/companyOrders");
-const CompanyAccountsModel = require("../models/companyAccounts");
-const CompanyModel = require("../models/company");
-const UserModel = require("../models/User");
+const CompanyOrdersModel = require("../../models/companyOrders");
+const CompanyAccountsModel = require("../../models/companyAccounts");
+const CompanyModel = require("../../models/company");
+const UserModel = require("../../models/User");
 
 const getSearchOrders = async (value, token, options) => {
   const user = await UserModel.findById(token.sub.id)

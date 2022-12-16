@@ -1,5 +1,5 @@
 const { Router } = require('express')
-const CompanyController = require('../controllers/company-controller')
+const CompanyController = require('../controllers/company/company-controller')
 //middleware
 const { validateToken } = require('../auth/middleware/jwt');
 const { validatorRoles } = require('../auth/middleware/roles');
@@ -206,92 +206,13 @@ const delEmployeeCompany = async (req, res) => {
   }
 }
 
-const getEmployeeTakesCompanyInfo = async (req, res) => {
-  const {idCompany} = req.params;
-  const token = req.myPayload;
 
-  try{
-    const companyContacts = await CompanyController.getEmployeeTakesCompanyInfo(token, idCompany)
-
-    res.status(200).json({
-      ok: true,
-      msg: "contacts",
-      company: companyContacts
-    });
-  }catch(e){
-    res.status(400).json({
-      ok: false,
-      msg: "Intenta mas tarde",
-    });
-  }
-}
-
-const createEmployeeTakesCompanyInfo = async (req, res) => {
-  const {idCompany} = req.params;
-  const body = req.body
-  const token = req.myPayload;
-  try{
-    const companyContacts = await CompanyController.createEmployeeTakesCompanyInfo(token, idCompany, body)
-
-    res.status(200).json({
-      ok: true,
-      msg: "contacts",
-      company: companyContacts
-    });
-  }catch(e){
-    res.status(400).json({
-      ok: false,
-      msg: "Intenta mas tarde",
-    });
-  }
-}
-
-const editEmployeeTakesCompanyInfo = async (req, res) => {
-  const {idCompany} = req.params;
-  const body = req.body
-  const token = req.myPayload;
-  try{
-    const companyContacts = await CompanyController.editEmployeeTakesCompanyInfo(token, idCompany, body)
-
-    res.status(200).json({
-      ok: true,
-      msg: "contacts",
-      company: companyContacts
-    });
-  }catch(e){
-    res.status(400).json({
-      ok: false,
-      msg: "Intenta mas tarde",
-    });
-  }
-}
-
-const deleteEmployeeTakesCompanyInfo = async (req, res) => {
-  const {idCompany} = req.params;
-  const body = req.body
-  const token = req.myPayload;
-  try{
-    const companyContacts = await CompanyController.deleteEmployeeTakesCompanyInfo(token, idCompany, body)
-
-    res.status(200).json({
-      ok: true,
-      msg: "contacts",
-      company: companyContacts
-    });
-  }catch(e){
-    res.status(400).json({
-      ok: false,
-      msg: "Intenta mas tarde",
-    });
-  }
-}
 
 router.get(
   "/",
   validatorRoles(['employee']),
   getCompanies
 );
-
 router.get("/user", validateToken, getCompaniesUser);
 router.get("/employee", validateToken, getCompanyByEmployee);
 router.post("/", validateToken, postCompany);
@@ -302,9 +223,5 @@ router.delete("/:id", validateToken, deleteCompany);
 router.put("/employee/addById", validateToken, addEmployeeCompanyById);
 router.put("/employee/disable/:id", validateToken, disabledEmployeeCompany);
 router.put("/employee/del/:id", validateToken, delEmployeeCompany);
-router.get("/employee/:idCompany", validateToken, getEmployeeTakesCompanyInfo);
-router.put("/employee/post/:idCompany", validateToken, createEmployeeTakesCompanyInfo);
-router.put("/employee/put/:idCompany", validateToken, editEmployeeTakesCompanyInfo);
-router.put("/employee/del/:idCompany", validateToken, deleteEmployeeTakesCompanyInfo);
 
 module.exports = router

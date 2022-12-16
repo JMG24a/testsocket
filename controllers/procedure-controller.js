@@ -1,3 +1,4 @@
+const boom = require("@hapi/boom");
 const ProceduresModel = require("../models/Procedures");
 
 const getProcedures = async () => {
@@ -55,6 +56,9 @@ const putProcedure = async (id, body) => {
 
 const deleteProcedure = async (id) => {
   const deleteProcedure = await ProceduresModel.findByIdAndDelete(id);
+  if(!deleteProcedure){
+    throw boom.notFount("Registro no encontrado")
+  }
   return deleteProcedure
 };
 

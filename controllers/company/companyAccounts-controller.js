@@ -1,8 +1,8 @@
-const CompanyAccountsModel = require("../models/companyAccounts");
-const CompanyModel = require("../models/company");
-const UserModel = require("../models/User")
-const { uploadedAccounts } = require("../mails/uploadedAccounts");
-const { getDateInString } = require("../helper/getDateInString");
+const CompanyAccountsModel = require("../../models/companyAccounts");
+const CompanyModel = require("../../models/company");
+const UserModel = require("../../models/User")
+const { uploadedAccounts } = require("../../mails/uploadedAccounts");
+const { getDateInString } = require("../../helper/getDateInString");
 const boom = require("@hapi/boom")
 
 const getSearchAccounts = async (value, token, options) => {

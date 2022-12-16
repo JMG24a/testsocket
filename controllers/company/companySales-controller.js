@@ -1,9 +1,9 @@
-const CompanySalesModel = require("../models/companySales.js");
-const CompanyAccountsModel = require("../models/companyAccounts.js")
-const CompanyProductsModel = require("../models/companyProducts.js")
-const UserModel = require("../models/User");
-const CompanyModel = require("../models/company");
-const { getDateInString } = require("../helper/getDateInString.js");
+const CompanySalesModel = require("../../models/companySales.js");
+const CompanyAccountsModel = require("../../models/companyAccounts.js")
+const CompanyProductsModel = require("../../models/companyProducts.js")
+const UserModel = require("../../models/User");
+const CompanyModel = require("../../models/company");
+const { getDateInString } = require("../../helper/getDateInString.js");
 const boom = require("@hapi/boom");
 
 const getSearchCompanySales = async (value, token, options) => {

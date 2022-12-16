@@ -1,5 +1,5 @@
 const { Router } = require('express')
-const companyPurchaseOrdersController = require('../controllers/companyPurchaseOrders-controller.js')
+const companyPurchaseOrdersController = require('../controllers/company/companyPurchaseOrders-controller.js')
 //middleware
 const { validateToken } = require('../auth/middleware/jwt');
 

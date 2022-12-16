@@ -70,14 +70,18 @@ const putProcedure = async (req, res) => {
   }
 };
 
-const deleteProcedure = async (req, res) => {
-  const {id} = req.params;
-  const isDelete = await procedureController.deleteProcedure(id)
-
-  res.status(200).json({
-    msg: "Eliminado con exito",
-    success: isDelete
-  });
+const deleteProcedure = async (req, res, next) => {
+  try{
+    const {id} = req.params;
+    await procedureController.deleteProcedure(id)
+  
+    res.status(200).json({
+      ok: true,
+      msg: "Eliminado con exito",
+    });
+  }catch(e){
+    next(e)
+  }
 };
 
 router.get("/", getProcedures);

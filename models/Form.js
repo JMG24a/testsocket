@@ -31,6 +31,7 @@ const formSchema = new Schema(
     formData: [
       {
         stepName: { type: String },
+        procedurePropertyName: { type: String },
         completed: { type: Boolean },
         globalAlert: { type: String },
         formDiagram: {

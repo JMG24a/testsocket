@@ -20,15 +20,17 @@ const documentsRouter = require('./documents')
 const requestRouter = require('./requests-router');
 const mailRouter = require('./mail');
 const databasesRouter = require('./databases-router');
-const companyRouter = require('./company-router');
-const companyOrdersRouter = require('./companyOrders-router');
-const companySalesRouter = require('./companySales-router');
-const companyQuotationsRouter = require('./companyQuotation-router');
-const companyAccountsRouter = require('./companyAccounts-router');
-const companyProductsRouter = require('./companyProducts-router');
-const companyPurchaseRouter = require('./companyPurchaseOrders-router');
-const companyOpportunitiesRouter = require('./companyOpportunities-router');
-const companyReportsRouter = require("./companyReports-router");
+//company
+const companyRouter = require('./company/company-router');
+const companyOrdersRouter = require('./company/companyOrders-router');
+const companySalesRouter = require('./company/companySales-router');
+const companyQuotationsRouter = require('./company/companyQuotation-router');
+const companyAccountsRouter = require('./company/companyAccounts-router');
+const companyProductsRouter = require('./company/companyProducts-router');
+const companyPurchaseRouter = require('./company/companyPurchaseOrders-router');
+const companyOpportunitiesRouter = require('./company/companyOpportunities-router');
+const companyReportsRouter = require("./company/companyReports-router");
+//documentGenerator
 const filesGenerationRouter = require("./filesGeneration-router");
 //PublicApi
 const keyRouter = require("./PublicApi/apiKey-router");
@@ -57,6 +59,7 @@ const appRouter = (app) => {
   routerV1.use('/request', requestRouter);
   routerV1.use('/mail', mailRouter);
   routerV1.use('/database', databasesRouter);
+  //company
   routerV1.use('/company', companyRouter);
   routerV1.use('/companyOrders', companyOrdersRouter);
   routerV1.use('/companySales', companySalesRouter);
@@ -66,6 +69,7 @@ const appRouter = (app) => {
   routerV1.use('/companyPurchase', companyPurchaseRouter);
   routerV1.use('/companyOpportunities', companyOpportunitiesRouter);
   routerV1.use('/companyReports', companyReportsRouter);
+  //documentGenerator
   routerV1.use('/filesGeneration', filesGenerationRouter);
   //V2
   //PublicApi

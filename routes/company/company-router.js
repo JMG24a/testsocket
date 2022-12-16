@@ -1,8 +1,8 @@
 const { Router } = require('express')
-const CompanyController = require('../controllers/company/company-controller')
+const CompanyController = require('../../controllers/company/company-controller')
 //middleware
-const { validateToken } = require('../auth/middleware/jwt');
-const { validatorRoles } = require('../auth/middleware/roles');
+const { validateToken } = require('../../auth/middleware/jwt');
+const { validatorRoles } = require('../../auth/middleware/roles');
 
 const router = Router();
 

@@ -1,7 +1,7 @@
 const { Router } = require('express')
-const companyAccountController = require('../controllers/company/companyAccounts-controller.js')
+const companyAccountController = require('../../controllers/company/companyAccounts-controller.js')
 //middleware
-const { validateToken } = require('../auth/middleware/jwt');
+const { validateToken } = require('../../auth/middleware/jwt');
 
 const router = Router();
 

@@ -3,7 +3,6 @@ const { v4: uuidv4 } = require('uuid');
 
 const getKey = async(token) => {
     const {key} = await modelUser.findById(token.sub.id);
-    console.log(key)
     return key;
 }
 

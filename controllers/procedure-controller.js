@@ -8,13 +8,13 @@ const getProcedures = async () => {
 
 const getProcedureByUser = async (id) => {
   if(!id){
-    return 'El procedimiento no fue encontrado'
+    throw boom.notFound('El procedimiento no fue encontrado')
   }
   try{
     const procedure = await ProceduresModel.find({idUsers: id.sub.id});
     return procedure
   }catch(e){
-    console.error(e)
+    throw boom.notFound('El procedimiento no fue encontrado')
   }
 };
 
@@ -39,7 +39,7 @@ const postProcedure = async (body) => {
       ...newProcedure.toObject()
     })
   }catch(e){
-    throw new Error ('El Proceso no pudo ser Guardado')
+    throw boom.badRequest('El Proceso no pudo ser Guardado')
   }
 };
 

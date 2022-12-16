@@ -10,7 +10,7 @@ const propertySchema = Schema({
   formValid     : { type: Boolean},
   compete       : { type: Boolean, required: true},
   comments      : { type: String },
-  stages        : [],
+  stages        : {},
   expirationDate: { type: Date },
   dueDate       : { type: Date },
   requiredForms : [{

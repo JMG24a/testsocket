@@ -3,7 +3,6 @@ const CompanyModel = require("../../models/company");
 const UserModel = require("../../models/User")
 
 const getSearchOpportunities = async (value, token, options) => {
-  console.log('%cMyProject%cline:5%cvalue', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(248, 147, 29);padding:3px;border-radius:2px', value)
   try {
     const user = await UserModel.findById(token.sub.id)
     if(!user){

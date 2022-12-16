@@ -1,7 +1,7 @@
 const { Router } = require('express')
-const companyProductController = require('../controllers/company/companyProducts-controller.js')
+const companyProductController = require('../../controllers/company/companyProducts-controller.js')
 //middleware
-const { validateToken } = require('../auth/middleware/jwt');
+const { validateToken } = require('../../auth/middleware/jwt');
 
 const router = Router();
 
@@ -9,7 +9,6 @@ const getSearchProducts = async (req, res) => {
   const {value} = req.params;
   const options = req.query;
   const token = req.myPayload;
-  console.log('%cMyProject%cline:11%ctoken', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(131, 175, 155);padding:3px;border-radius:2px', token)
 
   try{
     const {products, count} = await companyProductController.getSearchProducts(value, token, options)

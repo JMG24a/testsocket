@@ -1,21 +1,21 @@
 const { Router } = require('express')
-const companyPurchaseOrdersController = require('../controllers/company/companyPurchaseOrders-controller.js')
+const companyOrdersController = require('../../controllers/company/companyOrders-controller.js')
 //middleware
-const { validateToken } = require('../auth/middleware/jwt');
+const { validateToken } = require('../../auth/middleware/jwt');
 
 const router = Router();
 
-const getSearchPurchases = async (req, res) => {
+const getSearchOrders = async (req, res) => {
   const {value} = req.params;
   const options = req.query;
   const token = req.myPayload
   try{
-    const {purchases, count} = await companyPurchaseOrdersController.getSearchPurchases(value, token, options)
+    const {orders, count} = await companyOrdersController.getSearchOrders(value, token, options)
 
     res.status(200).json({
       ok: true,
       msg: "Listado de ordenes",
-      purchases,
+      orders,
       count
     });
   }catch(e){
@@ -26,17 +26,17 @@ const getSearchPurchases = async (req, res) => {
   }
 };
 
-const getCompanyPurchases = async (req, res) => {
+const getCompanyOrders = async (req, res) => {
   const {idCompany} = req.params;
   const options = req.query;
   const token = req.myPayload
   try{
-    const {purchases, count} = await companyPurchaseOrdersController.getCompanyPurchases(idCompany, token, options)
+    const {orders, count} = await companyOrdersController.getCompanyOrders(idCompany, token, options)
 
     res.status(200).json({
       ok: true,
       msg: "Listado de ordenes",
-      purchases,
+      orders,
       count
     });
   }catch(e){
@@ -47,17 +47,17 @@ const getCompanyPurchases = async (req, res) => {
   }
 };
 
-const postCompanyPurchaseOrder = async (req, res) => {
+const postCompanyOrder = async (req, res) => {
   const {idCompany} = req.params;
   const token = req.myPayload
   const body = req.body;
 
   try {
-    const newCompanyPurchaseOrder = await companyPurchaseOrdersController.postCompanyPurchaseOrder(body, token, idCompany);
+    const newCompanyOrder = await companyOrdersController.postCompanyOrder(body, token, idCompany);
     res.status(201).json({
       ok: true,
       msg: "Creado",
-      newPurchase: newCompanyPurchaseOrder
+      companyOrder: newCompanyOrder
     });
   } catch (error) {
     res.status(500).json({
@@ -68,15 +68,15 @@ const postCompanyPurchaseOrder = async (req, res) => {
   }
 };
 
-const putCompanyPurchase = async (req, res) => {
+const putCompanyOrder = async (req, res) => {
   const { id } = req.params;
   const body = req.body;
   const token = req.myPayload
 
   try {
-    const editCompanyPurchaseOrder = await companyPurchaseOrdersController.putCompanyPurchase(id, body, token)
+    const editCompanyOrder = await companyOrdersController.putCompanyOrder(id, body, token)
 
-    if (typeof editCompanyPurchaseOrder === 'string') {
+    if (typeof editCompanyOrder === 'string') {
       res.status(404).json({
         ok: false,
         msg: "No Encontrado",
@@ -86,7 +86,7 @@ const putCompanyPurchase = async (req, res) => {
     res.status(200).json({
       ok: true,
       msg: "Actualizado Correctamente",
-      editPurchase: editCompanyPurchaseOrder,
+      editCompanyOrder,
     });
   } catch (error) {
     res.status(501).json({
@@ -97,10 +97,10 @@ const putCompanyPurchase = async (req, res) => {
   }
 };
 
-const deleteCompanyPurchaseOrder = async (req, res) => {
-  const {id} = req.params;
+const deleteCompanyOrder = async (req, res) => {
+  const {id, idCompany} = req.params;
   const token = req.myPayload
-  const isDelete = await companyPurchaseOrdersController.deleteCompanyPurchaseOrder(id, token)
+  const isDelete = await companyOrdersController.deleteCompanyOrder(id, token, idCompany)
 
   res.status(200).json({
     msg: "Eliminado con exito",
@@ -108,10 +108,10 @@ const deleteCompanyPurchaseOrder = async (req, res) => {
   });
 };
 
-router.get("/search/:value", validateToken, getSearchPurchases);
-router.get("/:idCompany", validateToken, getCompanyPurchases);
-router.post("/:idCompany", validateToken, postCompanyPurchaseOrder);
-router.put("/:id",validateToken, putCompanyPurchase);
-router.delete("/:id", validateToken, deleteCompanyPurchaseOrder);
+router.get("/search/:value", validateToken, getSearchOrders);
+router.get("/:idCompany", validateToken, getCompanyOrders);
+router.post("/:idCompany", validateToken, postCompanyOrder);
+router.put("/:id",validateToken, putCompanyOrder);
+router.delete("/:idCompany/:id", validateToken, deleteCompanyOrder);
 
 module.exports = router;

@@ -14,31 +14,32 @@ const getProcedures = async (req, res) => {
   });
 };
 
-const getProcedure = async (req, res) => {
-  const token = req.myPayload;
-  const procedure = await procedureController.getProcedureByUser(token)
-
-  res.status(200).json({
-    msg: "procedimiento",
-    procedure
-  });
+const getProcedure = async (req, res, next) => {
+  try{
+    const token = req.myPayload;
+    const procedure = await procedureController.getProcedureByUser(token)
+  
+    res.status(200).json({
+      ok: true,
+      msg: "Procedimiento encontrado",
+      procedure
+    });
+  }catch(e){
+    next(e)
+  }
 };
 
-const postProcedure = async (req, res) => {
+const postProcedure = async (req, res, next) => {
   const body = req.body;
   try {
     const newProcedure = await procedureController.postProcedure(body);
     res.status(201).json({
       ok: true,
-      msg: "Creado",
+      msg: "Procedimiento creado",
       procedure: newProcedure
     });
   } catch (error) {
-    res.status(500).json({
-      ok: false,
-      msg: "Error en la peticion",
-      error,
-    });
+    next(error)
   }
 };
 
@@ -85,14 +86,12 @@ const deleteProcedure = async (req, res, next) => {
 };
 
 router.get("/", getProcedures);
-
 router.get(
   "/user",
   passport.authenticate('jwt', {session: false}),
   validateToken,
   getProcedure
 );
-
 router.post("/", postProcedure);
 router.put("/:id", putProcedure);
 router.delete("/:id", deleteProcedure);

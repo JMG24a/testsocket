@@ -1,10 +1,10 @@
 const { Router } = require("express")
 const { 
-    generatePDF 
-} = require("../controllers/filesGeneration-controller")
+    generateFile 
+} = require("../controllers/generate-file-controller")
 
 const router = Router()
 
-router.get("/generatePDF", generatePDF)
+router.get("/:fileType/:id", generateFile)
 
 module.exports = router

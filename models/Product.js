@@ -1,7 +1,4 @@
 const { Schema, model, models } = require("mongoose");
-const mongoose = require('mongoose')
-require('mongoose-long')(mongoose);
-const {Types: {Long}} = mongoose;
 
 const productSchema = new Schema({
   name           : { type: String },
@@ -12,7 +9,7 @@ const productSchema = new Schema({
   paymentMethods: [{
     name :      {type: String},
     price:      {type: Number},
-    time :      {type: Long},
+    time :      {type: String},
     priceLabel: {type: String},
     description: {type: String},
     discount: {type: Number}

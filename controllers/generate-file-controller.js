@@ -12,22 +12,22 @@ const {
 
 const generateFile = async(req = request, res = response) => {
     //Validar que el URL sí traiga el tipo de archivo
-    const fileType = req.query.fileType;
+    const {fileType} = req.params;
     if(!fileType) return res.status(400).json({
         ok: false,
         message: 'El tipo de archivo es requerido.'
     });
 
     //Validar que el id del Procedure que viene en el body sí sea válido
-    const procedureId = req.body.procedureId;
-    if(!procedureId || !isValidObjectId(procedureId)) return res.status(400).json({
+    const { id } = req.params;
+    if(!id || !isValidObjectId(id)) return res.status(400).json({
         ok: false,
         message: 'Se requiere un id del trámite válido.'
     });
 
     //Acceder a la información del trámite
     try {
-        const procedure = await Procedures.findById(procedureId);
+        const procedure = await Procedures.findById(id).populate("idForm");
 
         if(!procedure) return res.status(404).json({
             ok: false,
@@ -59,11 +59,6 @@ const generateFile = async(req = request, res = response) => {
             errorDescription: error.message
         });
     }
-
-    res.status(200).json({
-        ok: true,
-        message: fileType
-    });
 }
 
 module.exports = {

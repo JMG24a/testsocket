@@ -37,6 +37,7 @@ const postProcedure = async (body) => {
   try {
     const procedure = new ProceduresModel(body);
     const newProcedure =  await procedure.save();
+    console.log('%cMyProject%cline:39%cnewProcedure', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(118, 77, 57);padding:3px;border-radius:2px', newProcedure)
 
     return ({
       ...newProcedure.toObject()

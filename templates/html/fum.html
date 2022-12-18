@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Hello world!</title>
+    <style>
+      body {
+          /* background-color: red !important; */
+          font-size: 12pt;
+          text-align: justify;
+          margin: 0;
+          font-family: Arial, Helvetica, sans-serif;
+      }
+
+      span {
+          display: inline-block;
+          border-bottom: 1px solid black;
+          padding: 0 5px;
+          text-align: center;
+      }
+
+      footer {
+          text-align: center;
+      }
+
+      footer table {
+          margin: 70px auto 0;
+      }
+
+      footer table,
+      footer table tr {
+          border: none;
+      }
+
+      footer table tr span {
+          min-width: 175px;
+          margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 style="margin: 0 0 20px; text-align: center; font-size: 14pt;">CONTRATO DE MANDATO PERSONAL NATURAL</h1>
+
+    <div style="line-height: 150%;"">
+        <p>
+            Entre los suscritos a saber <span style="min-width: 300px;">{{ seller.name }}</span> mayor de edad, vecino de esta ciudad, identificado con documento <span style="min-width: 100px;">{{ seller.documentType }}</span> <span style="min-width: 150px;">{{ seller.documentNumber }}</span>, quien para efectos del presente contrato se denominará <b>EL MANDANTE</b>, y de otro <span style="min-width: 300px;">{{ buyer.name }}</span> también mayor de edad, vecino de esta ciudad, identificado con <span style="min-width: 100px;">{{ buyer.documentType }}</span> No. <span style="min-width: 150px;">{{ buyer.documentNumber }}</span>, quien para efectos del presente contrato se denominará <b>EL MANDATARIO</b>, hemos acordado suscribir el siguiente contrato de mandato dando cumplimiento a la resolución 12379 expedida por el Ministerio de Transporte el 28 de diciembre de 2012 (Art. 5), que se regirá por las normas civiles y comerciales que regulan la materia y las siguientes cláusulas. <b>PRIMERA: OBJETO DEL CONTRATO</b>. <b>EL MANDATARIO</b> por cuenta y riesgo del <b>MANDANTE</b> queda efectuado para solicitar, realizar, radicar y retirar el (los) trámite (s) de <span>TRÁMITE DE TRASPASO</span> del vehículo de propiedad del MANDANTE identificado con placa <span style="min-width: 150px;">{{ car.licensePlate }}</span> ante el organismo de tránsito de <span style="min-width: 150px;">{{ contract.city }}</span>. Como consecuencia, <b>EL MANDATARIO</b> queda facultado para realizar todas las gestiones propias de este mandato y en especial para representar, notificarse, recibir, impugnar, transigir, desistir, sustituir, resumir, pedir, conciliar o asumir obligaciones en nombre del MANDANTE. <b>SEGUNDA: OBLIGACIONES DEL MANDANTE</b>. EL MANDANTE declara que la información contenida en los documentos que se anexan a la solicitud del trámite es veráz y auténtica, razón por la que se hace responsable ante la autoridad competente de cualquier irregularidad que los mismos puedan contener.
+        </p>
+
+        <p>
+            Para constancia se firma en la ciudad de <span style="min-width: 200px;">{{ contract.city }}</span>, a los <span style="min-width: 25px;">{{ contract.date.day }}</span> días del mes de <span style="min-width: 125px;">{{ contract.date.month }}</span> del año <span style="min-width: 50px;">{{ contract.date.year }}</span>.
+        </p>
+
+        <p>
+            Atentamente,
+        </p>
+    </div>
+
+    <footer>
+        <table>
+            <tbody>
+                <tr>
+                    <td style="padding-right: 20px;">
+                        <span></span>
+                        <p><b>MANDANTE</b></p>
+                    </td>
+                    <td style="padding-left: 20px;">
+                        <span></span>
+                        <p><b>MANDATARIO</b></p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </footer>
+
+    <p style="color: red;">Esto nada más es para probar la paginación automática</p>
+    <div style="line-height: 150%;"">
+        <p>
+            Entre los suscritos a saber <span style="min-width: 300px;">{{ seller.name }}</span> mayor de edad, vecino de esta ciudad, identificado con documento <span style="min-width: 100px;">{{ seller.documentType }}</span> <span style="min-width: 150px;">{{ seller.documentNumber }}</span>, quien para efectos del presente contrato se denominará <b>EL MANDANTE</b>, y de otro <span style="min-width: 300px;">{{ buyer.name }}</span> también mayor de edad, vecino de esta ciudad, identificado con <span style="min-width: 100px;">{{ buyer.documentType }}</span> No. <span style="min-width: 150px;">{{ buyer.documentNumber }}</span>, quien para efectos del presente contrato se denominará <b>EL MANDATARIO</b>, hemos acordado suscribir el siguiente contrato de mandato dando cumplimiento a la resolución 12379 expedida por el Ministerio de Transporte el 28 de diciembre de 2012 (Art. 5), que se regirá por las normas civiles y comerciales que regulan la materia y las siguientes cláusulas. <b>PRIMERA: OBJETO DEL CONTRATO</b>. <b>EL MANDATARIO por cuenta</b> y riesgo del <b>MANDANTE</b> queda efectuado para solicitar, realizar, radicar y retirar el (los) trámite (s) de <span>TRÁMITE DE TRASPASO</span> del vehículo de propiedad del MANDANTE identificado con placa <span style="min-width: 150px;">{{ car.licensePlate }}</span> ante el organismo de tránsito de <span style="min-width: 150px;">{{ contract.city }}</span>. Como consecuencia, <b>EL MANDATARIO</b> queda facultado para realizar todas las gestiones propias de este mandato y en especial para representar, notificarse, recibir, impugnar, transigir, desistir, sustituir, resumir, pedir, conciliar o asumir obligaciones en nombre del <b>MANDANTE</b>. <b>SEGUNDA: OBLIGACIONES DEL MANDANTE</b>. <b>EL MANDANTE</b> declara que la información contenida en los documentos que se anexan a la solicitud del trámite es veráz y auténtica, razón por la que se hace responsable ante la autoridad competente de cualquier irregularidad que los mismos puedan contener.
+        </p>
+
+        <p>
+            Para constancia se firma en la ciudad de <span style="min-width: 200px;">{{ contract.city }}</span>, a los <span style="min-width: 25px;">{{ contract.date.day }}</span> días del mes de <span style="min-width: 125px;">{{ contract.date.month }}</span> del año <span style="min-width: 50px;">{{ contract.date.year }}</span>.
+        </p>
+
+        <p>
+            Atentamente,
+        </p>
+    </div>
+
+    <div style="line-height: 150%;"">
+        <p>
+            Entre los suscritos a saber <span style="min-width: 300px;">{{ seller.name }}</span> mayor de edad, vecino de esta ciudad, identificado con documento <span style="min-width: 100px;">{{ seller.documentType }}</span> <span style="min-width: 150px;">{{ seller.documentNumber }}</span>, quien para efectos del presente contrato se denominará <b>EL MANDANTE</b>, y de otro <span style="min-width: 300px;">{{ buyer.name }}</span> también mayor de edad, vecino de esta ciudad, identificado con <span style="min-width: 100px;">{{ buyer.documentType }}</span> No. <span style="min-width: 150px;">{{ buyer.documentNumber }}</span>, quien para efectos del presente contrato se denominará <b>EL MANDATARIO</b>, hemos acordado suscribir el siguiente contrato de mandato dando cumplimiento a la resolución 12379 expedida por el Ministerio de Transporte el 28 de diciembre de 2012 (Art. 5), que se regirá por las normas civiles y comerciales que regulan la materia y las siguientes cláusulas. <b>PRIMERA: OBJETO DEL CONTRATO</b>. <b>EL MANDATARIO por cuenta</b> y riesgo del <b>MANDANTE</b> queda efectuado para solicitar, realizar, radicar y retirar el (los) trámite (s) de <span>TRÁMITE DE TRASPASO</span> del vehículo de propiedad del MANDANTE identificado con placa <span style="min-width: 150px;">{{ car.licensePlate }}</span> ante el organismo de tránsito de <span style="min-width: 150px;">{{ contract.city }}</span>. Como consecuencia, <b>EL MANDATARIO</b> queda facultado para realizar todas las gestiones propias de este mandato y en especial para representar, notificarse, recibir, impugnar, transigir, desistir, sustituir, resumir, pedir, conciliar o asumir obligaciones en nombre del <b>MANDANTE</b>. <b>SEGUNDA: OBLIGACIONES DEL MANDANTE</b>. <b>EL MANDANTE</b> declara que la información contenida en los documentos que se anexan a la solicitud del trámite es veráz y auténtica, razón por la que se hace responsable ante la autoridad competente de cualquier irregularidad que los mismos puedan contener.
+        </p>
+
+        <p>
+            Para constancia se firma en la ciudad de <span style="min-width: 200px;">{{ contract.city }}</span>, a los <span style="min-width: 25px;">{{ contract.date.day }}</span> días del mes de <span style="min-width: 125px;">{{ contract.date.month }}</span> del año <span style="min-width: 50px;">{{ contract.date.year }}</span>.
+        </p>
+
+        <p>
+            Atentamente,
+        </p>
+    </div>
+
+    <div style="line-height: 150%;"">
+        <p>
+            Entre los suscritos a saber <span style="min-width: 300px;">{{ seller.name }}</span> mayor de edad, vecino de esta ciudad, identificado con documento <span style="min-width: 100px;">{{ seller.documentType }}</span> <span style="min-width: 150px;">{{ seller.documentNumber }}</span>, quien para efectos del presente contrato se denominará <b>EL MANDANTE</b>, y de otro <span style="min-width: 300px;">{{ buyer.name }}</span> también mayor de edad, vecino de esta ciudad, identificado con <span style="min-width: 100px;">{{ buyer.documentType }}</span> No. <span style="min-width: 150px;">{{ buyer.documentNumber }}</span>, quien para efectos del presente contrato se denominará <b>EL MANDATARIO</b>, hemos acordado suscribir el siguiente contrato de mandato dando cumplimiento a la resolución 12379 expedida por el Ministerio de Transporte el 28 de diciembre de 2012 (Art. 5), que se regirá por las normas civiles y comerciales que regulan la materia y las siguientes cláusulas. <b>PRIMERA: OBJETO DEL CONTRATO</b>. <b>EL MANDATARIO por cuenta</b> y riesgo del <b>MANDANTE</b> queda efectuado para solicitar, realizar, radicar y retirar el (los) trámite (s) de <span>TRÁMITE DE TRASPASO</span> del vehículo de propiedad del MANDANTE identificado con placa <span style="min-width: 150px;">{{ car.licensePlate }}</span> ante el organismo de tránsito de <span style="min-width: 150px;">{{ contract.city }}</span>. Como consecuencia, <b>EL MANDATARIO</b> queda facultado para realizar todas las gestiones propias de este mandato y en especial para representar, notificarse, recibir, impugnar, transigir, desistir, sustituir, resumir, pedir, conciliar o asumir obligaciones en nombre del <b>MANDANTE</b>. <b>SEGUNDA: OBLIGACIONES DEL MANDANTE</b>. <b>EL MANDANTE</b> declara que la información contenida en los documentos que se anexan a la solicitud del trámite es veráz y auténtica, razón por la que se hace responsable ante la autoridad competente de cualquier irregularidad que los mismos puedan contener.
+        </p>
+
+        <p>
+            Para constancia se firma en la ciudad de <span style="min-width: 200px;">{{ contract.city }}</span>, a los <span style="min-width: 25px;">{{ contract.date.day }}</span> días del mes de <span style="min-width: 125px;">{{ contract.date.month }}</span> del año <span style="min-width: 50px;">{{ contract.date.year }}</span>.
+        </p>
+
+        <p>
+            Atentamente,
+        </p>
+    </div>
+  </body>
+</html>

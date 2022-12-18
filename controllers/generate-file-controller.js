@@ -12,14 +12,14 @@ const {
 
 const generateFile = async(req = request, res = response) => {
     //Validar que el URL sí traiga el tipo de archivo
-    const {fileType} = req.params;
+    const {fileType, nameFile} = req.params;
     if(!fileType) return res.status(400).json({
         ok: false,
         message: 'El tipo de archivo es requerido.'
     });
 
     //Validar que el id del Procedure que viene en el body sí sea válido
-    const { id } = req.params;
+    const { id } = req.body;
     if(!id || !isValidObjectId(id)) return res.status(400).json({
         ok: false,
         message: 'Se requiere un id del trámite válido.'
@@ -37,15 +37,15 @@ const generateFile = async(req = request, res = response) => {
         //Generación del archivo según el tipo
         switch (fileType) {
             case 'pdf':
-                return generatePDFFile(procedure, res);
+                return generatePDFFile(procedure, nameFile, res);
             case 'xls':
-                return generateXLSFile(procedure, res);
+                return generateXLSFile(procedure, nameFile, res);
             case 'zip':
-                return generateZIPFile(procedure, res);
+                return generateZIPFile(procedure, nameFile, res);
             case 'doc':
-                return generateDOCFile(procedure, res);
+                return generateDOCFile(procedure, nameFile, res);
             case 'jpg':
-                return generateJPGFile(procedure, res);
+                return generateJPGFile(procedure, nameFile, res);
             default:
                 return res.status(400).json({
                     ok: false,

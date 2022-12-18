@@ -6,10 +6,8 @@ const pdf = require("pdf-creator-node")
 const Handlebars = require("handlebars");
 const HTMLtoDOCX = require('html-to-docx');
 
-generatePDFFile = (procedure, res = response) => {
-  //Toda la lógica necesaria para generar un archivo pdf y retornarlo
-  const regex = / /ig;
-  const FILE_NAME = procedure.title.replace(regex, "").toLowerCase()
+generatePDFFile = (procedure, nameFile, res = response) => {
+  const FILE_NAME = nameFile
   const html = fs.readFileSync(path.join(__dirname, "../templates/html/" + FILE_NAME + ".html"), "utf8")
 
   const options = {
@@ -37,7 +35,7 @@ generatePDFFile = (procedure, res = response) => {
   });
 }
 
-generateXLSFile = (procedure, res = response) => {
+generateXLSFile = (procedure, nameFile, res = response) => {
     //Toda la lógica necesaria para generar un archivo xls y retornarlo
 
     return res.status(200).json({
@@ -46,7 +44,7 @@ generateXLSFile = (procedure, res = response) => {
     });
 }
 
-generateZIPFile = (procedure, res = response) => {
+generateZIPFile = (procedure, nameFile, res = response) => {
     //Toda la lógica necesaria para generar un archivo zip y retornarlo
 
     return res.status(200).json({
@@ -55,10 +53,8 @@ generateZIPFile = (procedure, res = response) => {
     });
 }
 
-generateDOCFile = async(procedure, res = response) => {
-  //Toda la lógica necesaria para generar un archivo doc y retornarlo
-  const regex = / /ig;
-  const FILE_NAME = procedure.title.replace(regex, "").toLowerCase()
+generateDOCFile = async(procedure, nameFile, res = response) => {
+  const FILE_NAME = nameFile
   let html = fs.readFileSync(path.join(__dirname, "../templates/html/" + FILE_NAME +".html"), "utf8");
 
   html = Handlebars.compile(html)({
@@ -70,7 +66,7 @@ generateDOCFile = async(procedure, res = response) => {
   res.send(fileBuffer);
 }
 
-generateJPGFile = (procedure, res = response) => {
+generateJPGFile = (procedure, nameFile, res = response) => {
     //Toda la lógica necesaria para generar un archivo jpg y retornarlo
     return res.status(200).json({
         ok: true,

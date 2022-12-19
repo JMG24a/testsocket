@@ -5,6 +5,6 @@ const {
 
 const router = Router()
 
-router.get("/:fileType/:nameFile", generateFile)
+router.post("/:fileType/:nameFile", generateFile)
 
 module.exports = router

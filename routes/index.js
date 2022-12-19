@@ -14,7 +14,6 @@ const ResultRouter = require('./result-router');
 const formCategoryRouter = require('./form-category');
 const authRouter = require('./auth');
 const invoiceRouter = require('./invoice-router');
-const generateFileRouter = require('./generate-file');
 const articleRouter = require('./article-router')
 const documentsRouter = require('./documents')
 const requestRouter = require('./requests-router');
@@ -53,7 +52,6 @@ const appRouter = (app) => {
   routerV1.use('/formCategories', formCategoryRouter);
   routerV1.use('/auth', authRouter);
   routerV1.use('/invoices', invoiceRouter);
-  routerV1.use('/generate', generateFileRouter);
   routerV1.use('/article', articleRouter);
   routerV1.use('/document', documentsRouter);
   routerV1.use('/request', requestRouter);

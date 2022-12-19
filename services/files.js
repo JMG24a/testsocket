@@ -1,6 +1,7 @@
 const { response } = require('express');
 const fs = require("fs")
 const path = require("path")
+const { documentWithHtmlAndCss } = require("../templates")
 //Lib
 const pdf = require("pdf-creator-node")
 const Handlebars = require("handlebars");
@@ -8,19 +9,19 @@ const HTMLtoDOCX = require('html-to-docx');
 
 generatePDFFile = (procedure, nameFile, res = response) => {
   const FILE_NAME = nameFile
-  const html = fs.readFileSync(path.join(__dirname, "../templates/html/" + FILE_NAME + ".html"), "utf8")
+  const html = documentWithHtmlAndCss(FILE_NAME)
 
   const options = {
-      format: "Letter",
-      orientation: "portrait",
-      border: "20mm",
+    format: "Letter",
+    orientation: "portrait",
+    border: "20mm",
   }
 
   const document = {
-      html: html,
-      data: procedure.stages,
-      path: "./output.pdf",
-      type: "buffer",
+    html: html,
+    data: procedure.stages,
+    path: "./output.pdf",
+    type: "buffer",
   }
 
 

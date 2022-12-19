@@ -21,8 +21,8 @@ const getReports = async (dates = {}, token) => {
 
     const report = await CompanySalesModel
       .find({$and: [
-        {"createdAt": {$gte : start}},
-        {"createdAt": {$lte : end}},
+        {"date": {$gte : start}},
+        {"date": {$lte : end}},
         {"idCompany": user.companies}
       ]})
       .populate('contact')

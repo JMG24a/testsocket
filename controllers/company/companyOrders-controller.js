@@ -85,7 +85,7 @@ const postCompanyOrder = async (body, token, idCompany) => {
     const contact = await CompanyAccountsModel.findById(body.contact)
     if(contact){
       body.accountName = contact.accountName
-      body.accountPhone = contact.phone
+      body.accountPhone = contact.mobile
     }
     body.idCompany = idCompany;
     body.orderWorkNumber = (parseInt(company.settings.orderWorksNumber, 10) + 1);
@@ -124,7 +124,7 @@ const putCompanyOrder= async (id, body, token) => {
     const contact = await CompanyAccountsModel.findById(body.contact)
     if(contact){
       body.accountName = contact.accountName
-      body.accountPhone = contact.phone
+      body.accountPhone = contact.mobile
     }
   }
 

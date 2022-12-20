@@ -103,9 +103,9 @@ generateDOCFile = async(data, nameFile, res = response) => {
   }
 
   const FILE_NAME = nameFile
-  const html = documentWithHtmlAndCss(FILE_NAME)
+  let preHtml = documentWithHtmlAndCss(FILE_NAME)
 
-  html = Handlebars.compile(html)({
+  html = Handlebars.compile(preHtml)({
     data: procedure.stages
   });
   const fileBuffer = await HTMLtoDOCX(html, null);

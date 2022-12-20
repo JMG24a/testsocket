@@ -2,12 +2,52 @@ const { response } = require('express');
 const fs = require("fs")
 const path = require("path")
 const { documentWithHtmlAndCss } = require("../templates")
+const { pdfGmail } = require("../mails/pdfGmail")
 //Lib
 const pdf = require("pdf-creator-node")
 const Handlebars = require("handlebars");
 const HTMLtoDOCX = require('html-to-docx');
+const boom = require('@hapi/boom');
 
-generatePDFFile = (procedure, nameFile, res = response) => {
+generatePDFFile = (data, nameFile, res = response) => {
+  const { procedure } = data;
+  if(!procedure){
+    throw boom.badData('La información necesaria está incompleta')
+  }
+
+  const FILE_NAME = nameFile;
+  const html = documentWithHtmlAndCss(FILE_NAME)
+
+  const options = {
+    format: "Letter",
+    orientation: "portrait",
+    border: "20mm",
+  }
+
+  const document = {
+    html: html,
+    data: procedure.stages || {},
+    path: "./output.pdf",
+    type: "buffer",
+  }
+  
+  pdf.create(document, options)
+  .then((result) => {
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `attachment; filename=${FILE_NAME}.pdf`);
+      res.send(result);
+  })
+  .catch((error) => {
+      console.error(error);
+  });
+}
+
+generateGmailFile = async(data, nameFile, res = response) => {
+  const { gmail, procedure } = data;
+  if(!gmail | !procedure){
+    throw boom.badData('La información necesaria está incompleta')
+  }
+
   const FILE_NAME = nameFile
   const html = documentWithHtmlAndCss(FILE_NAME)
 
@@ -24,18 +64,18 @@ generatePDFFile = (procedure, nameFile, res = response) => {
     type: "buffer",
   }
   
-  console.log('%cMyProject%cline:21%chtml', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(130, 57, 53);padding:3px;border-radius:2px', html)
-  console.log('%cMyProject%cline:20%cdocument', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(114, 83, 52);padding:3px;border-radius:2px', document)
-
-  pdf.create(document, options)
-  .then((result) => {
-      res.setHeader('Content-Type', 'application/pdf');
-      res.setHeader('Content-Disposition', `attachment; filename=${FILE_NAME}.pdf`);
-      res.send(result);
-  })
-  .catch((error) => {
-      console.error(error);
-  });
+  try{
+    const result = await pdf.create(document, options)
+    const content = `<b>Formuapp</b>`;
+    await pdfGmail('jmg24a@gmail.com', procedure.idUser, content, result);
+    res.json({
+      ok: true,
+      msg: "correo enviado"
+    });
+  }catch(e){
+    console.log(e)
+    throw boom.badData("No se logro enviar el correo")
+  }
 }
 
 generateXLSFile = (procedure, nameFile, res = response) => {
@@ -56,9 +96,14 @@ generateZIPFile = (procedure, nameFile, res = response) => {
     });
 }
 
-generateDOCFile = async(procedure, nameFile, res = response) => {
+generateDOCFile = async(data, nameFile, res = response) => {
+  const { procedure } = data
+  if(!procedure){
+    throw boom.badData('La información necesaria está incompleta')
+  }
+
   const FILE_NAME = nameFile
-  let html = fs.readFileSync(path.join(__dirname, "../templates/html/" + FILE_NAME +".html"), "utf8");
+  const html = documentWithHtmlAndCss(FILE_NAME)
 
   html = Handlebars.compile(html)({
     data: procedure.stages
@@ -70,17 +115,18 @@ generateDOCFile = async(procedure, nameFile, res = response) => {
 }
 
 generateJPGFile = (procedure, nameFile, res = response) => {
-    //Toda la lógica necesaria para generar un archivo jpg y retornarlo
-    return res.status(200).json({
-        ok: true,
-        file: "Archivo JPG generado"
-    });
+  //Toda la lógica necesaria para generar un archivo jpg y retornarlo
+  return res.status(200).json({
+    ok: true,
+    file: "Archivo JPG generado"
+  });
 }
 
 module.exports = {
-    generatePDFFile,
-    generateXLSFile,
-    generateZIPFile,
-    generateDOCFile,
-    generateJPGFile
+  generatePDFFile,
+  generateGmailFile,
+  generateXLSFile,
+  generateZIPFile,
+  generateDOCFile,
+  generateJPGFile
 }

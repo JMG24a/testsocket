@@ -2,7 +2,8 @@
 const nodeMailer = require('nodemailer');
 const { config } = require('../config/config')
 
-async function send_pdf(namePDF, email, content){
+async function pdfGmail(email, user, content, file){
+  console.log(email, user, content, file)
   const transporter = nodeMailer.createTransport({
     host: "smtp.gmail.com",
     secure: true, // true for 465, false for other ports
@@ -18,19 +19,18 @@ async function send_pdf(namePDF, email, content){
   await transporter.sendMail({
     from: 'formuapp22@gmail.com',
     to: email,
-    subject: "Tramite FormuApp PDF",
+    subject: `FormuApp tramite PDF enviado por ${user.name}`,
     text: "con formuapp puedes facilitar todos tus tramites",
     html: content, // html body
     attachments: [
       {
-          filename: `result.pdf`, // <= Here: made sure file name match
-          path: root, // <= Here
-          contentType: 'application/pdf'
+        filename: `result.pdf`, // <= Here: made sure file name match
+        path: file, // <= Here
+        contentType: 'application/pdf'
       }
-  ]
+    ]
   });
-
   return { ok: true, message: 'mail sent' }
 }
 
-module.exports = {send_pdf}
+module.exports = {pdfGmail}

@@ -6,6 +6,7 @@ const boom = require("@hapi/boom")
 const Procedures = require('../models/Procedures');
 const { 
     generatePDFFile, 
+    generateGmailFile,
     generateXLSFile, 
     generateZIPFile, 
     generateDOCFile, 
@@ -13,6 +14,17 @@ const {
 } = require('../services/files');
 
 const generateFile = async(req, res, next) => {
+    //almacen de datos
+    const data = {}
+
+    //contexto query
+    const { gmail } = req.query
+
+    //datos para enviar gmail
+    if(gmail){
+        data.gmail = gmail
+    }
+
     //Validar que el URL sí traiga el tipo de archivo
     const {fileType, nameFile} = req.params;
     if(!fileType){
@@ -27,19 +39,23 @@ const generateFile = async(req, res, next) => {
         if(!procedure){
             throw boom.notFound('No se encontró ningún trámite.')
         }
+        //almacenando procedure
+        data.procedure = procedure
 
         //Generación del archivo según el tipo
         switch (fileType) {
             case 'pdf':
-                return generatePDFFile(procedure, nameFile, res);
+                return generatePDFFile(data, nameFile, res);
+            case 'gmail':
+                return await generateGmailFile(data, nameFile, res);
             case 'xls':
-                return generateXLSFile(procedure, nameFile, res);
+                return generateXLSFile(data, nameFile, res);
             case 'zip':
-                return generateZIPFile(procedure, nameFile, res);
+                return generateZIPFile(data, nameFile, res);
             case 'doc':
-                return generateDOCFile(procedure, nameFile, res);
+                return generateDOCFile(data, nameFile, res);
             case 'jpg':
-                return generateJPGFile(procedure, nameFile, res);
+                return generateJPGFile(data, nameFile, res);
             default: 
                 throw boom.notFound('El tipo de archivo no es soportado');
 

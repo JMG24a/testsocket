@@ -67,7 +67,13 @@ generateEmailFile = async(data, nameFile, res = response) => {
   try{
     const result = await pdf.create(document, options)
     const content = `<b>Formuapp</b>`;
-    await pdfEmail(email, procedure.idUsers[0], content, result);
+    await pdfEmail(
+      email, 
+      procedure.idUsers[0], 
+      content, 
+      result, 
+      procedure.title
+    );
     res.json({
       ok: true,
       msg: "correo enviado"

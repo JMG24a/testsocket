@@ -3,12 +3,15 @@ const sgMail = require('@sendgrid/mail');
 const FS = require("fs");
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-async function pdfEmail(email, user, content, file) {
-  console.log(email)
+async function pdfEmail(email, user, content, file, nameFile) {
   let msg = {
     from: 'info@formuapp.com',
     to: email,
     templateId: 'd-6f353852a3544b0fae750b25f03f6b7b',
+    dynamicTemplateData: {
+      email: email,
+      userName: userName,
+    },
     subject: `FormuApp tramite PDF enviado por ${user.name}`,
     html: `
       <div>
@@ -23,6 +26,11 @@ async function pdfEmail(email, user, content, file) {
       from: 'info@formuapp.com',
       to: email,
       templateId: 'd-6f353852a3544b0fae750b25f03f6b7b',
+      dynamicTemplateData: {
+        userEmail: user.email,
+        userName: `${user.name} ${user.fistLastName}`,
+        pdfName: nameFile
+      },
       subject: `FormuApp tramite PDF enviado por ${user.name}`,
       html: `
         <div>

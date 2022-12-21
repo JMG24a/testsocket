@@ -2,7 +2,7 @@ const { response } = require('express');
 const fs = require("fs")
 const path = require("path")
 const { documentWithHtmlAndCss } = require("../templates")
-const { pdfGmail } = require("../mails/pdfGmail")
+const { pdfEmail } = require("../mails/pdfEmail.js")
 //Lib
 const pdf = require("pdf-creator-node")
 const Handlebars = require("handlebars");
@@ -30,7 +30,7 @@ generatePDFFile = (data, nameFile, res = response) => {
     path: "./output.pdf",
     type: "buffer",
   }
-  
+
   pdf.create(document, options)
   .then((result) => {
       res.setHeader('Content-Type', 'application/pdf');
@@ -42,9 +42,9 @@ generatePDFFile = (data, nameFile, res = response) => {
   });
 }
 
-generateGmailFile = async(data, nameFile, res = response) => {
-  const { gmail, procedure } = data;
-  if(!gmail | !procedure){
+generateEmailFile = async(data, nameFile, res = response) => {
+  const { email, procedure } = data;
+  if(!email | !procedure){
     throw boom.badData('La información necesaria está incompleta')
   }
 
@@ -61,20 +61,18 @@ generateGmailFile = async(data, nameFile, res = response) => {
     html: html,
     data: procedure.stages || {},
     path: "./output.pdf",
-    type: "",
+    type: "buffer",
   }
-  
+
   try{
     const result = await pdf.create(document, options)
-    console.log('%cMyProject%cline:68%cresult', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(179, 214, 110);padding:3px;border-radius:2px', result)
     const content = `<b>Formuapp</b>`;
-    await pdfGmail('jmg24a@gmail.com', procedure.idUser, content, result);
+    await pdfEmail(email, procedure.idUsers[0], content, result);
     res.json({
       ok: true,
       msg: "correo enviado"
     });
   }catch(e){
-    console.log(e)
     throw boom.badData("No se logro enviar el correo")
   }
 }
@@ -125,7 +123,7 @@ generateJPGFile = (procedure, nameFile, res = response) => {
 
 module.exports = {
   generatePDFFile,
-  generateGmailFile,
+  generateEmailFile,
   generateXLSFile,
   generateZIPFile,
   generateDOCFile,

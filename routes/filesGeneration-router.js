@@ -18,7 +18,7 @@ const generateFile = async(req, res, next) => {
   const data = {}
 
   //contexto query
-  const { email } = req.query
+  const { email } = req.body
 
   //datos para enviar email
   if(email){

@@ -11,10 +11,11 @@ const getProcedures = async () => {
 
 const getProcedureByUser = async (id) => {
   if(!id){
-    throw boom.notFound('El documento no fue encontrado')
+    throw boom.notFound('El usuario no fue encontrado')
   }
   try{
-    const procedure = await ProceduresModel.find({idUsers: id.sub.id});
+    const procedure = await ProceduresModel.find({idUsers: id.sub.id})
+      .sort({createdAt: "desc"});
     return procedure
   }catch(e){
     throw boom.notFound('El documento no fue encontrado')

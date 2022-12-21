@@ -61,11 +61,12 @@ generateGmailFile = async(data, nameFile, res = response) => {
     html: html,
     data: procedure.stages || {},
     path: "./output.pdf",
-    type: "buffer",
+    type: "",
   }
   
   try{
     const result = await pdf.create(document, options)
+    console.log('%cMyProject%cline:68%cresult', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(179, 214, 110);padding:3px;border-radius:2px', result)
     const content = `<b>Formuapp</b>`;
     await pdfGmail('jmg24a@gmail.com', procedure.idUser, content, result);
     res.json({

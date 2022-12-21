@@ -1,4 +1,4 @@
-const CompanySalesModel = require("../../models/company/companySales.js");
+const CompanySalesModel = require("../../models/company/companySales");
 const CompanyAccountsModel = require("../../models/company/companyAccounts.js")
 const CompanyProductsModel = require("../../models/company/companyProducts.js")
 const CompanyModel = require("../../models/company/company");

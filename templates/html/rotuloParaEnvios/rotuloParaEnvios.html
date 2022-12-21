@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Hello world!</title>
+    <!-- prettier-ignore -->
+    <link rel="stylesheet" href="{rotuloParaEnvios.css}" accesskey="true">
+    <!-- prettier-ignore -->
+    <link rel="stylesheet" href="{../main.css}" accesskey="true">
+  </head>
+  <body>
+    <table style="width: 100%">
+      <tr>
+        <td style="line-height: 20px" class="remitente">
+          <h1 style="text-align: left; font-size: 1.2em">REMITENTE</h1>
+          <p>
+            <b
+              >{{datosDelRemitente.nombreVendedor}}
+              {{datosDelRemitente.primerApellidoVendedor}}</b
+            >
+          </p>
+          <p>{{datosDelRemitente.cedulaVendedor}}</p>
+          <p>{{datosDelRemitente.telefonoVendedor}}</p>
+          <p>{{datosDelRemitente.direccionVendedor}}</p>
+          <p>
+            {{datosDelRemitente.ciudadVendedor}},
+            {{datosDelRemitente.departamentoVendedor}}
+          </p>
+          <p>{{datosDelRemitente.sitioWebVendedor}}</p>
+        </td>
+        <td style="text-align: right">
+          <img
+            src="https://res.cloudinary.com/db6izsiwj/image/upload/v1670597146/nnmvrfk7n2yb20s5edcq.png"
+            alt=""
+            width="250"
+          />
+        </td>
+      </tr>
+    </table>
+    <div class="destinatario">
+      <h1 style="font-size: 1.2em">DESTINATARIO</h1>
+      <p><b>{{datosDelDestinatario.nombreComprador}}</b></p>
+      <p>{{datosDelDestinatario.cedulaComprador}}</p>
+      <p>{{datosDelDestinatario.telefonoComprador}}</p>
+      <p>{{datosDelDestinatario.direccionComprador}}</p>
+      <p>
+        {{datosDelDestinatario.ciudadComprador}} -
+        {{datosDelDestinatario.departamentoComprador}}
+      </p>
+    </div>
+  </body>
+</html>

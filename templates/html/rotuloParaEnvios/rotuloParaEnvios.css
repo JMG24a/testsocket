@@ -1,0 +1,26 @@
+*{
+    font-size: 18px;
+}
+
+
+
+.destinatario{
+    margin-top: 50px;
+}
+
+.destinatario p{
+  text-align: center;
+  margin: 3px;
+  padding: 0px;
+}
+
+.remitente{
+}
+
+.remitente p{
+  font-size: 16px;
+  margin: 3px;
+  padding: 0px;
+  font-weight: 300;
+
+}

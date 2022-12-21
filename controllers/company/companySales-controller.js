@@ -26,7 +26,7 @@ const getSearchCompanySales = async (value, token, options) => {
     const sales = await CompanySalesModel
       .find({
         $and: [
-          {$or: [{accountName: {$regex: regex, $options: 'gi'}},{accountPhone: {$regex: regex, $options: 'gi'}}]},
+          {$or: [{accountName: {$regex: regex, $options: 'gi'}}]},
           {idCompany: user.companies}
         ]})
       .populate('contact')

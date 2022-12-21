@@ -1,4 +1,8 @@
 const CompanyAccountsModel = require("../../models/companyAccounts");
+const CompanySalesModel = require("../../models/companySales");
+const CompanyOrdersModel = require("../../models/companyOrders");
+const CompanyPurchasesModel = require("../../models/companyPurchaseOrders");
+const CompanyQuotationsModel = require("../../models/companyQuotations")
 const CompanyModel = require("../../models/company");
 const UserModel = require("../../models/User")
 const { uploadedAccounts } = require("../../mails/uploadedAccounts");
@@ -85,10 +89,10 @@ const getCompanyAccountByName = async (token, name) => {
       }
     }
     const regex = /_/ig;
-    const querys = name.replace(regex, ' ');
+    const queries = name.replace(regex, ' ');
   
     const account = await CompanyAccountsModel
-      .findOne({accountName: querys})
+      .findOne({accountName: queries, idCompany: company.id})
       .populate("contactId")
     
     if(!account){throw boom.notFound("Esta cuenta no existe")}
@@ -116,8 +120,6 @@ const getCompanyAccountsById = async (token, id) => {
       .findById(id)
       .populate("contactId")
 
-    console.log(account)
-  
     return account
   }catch(e){
     throw boom.badRequest("No se logro obtener la cuenta")
@@ -284,6 +286,36 @@ const putCompanyAccount = async (id, body, token) => {
       if(company.employeesId.includes(token.sub.id) === false){
         return "este usuario no es un empleado"
       }
+
+      const account = await CompanyAccountsModel.findById(id);
+
+      await CompanySalesModel.updateMany({
+        $and: [
+          {idCompany: account.idCompany},
+          {accountName: account.accountName},
+        ]
+      },{$set:{accountName: account.accountName, accountPhone: account.mobile}});
+
+      await CompanyOrdersModel.updateMany({
+        $and: [
+          {idCompany: account.idCompany},
+          {accountName: account.accountName},
+        ]
+      },{$set:{accountName: account.accountName, accountPhone: account.mobile}});
+
+      await CompanyPurchasesModel.updateMany({
+        $and: [
+          {idCompany: account.idCompany},
+          {accountName: account.accountName},
+        ]
+      },{$set:{accountName: account.accountName, accountPhone: account.mobile}});
+
+      await CompanyQuotationsModel.updateMany({
+        $and: [
+          {idCompany: account.idCompany},
+          {accountName: account.accountName},
+        ]
+      },{$set:{accountName: account.accountName, accountPhone: account.mobile}});
     }
 
     const editCompanyAccounts = await CompanyAccountsModel.findByIdAndUpdate(id, body, { new: true });

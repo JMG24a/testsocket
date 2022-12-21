@@ -11,7 +11,6 @@ const documentWithHtmlAndCss = (FILE_NAME) => {
         const indexStartCss = link.indexOf('{')
         const indexEndCss = link.indexOf("}")
         const nameCss = link.substring((indexStartCss + 1), indexEndCss)
-        console.log(path.join(__dirname, `./html/${nameCss}/${nameCss}`))
         const preCss = fs.readFileSync(path.join(__dirname, `./html/${nameCss.replace(".css", "")}/${nameCss}`), "utf8")
         const resultCss = `<style>${preCss}</style>`
         preHtml = preHtml.replace(`${link}`, `${resultCss}`)

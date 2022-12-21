@@ -1,4 +1,4 @@
-const CompanyModel = require("../../models/company");
+const CompanyModel = require("../../models/company/company");
 const ContactModel = require("../../models/contacts");
 const UserModel = require("../../models/User")
 const userController = require("../user-controller");

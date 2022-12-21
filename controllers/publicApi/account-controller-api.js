@@ -1,5 +1,5 @@
-const CompanyAccountsModel = require("../../models/companyAccounts");
-const CompanyModel = require("../../models/company");
+const CompanyAccountsModel = require("../../models/company/companyAccounts");
+const CompanyModel = require("../../models/company/company");
 const UserModel = require("../../models/User")
 const boom = require("@hapi/boom")
 

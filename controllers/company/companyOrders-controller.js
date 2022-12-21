@@ -1,6 +1,6 @@
-const CompanyOrdersModel = require("../../models/companyOrders");
-const CompanyAccountsModel = require("../../models/companyAccounts");
-const CompanyModel = require("../../models/company");
+const CompanyOrdersModel = require("../../models/company/companyOrders");
+const CompanyAccountsModel = require("../../models/company/companyAccounts");
+const CompanyModel = require("../../models/company/company");
 const UserModel = require("../../models/User");
 
 const getSearchOrders = async (value, token, options) => {

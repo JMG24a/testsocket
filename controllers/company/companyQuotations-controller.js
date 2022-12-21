@@ -1,6 +1,6 @@
-const CompanyQuotationsModel = require("../../models/companyQuotations.js");
-const CompanyAccountsModel = require("../../models/companyAccounts")
-const CompanyModel = require("../../models/company");
+const CompanyQuotationsModel = require("../../models/company/companyQuotations.js");
+const CompanyAccountsModel = require("../../models/company/companyAccounts")
+const CompanyModel = require("../../models/company/company");
 const UserModel = require("../../models/User");
 
 const getSearchCompanyQuotations = async (value, token, options) => {

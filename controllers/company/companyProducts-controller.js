@@ -1,5 +1,5 @@
-const CompanyProductsModel = require("../../models/companyProducts.js");
-const CompanyModel = require("../../models/company");
+const CompanyProductsModel = require("../../models/company/companyProducts.js");
+const CompanyModel = require("../../models/company/company");
 const UserModel = require("../../models/User");
 const boom = require("@hapi/boom");
 const { getDateInString } = require("../../helper/getDateInString.js");

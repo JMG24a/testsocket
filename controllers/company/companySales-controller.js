@@ -1,8 +1,8 @@
-const CompanySalesModel = require("../../models/companySales.js");
-const CompanyAccountsModel = require("../../models/companyAccounts.js")
-const CompanyProductsModel = require("../../models/companyProducts.js")
+const CompanySalesModel = require("../../models/company/companySales.js");
+const CompanyAccountsModel = require("../../models/company/companyAccounts.js")
+const CompanyProductsModel = require("../../models/company/companyProducts.js")
+const CompanyModel = require("../../models/company/company");
 const UserModel = require("../../models/User");
-const CompanyModel = require("../../models/company");
 const { getDateInString } = require("../../helper/getDateInString.js");
 const boom = require("@hapi/boom");
 
@@ -10,12 +10,12 @@ const getSearchCompanySales = async (value, token, options) => {
   try {
     const user = await UserModel.findById(token.sub.id)
     if(!user){
-      return "este no es un usuario"
+      throw boom.notFound("Este no es un usuario")
     }
     const company = await CompanyModel.findById(user.companies);
     if(company !== null){
       if(!company.employeesId.includes(token.sub.id)){
-        return "este usuario no es un empleado"
+        throw boom.conflict("Este usuario no es un empleado")
       }
     }else{
       throw boom.notFound("Empresa no encontrada")
@@ -44,7 +44,7 @@ const getSearchCompanySales = async (value, token, options) => {
 
     return {sales, count}
   } catch (error) {
-    console.log(error)
+    throw boom.badRequest("Los datos requeridos no están completos")
   }
 };
 

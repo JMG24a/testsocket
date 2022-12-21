@@ -1,6 +1,6 @@
 const ContactModel = require("../models/contacts");
 const UserModel = require("../models/User");
-const CompanyModel = require("../models/company");
+const CompanyModel = require("../models/company/company");
 const userController = require("./user-controller");
 
 const getSearchContacts = async (value, token, options) => {

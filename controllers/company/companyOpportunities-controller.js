@@ -1,5 +1,5 @@
-const CompanyOpportunitiesModel = require("../../models/companyOpportunities.js");
-const CompanyModel = require("../../models/company");
+const CompanyOpportunitiesModel = require("../../models/company/companyOpportunities.js");
+const CompanyModel = require("../../models/company/company");
 const UserModel = require("../../models/User")
 
 const getSearchOpportunities = async (value, token, options) => {

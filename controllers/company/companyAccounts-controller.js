@@ -1,9 +1,9 @@
-const CompanyAccountsModel = require("../../models/companyAccounts");
-const CompanySalesModel = require("../../models/companySales");
-const CompanyOrdersModel = require("../../models/companyOrders");
-const CompanyPurchasesModel = require("../../models/companyPurchaseOrders");
-const CompanyQuotationsModel = require("../../models/companyQuotations")
-const CompanyModel = require("../../models/company");
+const CompanyAccountsModel = require("../../models/company/companyAccounts");
+const CompanySalesModel = require("../../models/company/companySales");
+const CompanyOrdersModel = require("../../models/company/companyOrders");
+const CompanyPurchasesModel = require("../../models/company/companyPurchaseOrders");
+const CompanyQuotationsModel = require("../../models/company/companyQuotations")
+const CompanyModel = require("../../models/company/company");
 const UserModel = require("../../models/User")
 const { uploadedAccounts } = require("../../mails/uploadedAccounts");
 const { getDateInString } = require("../../helper/getDateInString");

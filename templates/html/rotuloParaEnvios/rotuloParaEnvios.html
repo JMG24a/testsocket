@@ -12,6 +12,9 @@
     <table style="width: 100%">
       <tr>
         <td style="line-height: 20px" class="remitente">
+          {{#ifCond datosDelRemitente.nombreVendedor "===" "Juan"}}
+          <p style="color: red;">Hola mundo</p>
+          {{/ifCond}}
           <h1 style="text-align: left; font-size: 1.2em">REMITENTE</h1>
           <p>
             <b

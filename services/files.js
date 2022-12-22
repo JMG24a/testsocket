@@ -10,7 +10,7 @@ const HTMLtoDOCX = require('html-to-docx');
 const boom = require('@hapi/boom');
 
 generatePDFFile = (data, nameFile, res = response) => {
-  const { procedure } = data;
+  const { procedure, options : userOptions } = data;
   if(!procedure){
     throw boom.badData('La información necesaria está incompleta')
   }
@@ -19,9 +19,21 @@ generatePDFFile = (data, nameFile, res = response) => {
   const html = documentWithHtmlAndCss(FILE_NAME)
 
   const options = {
-    format: "Letter",
-    orientation: "portrait",
+    ...userOptions,
     border: "20mm",
+    // header: {
+    //   height: "45mm",
+    //   contents: '<div style="text-align: right; color: gray;">Realizado con <b>@FormuApp</b></div>'
+    // },
+    footer: {
+      height: "10mm",
+      contents: {
+        // first: 'Cover page',
+        // 2: 'Second page', // Any page number is working. 1-based index
+        default: '<div style="text-align: right; color: gray;">Realizado con <b>@FormuApp</b></div>', // fallback value
+        // last: 'Last Page'
+      }
+    }
   }
 
   const document = {

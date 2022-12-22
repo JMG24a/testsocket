@@ -3,6 +3,9 @@ const { Router } = require("express")
 const router = Router()
 const boom = require("@hapi/boom")
 
+const ALLOWED_ORIENTATIONS = ["portrait", "landscape"]
+const ALLLOWED_FORMATS = ["Letter", "A3", "A4", "A5", "Legal", "Tabloid"]
+
 const Procedures = require('../models/Procedures');
 const {
     generatePDFFile,
@@ -32,7 +35,8 @@ const generateFile = async(req, res, next) => {
   };
 
   //Acceder a la información del trámite
-  const { id } = req.body;
+  const { id, pdfOptions } = req.body;
+  
   try {
     const procedure = await Procedures.findById(id)
       .populate("idForm")
@@ -43,6 +47,11 @@ const generateFile = async(req, res, next) => {
     }
     //almacenando procedure
     data.procedure = procedure
+    
+    data.options = {
+      format: ALLLOWED_FORMATS.includes(pdfOptions?.format) ? pdfOptions?.format : "Letter",
+      orientation: ALLOWED_ORIENTATIONS.includes(pdfOptions?.orientation) ? pdfOptions?.orientation : "portrait"
+    }
 
     //Generación del archivo según el tipo
     switch (fileType) {

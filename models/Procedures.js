@@ -2,6 +2,7 @@ const { Schema, model } = require("mongoose");
 
 const propertySchema = Schema({
   idUsers       : [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  idCompany     : { type: Schema.Types.ObjectId, ref: 'Company' },
   idForm        : { type: Schema.Types.ObjectId, ref: 'Form' },
   title         : { type: String, required: true },
   owner         : { type: String, required: true },

@@ -19,11 +19,11 @@ const getProcedures = async (req, res, next) => {
   }
 };
 
-const getProcedure = async (req, res, next) => {
+const getProcedureByUser = async (req, res, next) => {
   try{
     const token = req.myPayload;
     const procedure = await procedureController.getProcedureByUser(token)
-  
+
     res.status(200).json({
       ok: true,
       msg: "Procedimiento encontrado",
@@ -36,8 +36,9 @@ const getProcedure = async (req, res, next) => {
 
 const postProcedure = async (req, res, next) => {
   const body = req.body;
+  const token = req.myPayload;
   try {
-    const newProcedure = await procedureController.postProcedure(body);
+    const newProcedure = await procedureController.postProcedure(body, token);
     res.status(201).json({
       ok: true,
       msg: "Procedimiento creado",
@@ -69,7 +70,7 @@ const deleteProcedure = async (req, res, next) => {
   try{
     const {id} = req.params;
     await procedureController.deleteProcedure(id)
-  
+
     res.status(200).json({
       ok: true,
       msg: "Eliminado con exito",
@@ -79,15 +80,15 @@ const deleteProcedure = async (req, res, next) => {
   }
 };
 
-router.get("/", getProcedures);
+router.get("/", validateToken, getProcedures);
 router.get(
   "/user",
   passport.authenticate('jwt', {session: false}),
   validateToken,
-  getProcedure
+  getProcedureByUser
 );
-router.post("/", postProcedure);
-router.put("/:id", putProcedure);
-router.delete("/:id", deleteProcedure);
+router.post("/", validateToken, postProcedure);
+router.put("/:id", validateToken, putProcedure);
+router.delete("/:id", validateToken, deleteProcedure);
 
 module.exports = router

@@ -1,5 +1,7 @@
 const boom = require("@hapi/boom");
 const ProceduresModel = require("../models/Procedures");
+const UserModel = require("../models/User");
+const CompanyModel = require("../models/company/company")
 
 const getProcedures = async () => {
   const procedure = await ProceduresModel.find();
@@ -9,13 +11,20 @@ const getProcedures = async () => {
   return procedure
 };
 
-const getProcedureByUser = async (id) => {
-  if(!id){
-    throw boom.notFound('El usuario no fue encontrado')
-  }
+const getProcedureByUser = async (token) => {
   try{
-    const procedure = await ProceduresModel.find({idUsers: id.sub.id})
+    const user = await UserModel.findById(token.sub.id)
+    if(!user){
+      throw boom.notFound("Este no es un usuario")
+    }
+
+    const procedure = await ProceduresModel
+      .find({
+        $or: [
+          {idCompany: user.companies}, {idUsers: user.id}
+        ]})
       .sort({createdAt: "desc"});
+
     return procedure
   }catch(e){
     throw boom.notFound('El documento no fue encontrado')
@@ -34,11 +43,23 @@ const getOneProcedure = async (id) => {
   }
 };
 
-const postProcedure = async (body) => {
+const postProcedure = async (body, token) => {
   try {
+    const user = await UserModel.findById(token.sub.id)
+    if(!user){
+      return "este no es un usuario"
+    }
+    const company = await CompanyModel.findById(user.companies)
+    if(company !== null){
+      if(!company.employeesId.includes(token.sub.id)){
+        return "este usuario no es un empleado"
+      }
+      body.idCompany = user.companies
+    }
+    body.idUsers.push(token.sub.id)
+
     const procedure = new ProceduresModel(body);
     const newProcedure =  await procedure.save();
-    console.log('%cMyProject%cline:39%cnewProcedure', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(118, 77, 57);padding:3px;border-radius:2px', newProcedure)
 
     return ({
       ...newProcedure.toObject()

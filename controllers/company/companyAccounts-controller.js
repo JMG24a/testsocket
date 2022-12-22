@@ -68,7 +68,7 @@ const getCompanyAccounts = async (token, options) => {
 
     const count = await CompanyAccountsModel
     .find({$or: [{idCompany: user.companies}, {idUser: token.sub.id}]})
-    .count()
+    .count({$or: [{idCompany: user.companies}, {idUser: token.sub.id}]})
 
   return {
     accounts,
@@ -90,13 +90,13 @@ const getCompanyAccountByName = async (token, name) => {
     }
     const regex = /_/ig;
     const queries = name.replace(regex, ' ');
-  
+
     const account = await CompanyAccountsModel
       .findOne({accountName: queries, idCompany: company.id})
       .populate("contactId")
-    
+
     if(!account){throw boom.notFound("Esta cuenta no existe")}
-    
+
     return account
   }catch(e){
     throw boom.badRequest("No se logro encontrar esta cuenta")
@@ -115,7 +115,7 @@ const getCompanyAccountsById = async (token, id) => {
         throw boom.conflict("este usuario no es un empleado")
       }
     }
-  
+
     const account = await CompanyAccountsModel
       .findById(id)
       .populate("contactId")
@@ -196,7 +196,7 @@ const importCompanyAccount = async (body, token) => {
             }
           }
         })
-      
+
       const dbAccounts = await CompanyAccountsModel.find({
         $and: [
           {idCompany: user.companies},
@@ -209,8 +209,8 @@ const importCompanyAccount = async (body, token) => {
           delete(validatorImport[db.customerId])
         }
       })
-      
-      
+
+
       Object.keys(validatorImport).map(item => {
         accounts.push(validatorImport[item])
       })
@@ -257,8 +257,8 @@ const importCompanyAccount = async (body, token) => {
           delete(validatorImport[db.customerId])
         }
       })
-      
-      
+
+
       Object.keys(validatorImport).map(item => {
         accounts.push(validatorImport[item])
       })

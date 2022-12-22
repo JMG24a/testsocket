@@ -9,6 +9,9 @@ const Handlebars = require("handlebars");
 const HTMLtoDOCX = require('html-to-docx');
 const boom = require('@hapi/boom');
 
+//Others
+const { formatProcedureStages } = require('../helper/procedureStages');
+
 generatePDFFile = (data, nameFile, res = response) => {
   const { procedure, options : userOptions } = data;
   if(!procedure){
@@ -38,7 +41,7 @@ generatePDFFile = (data, nameFile, res = response) => {
 
   const document = {
     html: html,
-    data: procedure.stages || {},
+    data: formatProcedureStages(procedure.stages) || {},
     path: "./output.pdf",
     type: "buffer",
   }
@@ -71,7 +74,7 @@ generateEmailFile = async(data, nameFile, res = response) => {
 
   const document = {
     html: html,
-    data: procedure.stages || {},
+    data: formatProcedureStages(procedure.stages) || {},
     path: "./output.pdf",
     type: "buffer",
   }
@@ -123,7 +126,7 @@ generateDOCFile = async(data, nameFile, res = response) => {
   let preHtml = documentWithHtmlAndCss(FILE_NAME)
 
   html = Handlebars.compile(preHtml)({
-    data: procedure.stages
+    data: formatProcedureStages(procedure.stages) || {}
   });
   const fileBuffer = await HTMLtoDOCX(html, null);
   res.setHeader('Content-Type', 'application/docx');

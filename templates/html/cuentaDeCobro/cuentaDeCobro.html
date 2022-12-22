@@ -10,7 +10,7 @@
   </head>
   <body>
     <p style="margin-top: 0">
-      {{datosDelAcuerdo.ciudadPago}}, {{datosDelAcuerdo.fechaPago}}
+      {{datosDelAcuerdo.ciudadPago}}, {{datosDelAcuerdo.fechaPagoFormatoFecha}}
     </p>
     <div class="cuenta">
       <h1>CUENTA DE COBRO</h1>
@@ -30,7 +30,7 @@
       </div>
       <div style="padding-bottom: 10px">
         <b>EL VALOR DE:</b>
-        <p>${{datosDelAcuerdo.montoPago}} pesos</p>
+        <p>{{datosDelAcuerdo.montoPagoFormatoDinero}} pesos</p>
       </div>
       <b>Por Concepto de:</b>
       <p>{{datosDelAcuerdo.conceptoPago}}</p>

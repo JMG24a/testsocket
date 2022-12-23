@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Hello world!</title>
+    <!-- prettier-ignore -->
+    <link rel="stylesheet" href="{contratoCompraVentaVehiculo.css}" accesskey="true">
+    <!-- prettier-ignore -->
+    <link rel="stylesheet" href="{../main.css}" accesskey="true">
+  </head>
+  <body>
+    <h1>CONTRATO DE COMPRAVENTA DE VEHICULO AUTOMOTOR</h1>
+    <div>
+      <p>
+        En la ciudad de
+        <span>{{datosDelContrato.ciudadContrato}}</span> respectivamente, a los
+        {{datosDelContrato.fechaContrato}}, se reúnen el señor(a)
+        <span
+          >{{datosDelVendedor.nombreVendedor}}
+          {{datosDelVendedor.primerApellidoVendedor}}
+          {{datosDelVendedor.segundoApellidoVendedor}}</span
+        >, mayor de edad, con domicilio permanente en
+        <span>{{datosDelVendedor.ciudadVendedor}}</span>, identificado con
+        <span>{{datosDelVendedor.tipoDocumentoVendedor}}</span> número
+        <span>{{datosDelVendedor.numeroDocumentoVendedor}}</span> quien obra en
+        su propio nombre , quien para efectos de éste contrato se denominará
+        <b>EL PROMITENTE VENDEDOR</b>, por una parte y por la otra parte
+        <span
+          >{{datosDelComprador.nombreComprador}}
+          {{datosDelComprador.primerApellidoComprador}}
+          {{datosDelComprador.segundoApellidoComprador}}</span
+        >, mayor de edad, con domicilio permanente en la ciudad de
+        <span>{{datosDelComprador.ciudadComprador}}</span>, identificado con
+        <span>{{datosDelComprador.tipoDocumentoComprador}}</span> número
+        <span>{{datosDelComprador.numeroDocumentoComprador}}</span> quien obra
+        en su propio nombre , quien para efectos de éste contrato se denominará
+        <b>EL PROMITENTE COMPRADOR</b>, manifestaron que han decidido celebrar
+        un contrato de COMPRAVENTA de un vehículo tipo
+        <span>{{datosDelVehiculo.claseVehiculo}}</span> en adelante EL VEHICULO,
+        la compraventa se regirá por las siguientes cláusulas:
+      </p>
+      <p>
+        <b>PRIMERA.- OBJETO: EL PROMITENTE VENDEDOR</b> transfiere a
+        <b>EL PROMITENTE COMPRADOR</b> y éste compra el bien vehículo que se
+        describe a continuación: Placas:
+        <span>{{datosDelVehiculo.placaVehiculo}}</span>, Marca:
+        <span>{{datosDelVehiculo.marcaVehiculo}}</span>, Línea:
+        <span>{{datosDelVehiculo.lineaVehiculo}}</span>, Modelo:
+        <span>{{datosDelVehiculo.modeloVehiculo}}</span>, Cilindrada:
+        <span>{{datosDelVehiculo.cilindradaVehiculo}}</span>, Color:
+        <span>{{datosDelVehiculo.colorVehiculo}}</span>, Servicio
+        <span>{{datosDelVehiculo.servicioVehiculo}}</span>, Clase de Vehículo:
+        <span>{{datosDelVehiculo.claseVehiculo}}</span>, Combustible:
+        <span>{{datosDelVehiculo.combustibleVehiculo}}</span>, Capacidad:
+        <span>{{datosDelVehiculo.capacidadVehiculo}}</span>, Motor
+        No.<span>{{datosDelVehiculo.motorVehiculo}}</span>, Serie
+        No:<span>{{datosDelVehiculo.vimVehiculo}}</span>, Manifiesto de
+        importación No. <span>{{datosDelVehiculo.importacionVehiculo}}</span>,
+        el vehículo se encuentra en buenas condiciones acorde con un uso normal
+        a los años de trabajo.
+      </p>
+
+      <p>
+        <b>SEGUNDA.- PRECIO Y FORMA DE PAGO</b>: El precio de Venta es la suma
+        de {{datosDelContrato.valorVehiculoContrato}}, los cuales cancela
+        <b>EL PROMITENTE COMPRADOR</b> a <b>EL PROMITENTE VENDEDOR</b> de la
+        siguiente forma: {{datosDelContrato.formaPagoContrato}} el día
+        {{datosDelContrato.fechaContrato}}
+      </p>
+
+      <p>
+        <b
+          >TERCERA.- CLÁUSULA PENAL:EL PROMITENTE VENDEDOR y EL PROMITENTE
+          COMPRADOR</b
+        >
+        acuerdan como cláusula penal por incumplimiento de lo aquí acordado el
+        10% del valor del vehículo.
+      </p>
+
+      <p>
+        <b>CUARTA.- ENTREGA</b>: El día {{datosDelContrato.fechaContrato}};
+        <b>EL PROMITENTE VENDEDOR</b> se obliga frente a
+        <b>EL PROMITENTE COMPRADOR</b> a entregar el vehículo
+      </p>
+    </div>
+
+    <div>
+      <p>
+        de la manera acordada por las partes; quedando así realizada la entrega
+        real y material del vehículo, materia del presente contrato a
+        <b>EL PROMITENTE COMPRADOR</b>, a la entrega el bien debe estar: libre
+        de embargos, pignoraciones o prendas, pleitos pendientes, demandas
+        civiles, gravámenes, etc, quedando pendiente por otra parte de
+        <b>EL PROMITENTE VENDEDOR</b> el paz y salvo por todo concepto de
+        impuestos y cualquier otro rubro tributario a fecha de:
+        {{datosDelContrato.fechaContrato}}
+      </p>
+
+      <p>
+        <b>QUINTA.- IMPUESTO Y OTROS: EL PROMITENTE VENDEDOR</b> deberá entregar
+        el vehículo a paz y salvo a la firma del presente contrato por concepto
+        de impuestos; los impuestos que se causaren en adelante serán asumidos
+        por <b>EL PROMITENTE COMPRADOR</b>, como también lo serán el seguro de
+        tránsito obligatorio (SOAT) a partir del momento que reciba el vehículo
+        y con cualquier otro tipo de seguro que contratase
+        <b>EL PROMITENTE COMPRADOR</b> para el vehículo materia de esta
+        negociación.
+      </p>
+
+      <p>
+        <b>SEXTA.- FECHA DE TRASPASO</b>: Las partes aquí intervinientes,
+        acuerdan firmar y radicar, los respectivos documentos para el traspaso
+        del vehículo materia de este contrato, en la siguiente fecha del día
+        <span>{}</span> del mes de <span>{}</span> del año <span>{}</span>,
+        conforme a lo establecido en la cláusulab <b>TERCERA</b> de este
+        contrato, en las Oficinas del tránsito de <span>{}</span>.
+      </p>
+
+      <p>
+        <b>SÉPTIMA.- GASTOS DE TRASPASO</b>: Los gastos con ocasión al traspaso
+        de propiedad, serán sufragados así: gastos de matrícula o Inscripción de
+        propiedad, las partes acuerdan pagarlas en porciones iguales para cada
+        una de ellas (50% c/u). Los gastos ocasionados al momento de la
+        transferencia respecto al levantamiento de pendientes, multas o
+        infracciones correrán por cuenta de la parte afectada.
+      </p>
+
+      <p>
+        <b>OCTAVA.- SANEAMIENTO: EL PROMITENTE VENDEDOR</b> se compromete a
+        salir al saneamiento de la venta en los casos de ley, que resulte en
+        contra del derecho de dominio que transferirá a
+        <b>EL PROMITENTE COMPRADOR</b>, así como a responder por los perjuicios
+        que tales acciones llegaren a causar a <b>EL PROMITENTE COMPRADOR</b> o
+        a terceros.
+      </p>
+
+      <p>
+        <b>NOVENA.- PRÓRROGA</b>: El plazo para celebración del traspaso, como
+        los valores del negocio jurídico antes mencionados, la cláusula penal y
+        demás estipulaciones aquí pactadas, pueden prorrogarse o modificarse de
+        común acuerdo por las partes, lo cual deberá constar por escrito y por
+        el medio más expedito posible.
+      </p>
+    </div>
+
+    <div>
+      <p>
+        <b>DÉCIMA.- ENTREGA DE DOCUMENTOS:EL PROMITENTE VENDEDOR</b> hace
+        entrega real y efectiva de los siguientes documentos a la entrega del
+        vehículo: Tarjeta de Propiedad en original, juego de improntas de motor
+        y chasis del vehículo adheridas a este contrato. Fotocopia de la cédula
+        de ciudadanía de <b>EL PROMITENTE VENDEDOR</b>; formulario de solicitud
+        del registro nacional automotor con sus respectivas improntas adheridas.
+        Si es pertinente para la clase de vehículo.
+      </p>
+
+      <p>
+        <b>DÉCIMA PRIMERA.- CESIÓN</b>: Las partes se comprometen a no ceder ni
+        parcial, ni totalmente las obligaciones contenidas en el presente
+        contrato, sin autorización previa y por escrito de la otra parte
+        contratante. Si contravinieren esta disposición, la cesión no tendrá
+        efectos jurídicos y por tanto no exime de responsabilidad a quien la
+        haya realizado sin autorización de la otra parte.
+      </p>
+
+      <p>
+        <b>DÉCIMA SEGUNDA.- MÉRITO EJECUTIVO</b>: Las partes declaran que éste
+        documento presta mérito ejecutivo para la efectividad de las
+        obligaciones en él acordadas.
+      </p>
+
+      <p>
+        <b>DÉCIMA TERCERA.- PACTO CON RESERVA DE DOMINIO</b>: las partes
+        manifiestan que la compra venta del automotor se entiende hecha con
+        reserva de dominio por parte de <b>EL PROMITENTE VENDEDOR</b>, por lo
+        tanto solo entrega la posesión del vehículo, reservándose la propiedad
+        del mismo, en tanto no se satisfaga la totalidad del precio pactado en
+        el presente contrato de compraventa. Una vez satisfecha la totalidad del
+        precio, el pleno dominio del vehículo pasará automáticamente a poder de
+        <b>EL PROMITENTE COMPRADOR</b>.
+      </p>
+
+      <p>
+        <b>DÉCIMA CUARTA.- NOTIFICACIONES</b>: Para todos los efectos de esta
+        compraventa, las direcciones de notificación de las partes serán las
+        siguientes: <b>EL PROMITENTE VENDEDOR</b>: en la Cll.
+        <span>{datosDelVendedor.address}</span>, en
+        <span>{datosDelVendedor.city}</span>, con teléfono celular
+        <span>{datosDelVendedor.phone}</span>. <b>EL PROMITENTE COMPRADOR</b>:
+        Cll. <span>{datosDelComprador.address}</span> y Celular
+        <span>{datosDelComprador.phone}</span>.
+      </p>
+
+      <p>
+        <b>DÉCIMA QUINTA. ANEXOS</b> Primero, original tarjeta de propiedad;
+        Segundo: SOAT, en original; Tercero: copia de la cédula de ciudadanía
+        del VENDEDOR; Quinta: copia de cédula de ciudadanía del
+        <b>EL PROMITENTE COMPRADOR</b>; Sexta: Formulario de solicitud del
+        registro nacional automotor, con sus respectivas improntas adheridas;
+        Séptima: se adhieren Juego de improntas de motor y chasis del vehículo a
+        este documento. En constancia de lo pactado por las partes se firma
+      </p>
+    </div>
+
+    <div>
+      en la ciudad de <span>{datosDelContrato.city}</span>, a los
+      <span>{datosDelContrato.day}</span> días del mes de
+      <span>{months[Number(datosDelContrato.month) - 1]}</span> del año
+      <span>{datosDelContrato.year}</span> en tres (3) ejemplares del mismo
+      tenor, dos con destino a cada una de las Partes y el otro con destino a la
+      secretaría de tránsito y transporte de
+      <span>{datosDelContratocity}</span> para la respectiva tradición del
+      vehículo.
+    </div>
+
+    <footer>
+      <div>
+        <span></span>
+        <b>EL PROMINENTE VENDEDOR</b>
+        <p>C.C <span></span></p>
+      </div>
+
+      <div>
+        <span></span>
+        <b>EL PROMINENTE COMPRADOR</b>
+        <p>C.C <span></span></p>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Hello world!</title>
+    <!-- prettier-ignore -->
+    <link rel="stylesheet" href="{pqr.css}" accesskey="true">
+    <!-- prettier-ignore -->
+    <link rel="stylesheet" href="{../main.css}" accesskey="true">
+  </head>
+  <body>
+    <p style="padding-bottom: 20px">
+      <b>
+        <span>{{datosReclamo.ciudadReclamo}}</span>,
+        <span>{{datosReclamo.fechaReclamoFormatoFecha}}</span>
+      </b>
+    </p>
+
+    <div style="line-height: 17px">
+      <p>
+        <b>Señores</b>
+      </p>
+      <p>
+        <b style="text-transform: uppercase"
+          >{{datosQuienVaQueja.nombreReclamado}}</b
+        >
+      </p>
+
+      <p>
+        <b>Departamento de quejas</b>
+      </p>
+    </div>
+
+    <p>
+      REF: Queja contra
+      <b>{{datosQuienVaQueja.nombreReclamado}}</b>, por inconvenientes en
+      <span>{{datosReclamo.asuntoReclamo}}</span>
+    </p>
+
+    <p style="padding-top: 30px">Reciban un cordial saludo,</p>
+    <p>
+      Me dirijo a ustedes para presentar una reclamación en contra de la entidad
+      <b style="text-transform: uppercase"
+        >{{datosQuienVaQueja.nombreReclamado}}</b
+      >, porque a la fecha del <b>{{datosReclamo.fechaReclamoFormatoFecha}}</b>,
+      se han presentado inconvenientes que describiré a continuación:
+    </p>
+
+    <p>{{datosReclamo.motivoReclamo}}</p>
+
+    <p>
+      Los documentos que soportan el motivo de mi inconformidad se encuentran
+      adjuntos a la presente carta.
+    </p>
+
+    <div style="padding-top: 30px; line-height: 15px">
+      <p style="padding-bottom: 30px">
+        <i>Cordialmente,</i>
+      </p>
+      <p>_________________________</p>
+      <p>
+        <b>{{datosSolicitante.nombreSolicitante}}</b>
+      </p>
+      <p>
+        <b> C.C.: {{datosSolicitante.numeroDocumentoSolicitante}} </b>
+      </p>
+      <p>
+        <b> Tel: {{datosSolicitante.telefonoSolicitante}} </b>
+      </p>
+      <p>
+        <b> Dirección: {{datosSolicitante.direccionSolicitante}} </b>
+      </p>
+      <p>
+        <b> Correo Electrónico: {{datosSolicitante.correloSolicitante}} </b>
+      </p>
+    </div>
+  </body>
+</html>

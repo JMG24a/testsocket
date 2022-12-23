@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Hello world!</title>
+    <!-- prettier-ignore -->
+    <link rel="stylesheet" href="{contratoLaboralTrabajoDomestico.css}" accesskey="true">
+    <!-- prettier-ignore -->
+    <link rel="stylesheet" href="{../main.css}" accesskey="true">
+  </head>
+  <body>
+    <h1>CONTRATO DE TRABAJO DE SERVICIO DOMÉSTICO</h1>
+    <p>
+      Entre los suscritos
+      <b style="text-transform: uppercase">
+        {{datosDelEmpleador.nombreEmpleador}}</b
+      >, quien se identifica con cédula de ciudadanía número
+      {{datosDelEmpleador.identificacionEmpleador}} , en adelante EL EMPLEADOR,
+      y
+      <b style="text-transform: uppercase"
+        >{{datosDelEmpleado.nombreEmpleado}}</b
+      >, quien se identifica con cédula de ciudadanía número
+      {{datosDelEmpleado.identificacionEmpleador}}, en adelante EL TRABAJADOR,
+      hemos decidido celebrar el presente contrato de trabajo que se regirá por
+      las siguientes cláusulas.
+    </p>
+
+    <p>
+      <b> PRIMERA: OBJETO.</b> Mediante el presente contrato el TRABAJADOR se
+      obliga a prestar sus servicios en favor del EMPLEADOR para la realización
+      de las tareas domésticas propias del hogar, tales como preparación de
+      alimentos, lavado de ropa, organización y limpieza, cuidado de niños y las
+      demás relacionadas o conexas.
+    </p>
+    <p>
+      <b> SEGUNDA: LUGAR DE TRABAJO.</b> EL TRABAJADOR prestará sus servicios en
+      la <b> {{datosDelContrato.direccionContrato}}</b> de la ciudad de
+      <b>{{datosDelContrato.ciudadContrato}}</b>. Lo anterior sin perjuicio del
+      cambio de domicilio o residencia del EMPLEADOR, caso en el cual el lugar
+      de prestación del servicio se entenderá modificado. En ningún caso el
+      cambio de domicilio o residencia del EMPLEADOR podrá desmejorar las
+      condiciones laborales del TRABAJADOR.
+    </p>
+    <p>
+      <b> TERCERA: REMUNERACIÓN.</b> EL TRABAJADOR recibirá un salario mensual
+      de <b> {{datosDelContrato.salarioContrato}} Pesos</b>. En el evento en que
+      el TRABAJADOR reciba remuneración adicional por comisiones, bonos o
+      cualquier otra forma de remuneración ordinaria y el 17.5% restante se
+      entrega a título de remuneración de dominicales y festivos.
+    </p>
+    <p>
+      <b> CUARTA: FORMA DE PAGO.</b> EL TRABAJADOR recibirá el salario mediante
+      un pago mensual los primeros cinco (5) días de cada mes. EL EMPLEADOR
+      pagará al TRABAJADOR mediante consignación bancaria en la cuenta de
+      {{datosDelContrato.tipoCuentaContrato}}
+      {{datosDelContrato.bancoContrato}}, número
+      {{datosDelContrato.numeroCuentaContrato}} cuyo titular es el TRABAJADOR.
+    </p>
+    <p>
+      <b> QUINTA: JORNADA DE TRABAJO.</b> EL TRABAJADOR laborará en jornadas de
+      8 horas diarias y 48 horas semanales. EL EMPLEADOR podrá disponer, cuando
+      considere necesario, el trabajo por turnos que excedan las 8 horas por día
+      o 48 horas a la semana, siempre y cuando el promedio acumulado de tres
+      semanas no supere los límites anteriormente mencionados, de conformidad
+      con lo establecido en el Código Sustantivo del Trabajo en su artículo 165.
+    </p>
+    <p>
+      <b> SEXTO: OBLIGACIONES DEL TRABAJADOR:</b> 1. Realizar personalmente la
+      labor, en los términos estipulados; observar los preceptos del reglamento
+      y acatar y cumplir las órdenes e instrucciones que de modo particular la
+      impartan el empleador o sus representantes, según el orden jerárquico
+      establecido. 2. No comunicar con terceros las informaciones que sean de
+      naturaleza reservada o cuya divulgación pueda ocasionar perjuicios al
+      empleador, 3. Conservar y restituir un buen estado, salvo el deterioro
+      natural, los instrumentos y útiles que le hayan sido facilitados y las
+      materias primas sobrantes. 5. Comunicar oportunamente al empleador las
+      observaciones que estime conducentes a evitar daños y perjuicios. 6.
+      Prestar la colaboración posible en casos de siniestro o de riesgo
+      inminente que afecten o amenacen las personas o cosas de la empresa o
+      establecimiento. 7. Observar con suma diligencia y cuidado las
+      instrucciones y órdenes preventivas de accidentes o de enfermedades
+      profesionales. 8. La trabajadora en estado de embarazo debe empezar a
+      disfrutar la licencia remunerada consagrada en el numeral 1 del artículo
+      236, al menos una semana antes de la fecha probable del parto.
+    </p>
+    <p>
+      <b> SEPTIMO: OBLIGACIONES DEL EMPLEADOR:</b> . 1. Poner a disposición de
+      los trabajadores, salvo estipulación en contrario, los instrumentos
+      adecuados y las materias primas necesarias para la realización de las
+      labores. 2. Procurar a los trabajadores elementos adecuados de protección
+      contra los accidentes y enfermedades profesionales. 3. Prestar
+      inmediatamente los primeros auxilios. 4. Pagar la remuneración pactada en
+      las condiciones, períodos y lugares convenidos. 5. Guardar absoluto
+      respeto a la dignidad personal del trabajador, a sus creencias y
+      sentimientos. 6. Conceder al trabajador las licencias necesarias. 7. Dar
+      al trabajador que lo solicite, a la expiración de contrato, una
+      certificación laboral; 8. Pagar al trabajador los gastos razonables de
+      venida y de regreso, si para prestar sus servicios lo hizo cambiar de
+      residencia. 9. Cumplir el reglamento y mantener el orden, la moralidad y
+      el respeto a las leyes.
+    </p>
+    <p>
+      <b> OCTAVO: TERMINACIÓN DEL CONTRATO.</b> Cualquiera de las partes puede
+      dar por terminado el contrato dando aviso a la otra con una anticipación
+      mayor a treinta (30) días de la fecha de vencimiento del periodo
+      contratado. En caso de no producirse tal aviso, o de hacerlo en un término
+      inferior al establecido, la parte que termina el contrato deberá a la
+      otra, a título de indemnización, el equivalente a treinta (30) días de
+      salario o proporcional al tiempo que falte.
+    </p>
+    <p>
+      <b> NOVENA: HORAS EXTRAS, DOMINICALES Y FESTIVOS. </b> El trabajo
+      nocturno, dominical o festivo realizado por el TRABAJADOR será reconocido
+      sólo cuando el mismo haya sido realizado a petición del EMPLEADOR.
+    </p>
+    <p>
+      <b> DECIMO: PLAZO DEL CONTRATO.</b> El presente contrato serpa de término
+      indefinido y continuará mientras subsistan las causas que le dieron
+      origen, iniciando su ejecución a partir de la fecha de firma de este
+      contrato Para constancia de las partes se firman dos copias del mismo
+      tenor el {{datosDelContrato.fechaContrato}}
+    </p>
+
+    <table style="width: 100%; text-align: center">
+      <tbody>
+        <tr>
+          <td>__________________</td>
+          <td>__________________</td>
+        </tr>
+        <tr>
+          <td>EMPLEADOR</td>
+          <td>TRABAJADOR</td>
+        </tr>
+        <tr>
+          <td>CC: {{datosDelEmpleador.identificacionEmpleador}}</td>
+          <td>CC: {{datosDelEmpleado.identificacionEmpleado}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

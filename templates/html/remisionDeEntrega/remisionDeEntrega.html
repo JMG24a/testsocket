@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Hello world!</title>
+    <!-- prettier-ignore -->
+    <link rel="stylesheet" href="{remisionDeEntrega.css}" accesskey="true">
+    <!-- prettier-ignore -->
+    <link rel="stylesheet" href="{../main.css}" accesskey="true">
+  </head>
+  <body>
+    <h1>REMISIÓN DE ENTREGA</h1>
+    <p>
+      <b>
+        {{datosDeLaEntrega.ciudadEntrega}},
+        {{datosDeLaEntrega.fechaEntregaFormatoFecha}}
+      </b>
+    </p>
+    <div style="padding: 15px 0px">
+      <p>Señor (es)</p>
+      <p>
+        <b>{{datosDelDestinatario.empresaDestinatario}}</b>
+      </p>
+      <p>
+        <b>Dirección: {{datosDelDestinatario.direccionDestinatario}}</b>
+      </p>
+    </div>
+
+    <div style="padding-bottom: 20px">
+      <p>
+        Por medio de la presente, hacemos constancia de la entrega del siguiente
+        producto:
+      </p>
+
+      <p>{{datosDeLaEntrega.productoEntrega}}</p>
+
+      <p>Cantidad: {{datosDeLaEntrega.cantidadEntrega}} unidades</p>
+    </div>
+
+    <div style="padding-bottom: 15px">
+      <b>QUIEN REALIZA LA ENTREGA</b>
+      <p>{{datosDelRemitente.nombreRemitente}}</p>
+      <p>{{datosDelRemitente.celularRemitente}}</p>
+    </div>
+    <div style="padding: 15px 0px">
+      <b>RECIBE</b>
+      <p>Nombre completo: _____________________</p>
+      <p>Fecha: _____________________</p>
+    </div>
+
+    <div style="line-height: 15px; padding-bottom: 15px">
+      <p>_____________________</p>
+      <b>Firma</b>
+    </div>
+
+    <div>
+      <p>
+        <b> Nota:</b> Por favor revise con detalle los artículos entregados
+        antes de firmar este documento. La firma del responsable en la entrega
+        garantiza al vendedor la recepción a total conformidad por parte del
+        cliente.
+      </p>
+    </div>
+  </body>
+</html>

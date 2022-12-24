@@ -1,16 +1,21 @@
+require("dotenv").config();
+//libs
+const cors = require("cors");
 const express = require("express");
 const appRouter = require('./routes/index')
-const cors = require("cors");
+const { appSocket } = require('./server/socket-server')
 const { dbConnection } = require("./database/config");
 const passport = require("passport");
 const { passport_sessions } = require('./auth')
-require("dotenv").config();
 const { isLoggedIn } = require('./auth/middleware/login')
 const bodyParser = require('body-parser');
-const { boomError } = require("./middleware/boom")
+const { boomError } = require("./middleware/boom");
 
 // Crear el servidor de express
 const app = express();
+  //instanciando server http para socket
+const httpServer = require('http').Server(app)
+
 
 // Lectura y parseo del body
 app.use(bodyParser.json({limit: '50mb'}));
@@ -19,14 +24,17 @@ app.use(bodyParser.urlencoded({
   parameterLimit:100000,
   limit: "50mb" // limite de los archivo enviados al back
 }))
+
+//permisos a request
 app.use(cors());
-// Base de datos
+
+//Conexion a base de datos
 dbConnection();
 
 // Directorio Publico
 // app.use(express.static("public")); // use es un middleware
 
-//middleware
+//middleware auth de passport
 require('./auth')
 passport_sessions(app)
 
@@ -54,9 +62,10 @@ app.get("/logout",(req, res) =>{
 
 // Rutas
 appRouter(app)
+appSocket(httpServer)
 // public
 app.use('/app', express.static('public'));
 
 app.use(boomError)
 
-app.listen(process.env.PORT, () => console.log(`My app is running in: http://localhost:${process.env.PORT}`));
+httpServer.listen(process.env.PORT, () => console.log(`My app is running in: http://localhost:${process.env.PORT}`));

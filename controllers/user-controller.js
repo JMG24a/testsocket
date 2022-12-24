@@ -3,6 +3,8 @@ const PlanService = require('../services/planTime-service')
 const { security, security_confirm } = require('../auth/middleware/security');
 const { createJWT } = require('../auth/tokens');
 const { welcomeMail } = require('../mails/welcome');
+const planes = require('../constants/planes');
+const boom = require('@hapi/boom');
 
 const getUsers = async () => {
   const users = await UsersModel.find().populate('vehiclesOwned');
@@ -59,10 +61,10 @@ const postUser = async (body) => {
   const bodyUser = {
     ...body,
     plan: {
-      planInfo: '63068b13e4bb2ceac56b77ed',
+      planInfo: planes.PLAN_BASIC,
       expireDate: 'string',
     },
-    profileLicense: '63068b13e4bb2ceac56b77ed',
+    profileLicense: planes.PLAN_BASIC,
   };
 
   const user = new UsersModel(bodyUser);
@@ -190,7 +192,7 @@ const login = async (email, password) => {
 
   const isTrue = await security_confirm(password, user.password);
   if (!isTrue) {
-    return 'Autenticacion invalida';
+    throw boom.conflict('Autenticacion invalida');
   }
 
   user.password = null;

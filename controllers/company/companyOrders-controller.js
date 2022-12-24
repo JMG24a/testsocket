@@ -2,6 +2,9 @@ const CompanyOrdersModel = require("../../models/company/companyOrders");
 const CompanyAccountsModel = require("../../models/company/companyAccounts");
 const CompanyModel = require("../../models/company/company");
 const UserModel = require("../../models/User");
+//realtime
+const { socket } = require("../../server/socket-server");
+const { socketEvents } = require("../../constants/socket-events");
 
 const getSearchOrders = async (value, token, options) => {
   const user = await UserModel.findById(token.sub.id)
@@ -91,7 +94,7 @@ const postCompanyOrder = async (body, token, idCompany) => {
     body.orderWorkNumber = (parseInt(company.settings.orderWorksNumber, 10) + 1);
 
     const companyOrder = new CompanyOrdersModel(body);
-    const saveObject = (await companyOrder.save()).populate('contact');
+    const saveObject = await (await companyOrder.save()).populate('contact');
 
     new Promise(async(resolve, reject)=>{
       await CompanyModel.findByIdAndUpdate(idCompany,
@@ -102,6 +105,22 @@ const postCompanyOrder = async (body, token, idCompany) => {
         },
         { new: true })
     })
+
+    //actualizar datos al equipo de trabajo
+    const orderResult = {
+      idCompany: saveObject.idCompany,
+      contact: saveObject.contact,
+      accountName: saveObject.accountName,
+      accountPhone: saveObject.accountPhone,
+      orderWorkNumber: saveObject.orderWorkNumber,
+      date: saveObject.date,
+      status: saveObject.status,
+      shippingDate: saveObject.shippingDate,
+      DateOfReceipt: saveObject.DateOfReceipt,
+      observations: saveObject.observations,
+      src: "workOrder"
+    }
+    socket.io.to(`company_${company.id}`).emit(socketEvents.company.update, orderResult)
 
     return saveObject
   }catch(e){

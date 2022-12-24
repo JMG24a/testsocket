@@ -8,6 +8,7 @@ const { isLoggedIn } = require('../auth/middleware/login');
 const { validateToken } = require('../auth/middleware/jwt');
 const { validatorRoles } = require('../auth/middleware/roles');
 const uploadFiles = require('../middleware/multer');
+const boom = require('@hapi/boom');
 
 const router = Router();
 
@@ -159,36 +160,36 @@ const deleteUser = async (req, res) => {
   });
 };
 
-const login = async (req, res) => {
-  const user = req.user;
-  const { savePassword = false } = req.body;
+const login = async (req, res, next) => {
+  try{
+    const user = req.user;
+    const { savePassword = false } = req.body;
 
-  if (typeof user === 'string') {
-    return res.status(401).json({
-      msg: 'Login Error',
+    if (typeof user === 'string') {
+      throw boom.conflict('Contraseña o usuario invalido');
+    }
+
+    const userWithPasswordPreference = {
+      ...user.toObject(),
+      savePassword
+    }
+    const token = await userController.signToken(userWithPasswordPreference);
+    // if(savePassword){
+    //   token = await userController.signTokenSavePass(user);
+    // }else{
+    //   token = await userController.signToken(user);
+    // }
+    res.status(200).json({
+      ok: true,
+      msg: 'Login Success',
       success: {
-        user: 'Contraseña o usuario invalido',
+        user: userWithPasswordPreference,
+        token,
       },
     });
+  }catch(e){
+    next(e)
   }
-
-  const userWithPasswordPreference = {
-    ...user.toObject(),
-    savePassword
-  }
-  const token = await userController.signToken(userWithPasswordPreference);
-  // if(savePassword){
-  //   token = await userController.signTokenSavePass(user);
-  // }else{
-  //   token = await userController.signToken(user);
-  // }
-  res.status(200).json({
-    msg: 'Login Success',
-    success: {
-      user: userWithPasswordPreference,
-      token,
-    },
-  });
 };
 
 const refresh = async (req, res) => {

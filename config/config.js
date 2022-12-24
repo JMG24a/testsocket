@@ -15,7 +15,8 @@ const config = {
   myDirection: {
     myURL: process.env.MY_DIRECTION,
     myVApi: process.env.VERSION_DIRECTION
-  }
+  },
+  socket: process.env.SOCKET
 }
 
 module.exports = {config}

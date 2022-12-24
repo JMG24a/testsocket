@@ -1,5 +1,5 @@
 const socketEvents = {
-  connect: "connect",
+  connect: "connection",
   disconnect: "disconnect",
   company: {
     room: "connect to company room",

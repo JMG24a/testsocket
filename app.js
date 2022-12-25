@@ -14,7 +14,7 @@ const { boomError } = require("./middleware/boom");
 // Crear el servidor de express
 const app = express();
   //instanciando server http para socket
-const httpServer = require('http').Server(app)
+const httpServer = require('http').createServer(app)
 
 
 // Lectura y parseo del body

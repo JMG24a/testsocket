@@ -6,7 +6,7 @@ const socket = {};
 const appSocket = (server) =>{
   socket.io = socketIO(server,{
     cors:{
-      origin: config.socket,
+      origin: "https://app.formuapp.com",
       methods: ["GET","POST"]
     }
   })
@@ -19,6 +19,7 @@ const appSocket = (server) =>{
     })
 
     socket.on(socketEvents.company.room, (data) => {
+      console.log(data)
       socket.join(data)
     })
   })

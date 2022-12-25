@@ -81,7 +81,9 @@ Los endpoints de formularios regresan un JSON con la información y un valor `ok
 #### DELETE (Bearer token)
 
 - Eliminar un formulario por su id: `/forms/[formId]`
-` { ok: true } `
+`{ ok: true }`
 <!-- ---
 
 ### **End-points de USUARIOS** -->
+
+23

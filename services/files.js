@@ -1,8 +1,7 @@
 const { response } = require('express');
-const fs = require('fs');
-const path = require('path');
 const { documentWithHtmlAndCss } = require('../templates');
 const { pdfEmail } = require('../mails/pdfEmail.js');
+const { config } = require('../config/config')
 //Lib
 const pdf = require('pdf-creator-node');
 const Handlebars = require('handlebars');
@@ -39,8 +38,6 @@ generatePDFFile = (data, nameFile, res = response) => {
       },
     },
   };
-
-  console.log('Procedure stages: ', formatProcedureStages(procedure.stages));
 
   const document = {
     html: html,
@@ -105,6 +102,28 @@ generateEmailFile = async (data, nameFile, res = response) => {
   }
 };
 
+generateLinkFile = async (data, nameFile = "", res = response) => {
+  const { procedure } = data;
+  if (!procedure) {
+    throw boom.badData('La información necesaria está incompleta');
+  }
+
+  const nameFileScript = nameFile
+  const idScript = procedure._id
+
+  const generateLink = `https://app.formuapp.com/documento/pdf?namefile=${nameFileScript}&id=${idScript}`
+
+  try {
+    res.json({
+      ok: true,
+      msg: 'link de descarga',
+      link: generateLink
+    });
+  } catch (e) {
+    throw boom.badData('No se logro generar el enlace');
+  }
+};
+
 generateXLSFile = (procedure, nameFile, res = response) => {
   //Toda la lógica necesaria para generar un archivo xls y retornarlo
 
@@ -152,6 +171,7 @@ generateJPGFile = (procedure, nameFile, res = response) => {
 module.exports = {
   generatePDFFile,
   generateEmailFile,
+  generateLinkFile,
   generateXLSFile,
   generateZIPFile,
   generateDOCFile,

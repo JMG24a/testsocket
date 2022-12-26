@@ -22,6 +22,10 @@ const appSocket = (server) =>{
       console.log(data)
       socket.join(data)
     })
+
+    socket.on("connect_error", (err) => {
+      console.log(`connect_error due to ${err.message}`);
+    });
   })
 }
 

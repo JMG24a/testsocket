@@ -12,7 +12,7 @@ const appSocket = (server) =>{
   })
 
   socket.io.on(socketEvents.connect, socket => {
-    console.log(socket.id)
+    console.log('conexion de socket exitosa')
 
     socket.on(socketEvents.disconnect, () => {
       console.log(socket.id)

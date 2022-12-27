@@ -9,12 +9,13 @@ const ALLLOWED_FORMATS = ["Letter", "A3", "A4", "A5", "Legal", "Tabloid"]
 const Procedures = require('../models/Procedures');
 
 const {
-    generatePDFFile,
-    generateEmailFile,
-    generateXLSFile,
-    generateZIPFile,
-    generateDOCFile,
-    generateJPGFile
+  generatePDFFile,
+  generateEmailFile,
+  generateLinkFile,
+  generateXLSFile,
+  generateZIPFile,
+  generateDOCFile,
+  generateJPGFile
 } = require('../services/files');
 const { validateToken } = require('../auth/middleware/jwt');
 

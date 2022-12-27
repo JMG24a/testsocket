@@ -34,6 +34,21 @@ const getProcedureByUser = async (req, res, next) => {
   }
 };
 
+const getProcedureById = async (req, res, next) => {
+  try{
+    const {id} = req.params;
+    const procedure = await procedureController.getProcedureById(id)
+
+    res.status(200).json({
+      ok: true,
+      msg: "Procedimiento encontrado",
+      procedure
+    });
+  }catch(e){
+    next(e)
+  }
+};
+
 const postProcedure = async (req, res, next) => {
   const body = req.body;
   const token = req.myPayload;
@@ -86,6 +101,10 @@ router.get(
   passport.authenticate('jwt', {session: false}),
   validateToken,
   getProcedureByUser
+);
+router.get(
+  "/:id",
+  getProcedureById
 );
 router.post("/", validateToken, postProcedure);
 router.put("/:id", validateToken, putProcedure);

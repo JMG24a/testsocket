@@ -111,7 +111,7 @@ generateLinkFile = async (data, nameFile = "", res = response) => {
   const nameFileScript = nameFile
   const idScript = procedure._id
 
-  const generateLink = `https://app.formuapp.com/documento/pdf?namefile=${nameFileScript}&id=${idScript}`
+  const generateLink = `https://app.formuapp.com/documento/src?namefile=${nameFileScript}&documentid=${idScript}`
 
   try {
     res.json({

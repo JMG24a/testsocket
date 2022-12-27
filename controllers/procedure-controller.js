@@ -31,6 +31,24 @@ const getProcedureByUser = async (token) => {
   }
 };
 
+const getProcedureById = async (id) => {
+  try{
+    if(!id){
+      throw boom.badRequest('Los datos no estan completos')
+    }
+    const procedure = await ProceduresModel.findById(id)
+      .populate("idUsers")
+      .populate("idCompany");
+
+    if(!procedure){
+      throw boom.notFound('El documento no fue encontrado')
+    }
+    return procedure
+  }catch(e){
+    throw boom.notFound('El documento no fue encontrado')
+  }
+};
+
 const getOneProcedure = async (id) => {
   if(!id){
     return 'El documento no fue encontrado'
@@ -94,6 +112,7 @@ const deleteProcedure = async (id) => {
 module.exports = {
   getProcedures,
   getProcedureByUser,
+  getProcedureById,
   getOneProcedure,
   postProcedure,
   putProcedure,

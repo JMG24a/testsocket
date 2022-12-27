@@ -5,6 +5,7 @@ const socket = {};
 
 const appSocket = (server) =>{
   socket.io = socketIO(server,{
+    rejectUnauthorized: false,
     cors:{
       origin: "*",
       methods: ["GET","POST"]

@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Hello world!</title>
+    <!-- prettier-ignore -->
+    <link rel="stylesheet" href="{contratoLaboral.css}" accesskey="true">
+    <!-- prettier-ignore -->
+    <link rel="stylesheet" href="{../main.css}" accesskey="true">
+  </head>
+  <body>
+    <h1>CONTRATO DE TRABAJO <span>{ salario?.tipo }</span></h1>
+
+    <table>
+      <tr>
+        <th>Nombre del Empleador:</th>
+        <th>{ company?.name }</th>
+      </tr>
+      <tr>
+        <td>Nombre del representante legal:</td>
+        <td>{ repLegal?.name }</td>
+      </tr>
+      <tr>
+        <td>Identificación:</td>
+        <td>{ repLegal?.name }</td>
+      </tr>
+      <tr>
+        <td>Nombre del trabajador:</td>
+        <td>{ trabajador?.name }</td>
+      </tr>
+      <tr>
+        <td>Identificación:</td>
+        <td>{ trabajador?.nit }</td>
+      </tr>
+      <tr>
+        <td>Dirección de residencia:</td>
+        <td>{ trabajador?.direccion }</td>
+      </tr>
+      <tr>
+        <td>Teléfono de contacto:</td>
+        <td>{ trabajador?.telefono }</td>
+      </tr>
+      <tr>
+        <td>Cargo:</td>
+        <td>{ salario?.puesto }</td>
+      </tr>
+      <tr>
+        <td>Salario y Periodo de pago:</td>
+        <td>{ salario?.salario }</td>
+      </tr>
+      <tr>
+        <td>Tipo de Salario:</td>
+        <td>{ salario?.tipo }</td>
+      </tr>
+      <tr>
+        <td>Fecha de inicio:</td>
+        <td>{ salario?.inicio }</td>
+      </tr>
+    </table>
+
+    <p>
+      Entre <span>{ repLegal?.name }</span>, mayor de edad, vecino de la ciudad
+      de Bogotá, identificada con la cédula de ciudadanía No.
+      <span>{ repLegal?.nit }</span>, en su condición de representante legal de
+      la empresa <span>{ company?.name }</span> en adelante para el presente
+      Contrato se llamará EL EMPLEADOR o EMPRESA; y
+      <span>{ trabajador?.name }</span>, Identificada con cédula de ciudadanía
+      No. <span>{ trabajador?.nit }</span>, quien en adelante se llamará EL
+      TRABAJADOR, hemos celebrado el presente contrato individual de trabajo a
+      <span>{ salario?.tipo }</span>, regido por las siguientes cláusulas:
+    </p>
+
+    <p>
+      PRIMERA: OBJETO. <b> EL EMPLEADOR </b> contrata los servicios personales
+      de <b> EL TRABAJADOR </b> y este se obliga: a) A Poner al servicio de
+      <b> EL EMPLEADOR </b> toda su capacidad normal de trabajo, en forma
+      exclusiva, en el desempeño de las funciones propias del cargo a
+      desempeñar, así como en las labores anexas y complementarias del mismo, de
+      conformidad con las órdenes e instrucciones que le imparta
+      <b> EL EMPLEADOR </b>o sus representantes; b) No prestar directa ni
+      indirectamente servicios laborales a otros empleadores, ni a trabajar por
+      cuenta propia en el mismo oficio durante la vigencia de éste contrato; c)
+      Guardar absoluta reserva sobre los hechos, documentos físicos y/o
+      electrónicos informaciones y en general sobre todos los asuntos y materias
+      que lleguen a su conocimiento por causa o con ocasión de su contrato de
+      trabajo, específicamente sobre las operaciones, negocios, procedimientos
+      industriales y comerciales, o cualquier clase de información referente al
+      <b> EMPLEADOR.</b> d) <b> EL TRABAJADOR </b> se hace responsable de las
+      obligaciones civiles y penales, de todas las actuaciones contractuales que
+      realice en representación de EL EMPLEADOR y que no se encuentren
+      autorizadas por éste; e) A desempeñar personalmente las labores asignadas
+      y consecuencialmente no podrá delegar su cometido sin autorización expresa
+      de EL EMPLEADOR.
+    </p>
+
+    <p>
+      PARÁGRAFO PRIMERO: Durante la vigencia del Contrato,
+      <b> El TRABAJADOR </b>se obliga a no prestar directa o indirectamente
+      servicios laborales a otros empleadores, ni a trabajar por cuenta propia
+      en el mismo o similar oficio o actividad. En consecuencia, el
+      <b> TRABAJADOR</b> prestará de forma exclusiva sus servicios al
+      <b> EMPLEADOR.</b>
+    </p>
+
+    <p>
+      <b> PARÁGRAFO SEGUNDO:</b> El TRABAJADOR reconoce y acepta que por
+      comisión o delegación de funciones, además de prestar sus servicios
+      directamente para el <b> EMPLEADOR </b>, podrá llegar a prestar servicios
+      en favor de terceros, de conformidad con los convenios de colaboración,
+      acuerdos o contratos que el <b> EMPLEADOR </b> llegare a celebrar para tal
+      fin, sin que ello implique la existencia de una relación laboral adicional
+      o distinta a la regulada por el presente contrato de trabajo, o sin que
+      esto implique coexistencia de contratos. Cualquier tipo de servicio que en
+      virtud de la presente cláusula el <b> TRABAJADOR </b> preste al
+      <b> EMPLEADOR</b>, a su matriz, sucursales, filiales, accionistas, o
+      compañías vinculadas, se encuentra remunerada de conformidad con el
+      presente contrato y, en tal sentido, las Partes entienden, aceptan y
+      declaran que no hay lugar a remuneración adicional alguna.
+    </p>
+
+    <p>
+      <b> SEGUNDA - NATURALEZA DEL SALARIO Y FORMA DE PAGO: EL EMPLEADOR </b>
+      pagará a <b> EL TRABAJADOR</b> en forma directa regular laboral basado en
+      la legislación colombiana, un salario mensual bajo la modalidad de salario
+      ordinario, cuya cuantía será una suma equivalente a SALARIO EN LETRAS__
+      M/C (COP$ SALARIO EN NÚMEROS.oo).
+    </p>
+
+    <p>
+      <b> TERCERA. OBLIGACIONES ESPECIALES DEL TRABAJADOR.</b> Además de las
+      obligaciones determinadas en la Ley, en los Reglamentos, y políticas del
+      <b> EMPLEADOR</b>, presentes y futuras, así como en las cláusulas de este
+      contrato, <b> el TRABAJADOR</b> se compromete a cumplir con las siguientes
+      obligaciones especiales: a) desempeñar personalmente y de manera exclusiva
+      las labores asignadas, observando en el cumplimiento de éstas, el cuidado
+      y diligencia necesarios, incorporando toda su capacidad de trabajo en el
+      desempeño de las mismas y conservando rigurosamente en sus actos y
+      conductas los principios de veracidad, lealtad y fidelidad hacia el
+      <b> EMPLEADOR</b>, sus superiores, compañeros de trabajo y para con el
+      público en general; b) mantener completa armonía con sus compañeros de
+      trabajo en el desarrollo de sus funciones y en las relaciones personales
+      al interior de la empresa como al exterior de la misma; c) cuidar su
+      presentación personal dentro de las normas de pulcritud y el decoro,
+      conforme a los requerimientos de su cargo; d) dar aviso inmediato al
+      EMPLEADOR cuando por cualquier circunstancia no pudiera asistir al
+      trabajo; e) comunicar oportunamente al EMPLEADOR las observaciones que
+      estime convenientes para evitarle daños o perjuicios y sobre cualquier
+      irregularidad que observe u ocurra dentro del desempeño de sus funciones y
+      que pueda tener interés para <b> el EMPLEADOR</b>, ya se relacione o no
+      directa o indirectamente con las funciones asignadas y con los deberes
+      propios de su cargo; f) abstenerse de ejecutar actividades de competencia
+      desleal que atenten contra <b> el EMPLEADOR</b> en cualquier forma; g)
+      mantener actualizados los datos necesarios a fin de que
+      <b>el EMPLEADOR</b> le pueda hacer llegar cualquier clase de
+      correspondencia durante la vigencia o a la terminación de su contrato de
+      trabajo. Por este motivo, la dirección de su residencia, teléfono de su
+      residencia, número de celular, y demás datos personales y de ubicación,
+      deberán permanecer debidamente actualizados y podrán ser manejados
+      conforme a las políticas sobre el manejo de Datos Personales del
+      EMPLEADOR. El incumplimiento de lo anterior, exime <b>al EMPLEADOR</b> de
+      toda responsabilidad derivada de la especial regulación contemplada en la
+      Ley 789 de 2002, al igual que las normas concordantes de la legislación
+      laboral vigente; h) mantenerse permanentemente actualizado sobre toda
+      información que guarde relación con su cargo, prestando especial atención
+      a aquella suministrada por <b>el EMPLEADOR</b> a través de diferentes
+      medios, tales como: carteleras, sistemas electrónicos, audiovisuales,
+      boletines, manuales y demás medios de comunicación; i) laborar en horarios
+      diferentes al inicialmente pactado cuando <b> el EMPLEADOR</b> así lo
+      requiera; j) prestar sus servicios personalmente en el lugar del
+      territorio de la República de Colombia que indicare <b> el EMPLEADOR</b>,
+      y excepcionalmente fuera de dicho territorio cuando las necesidades del
+      servicio así lo exigieren; k) abstenerse de realizar labores que afecten
+      su salud u ocasionen desgaste a su organismo en forma tal que le impidan
+      prestar adecuadamente el servicio contratado; l) conocer y someterse a
+      todas las políticas y medidas de seguridad y control que establezca
+      <b>el EMPLEADOR</b> para la buena y segura marcha del negocio; m) Utilizar
+      de manera racional los beneficios y servicios que le sean otorgados por
+      <b>el EMPLEADOR</b>; n) responder ante <b> el EMPLEADOR</b> por cualquier
+      perjuicio que éste pueda recibir como consecuencia de su proceder
+      negligente o imprudente o por incumplimiento de sus deberes y
+      obligaciones. o) Abstenerse de almacenar en los archivos físicos o
+      electrónicos, así como en las herramientas suministradas por
+      <b>EL EMPLEADOR</b>, información confidencial o reservada de terceros,
+      especialmente de competidores, salvo que haya sido obtenida por medios
+      legales y para fines legales. p) Abstenerse de almacenar en los archivos
+      físicos o electrónicos de <b>EL EMPLEADOR</b> información personal. r)
+      Abstenerse de realizar copias de respaldo (back-ups) de la información del
+      <b> EMPLEADOR</b> en medios personales del <b> TRABAJADOR</b>, incluyendo
+      pero sin limitarse a usb, discos compactos o CD, correo electrónico
+      personal (ej. Yahoo, Hotmail, Gmail, entre otros), la nube, etc. s)
+      Permitir al <b> EMPLEADOR</b> revisar en todo momento, de forma presencial
+      o remota las herramientas suministradas para el desarrollo de sus labores,
+      incluyendo pero sin limitarse a: Computadores de mesa o portátiles, correo
+      electrónico corporativo, celular, etc. t) Abstenerse de utilizar programas
+      de cualquier naturaleza para atender asuntos personales del
+      <b> TRABAJADOR</b> en los equipos del <b> EMPLEADOR</b>; u) Atender los
+      procedimientos establecidos en virtud del Reglamento Interno de Trabajo de
+      las Políticas Internas implementadas por <b>EL EMPLEADOR</b> y en su
+      defecto en este Contrato, para la imposición de sanciones.
+    </p>
+
+    <p>
+      <b>CUARTA: JORNADA DE TRABAJO. El TRABAJADOR</b> se obliga a laborar la
+      jornada ordinaria en los turnos y dentro de las horas señaladas por
+      <b> el EMPLEADOR</b>, pudiendo hacer éste ajustes o cambios de horario
+      cuando lo estime conveniente. Por el acuerdo expreso o tácito de las
+      Partes, podrán repartirse las horas de la jornada ordinaria en la forma
+      prevista en el artículo 164 del Código Sustantivo del Trabajo, modificado
+      por el artículo 23 de la Ley 50 de 1990, teniendo en cuenta que los
+      tiempos de descanso entre las secciones de la jornada no se computan
+      dentro de la misma, según el artículo 167 ibídem.
+    </p>
+
+    <p>
+      <b> QUINTA - PAGOS NO SALARIALES:</b> En el evento en que la estructura de
+      beneficios diferentes al salario estará sujetas los términos y condiciones
+      de la política de compensación y/o remuneración vigente que disponga
+      <b> EL EMPLEADOR.</b>
+    </p>
+
+    <p>
+      <b>PARÁGRAFO PRIMERO</b> las partes acuerdan expresamente que en los casos
+      en que se les reconozcan <b> al TRABAJADOR</b> beneficios diferentes al
+      salario o llegue a recibir en el futuro, ya sean beneficios o auxilios
+      habituales u ocasionales tales como alimentación, habitación o vivienda,
+      transporte y vestuario, bonificaciones ocasionales, primas extralegales de
+      vacaciones, de servicio o navidad o cualquier otra que reciba durante la
+      vigencia del contrato de trabajo, en dinero o en especie, se considerarán
+      tales beneficios o reconocimientos como no salariales y por tanto no se
+      tendrán en cuenta como factor salarial para la liquidación de acreencias
+      laborales, ni el pago de parafiscales, de conformidad con los artículos 15
+      y 16 de la ley 50 de 1.990, en concordancia con el Art. 17 de la ley 344
+      de 1.996.
+    </p>
+    <p>
+      <b> SEXTA - PERÍODO DE PRUEBA Y DURACIÓN DEL CONTRATO.</b> Para el
+      presente contrato se tendrá un periodo de prueba por
+      <span>{ salario?.periodoDePrueva }</span>, por consiguiente, cualquiera de
+      las partes podrá darlo por terminado unilateralmente, en cualquier momento
+      durante dicho período y sin previo aviso, sin que se cause el pago de
+      indemnización alguna, de conformidad con lo señalado en el Artículo 7 de
+      la Ley 50 de 1990. Una vez culminado el período de prueba la duración del
+      presente contrato será hasta la fecha de terminación estipulada en el
+      mismo, mientras subsistan las causas que le dieron origen y la materia del
+      trabajo contratado.
+    </p>
+    <p>
+      <b>
+        SEPTIMA - JUSTAS CAUSAS DE TERMINACIÓN UNILATERAL DEL CONTRATO DE
+        TRABAJO.</b
+      >
+      Son justas causas para poner término a este contrato, unilateralmente las
+      enumeradas en el artículo 62 y 63 del Código Sustantivo de Trabajo.
+      subrogado por el Artículo 7º del Decreto 2351 de 1965, y además por parte
+      del <b>EMPLEADOR</b>, constituirán justas causas para terminar este
+      contrato, el incumplimiento del <b> TRABAJADOR</b> de cualquiera de las
+      obligaciones y prohibiciones previstas en este contrato y las siguientes
+      faltas que para el presente contrato se califican como faltas graves:
+    </p>
+    <ul>
+      <li>
+        7.1.- El faltar a sus obligaciones establecidas en este Contrato, o la
+        entrega de informes falsos o acomodados;
+      </li>
+      <li>
+        7.2.- El que el <b>TRABAJADOR</b> se niegue a atender a alguno de los
+        clientes del <b>EMPLEADOR</b> sin justa causa.
+      </li>
+      <li>
+        7.3.- El incumplir cualquiera de sus obligaciones o prohibiciones
+        establecidas en los Artículos 58 y 60 del C.S.T. o en este Contrato,
+        cuando sea considerado como falta grave en virtud de este Contrato o del
+        Reglamento Interno de Trabajo.
+      </li>
+      <li>
+        7.4.- La no asistencia puntual al trabajo sin excusa suficiente a juicio
+        del <b> EMPLEADOR</b>, por dos (2) veces de un mismo mes calendario.
+      </li>
+      <li>
+        7.5.- La no asistencia al trabajo por un (1) día o la inasistencia al
+        sitio de trabajo sin causa justificada, calificación que le corresponde
+        al <b>EMPLEADOR</b>, salvo fuerza mayor.
+      </li>
+      <li>
+        7.6.- La ejecución por parte del <b>TRABAJADOR</b> de labores
+        remuneradas al servicio de terceros sin autorización del
+        <b>EMPLEADOR.</b>
+      </li>
+      <li>
+        7.7.- Recibir el <b>TRABAJADOR</b> más de tres (3) llamados de atención,
+        ya sean verbales o escritos, referentes a la ejecución y desarrollo de
+        las funciones concernientes al cargo para el cual fue contratado.
+      </li>
+      <li>
+        7.8.- Atender durante la jornada de trabajo asuntos u ocupaciones
+        distintas a los que el <b>EMPLEADOR</b> le encomiende.
+      </li>
+      <li>7.9.- Incurrir en pérdida deliberada o injustificada de tiempo.</li>
+      <li>
+        7.10.-Ceder total o parcialmente a terceros la ejecución de las
+        obligaciones derivadas de este contrato.
+      </li>
+      <li>
+        7.11.- La revelación de secretos y datos reservados del
+        <b>EMPLEADOR</b>, de conformidad con lo dispuesto en el presente
+        contrato, en el acuerdo de confidencialidad o en el Reglamento Interno
+        de Trabajo.
+      </li>
+      <li>
+        7.12.- Utilizar los equipos, herramientas y elementos de trabajo del
+        <b> EMPLEADOR</b> para su uso personal o de terceros, así como utilizar
+        el correo electrónico dispuesto por el <b>EMPLEADOR</b> para fines
+        diferentes a aquel para el cual le fue dotado al <b>TRABAJADOR</b> o
+        contraviniendo las políticas o directrices establecidas sobre el uso de
+        este.
+      </li>
+      <li>
+        7.13.- Las repetidas desavenencias con sus compañeros de trabajo, así
+        como incurrir en conductas que provoquen agresión, desavenencia,
+        injuria, falta de respeto o ultraje físico, verbal o moral para con
+        superiores jerárquicos, compañeros de trabajo, clientes o usuarios.
+      </li>
+      <li>
+        7.14.- El hecho de que el <b>TRABAJADOR</b> llegue embriagado al trabajo
+        o bajo el efecto de sustancias psicoactivas, o ingiera bebidas
+        embriagantes o alucinantes en el sitio de trabajo, aún por primera vez.
+      </li>
+      <li>
+        7.15.- Tolerar el incumplimiento de las políticas, normas de seguridad
+        y/o control por parte de sus colaboradores o de aquellos empleados a
+        quienes en ejercicio de sus funciones debe controlar.
+      </li>
+      <li>
+        7.16.- Negarse a cumplir órdenes que en cumplimiento de sus funciones le
+        imparta un superior jerárquico.
+      </li>
+      <li>
+        7.17.- El hecho de que el <b> TRABAJADOR</b> abandone el sitio de
+        trabajo sin el permiso de sus superiores;
+      </li>
+      <li>
+        7.18.- Autorizar o ejecutar, sin ser de su competencia, actividades que
+        afecten los intereses del <b> EMPLEADOR.</b>
+      </li>
+      <li>
+        7.19.- Negociar los productos de propiedad del <b>EMPLEADOR</b> o
+        utilizarlos con intención personal de lucro.
+      </li>
+      <li>
+        7.20.- Aceptar regalos, comisiones, donaciones, atenciones, dádivas o
+        préstamos de dinero de los proveedores, contratistas, clientes o
+        usuarios del <b> EMPLEADOR</b>, a menos que éste lo autorice
+        expresamente.
+      </li>
+      <li>
+        7.21.- Utilizar el buen nombre del <b> EMPLEADOR</b> o valerse de las
+        labores encomendadas por éste, para emprender, respaldar o acreditar
+        negocios o actividades comerciales del <b>TRABAJADOR</b> o de terceros.
+      </li>
+      <li>
+        7.22.- Engañar al <b>EMPLEADOR</b> con relación al uso y/o justificación
+        de incapacidades, permisos, licencias, utilización de créditos o
+        anticipos de cesantía.
+      </li>
+      <li>
+        7.23.- Incumplir en caso de que aplique, las obligaciones inherentes a
+        su estatus migratorio, o perder su estatus migratorio que le impida
+        trabajar legalmente en Colombia.
+      </li>
+      <li>
+        7.24.- Las demás indicadas en el Reglamento Interno de Trabajo y sus
+        modificaciones y las Políticas Internas que desarrolle e implemente el
+        <b> EMPLEADOR.</b>
+      </li>
+    </ul>
+
+    <p>
+      <b> OCTAVA - MEDIOS DE TRABAJO. El EMPLEADOR</b> se obliga a proveer los
+      medios de trabajo al <b> EMPLEADO</b>, dentro de los cuales podrán
+      encontrarse un equipo de cómputo, un teléfono, muebles de oficina (si
+      aplica trabajo presencial), y demás elementos necesarios para el
+      desarrollo de sus funciones.
+    </p>
+
+    <p>
+      <b> PARÁGRAFO.</b> Las herramientas de trabajo antes citada pertenecen al
+      <b> EMPLEADOR</b> y se encuentran bajo la custodia y cuidado del
+      <b> EMPLEADO</b> y su pérdida, daño o destrucción serán responsabilidad
+      del <b> EMPLEADO</b>, quien deberá devolverlas cuando se le solicite y en
+      todo caso al momento de terminación de su contrato de trabajo por
+      cualquier causa.
+    </p>
+
+    <p>
+      <b> NOVENA - INVENCIONES Y PROPIEDAD INTELECTUAL.</b> Las invenciones
+      realizadas por el <b> TRABAJADOR</b> le pertenecen, salvo A) en el evento
+      que la invención haya sido realizada por el trabajador contratado para
+      investigar, y cuando la invención sea el resultado de la misión específica
+      para la, cual ha sido contratado. B) cuando el trabajador no ha sido
+      contratado para investigar y la invención se obtiene mediante datos o
+      medios conocidos o utilizados debido a la labor desempeñada. En este
+      último evento, el trabajador tendrá derecho a una compensación que se
+      fijará por un tribunal de arbitramento designado por las partes en
+      cumplimiento de las normas laborales y de arbitraje vigentes para el
+      momento en que se origine el evento, de acuerdo con el monto del salario,
+      la importancia del invento o descubrimiento, el beneficio que reporte al
+      <b> EMPLEADOR</b> u otros factores similares.
+    </p>
+
+    <p>
+      <b> PARÁGRAFO.</b> Derechos de Autor. Los derechos patrimoniales de autor
+      sobre las obras creadas por <b> el TRABAJADOR</b> en ejercicio de sus
+      funciones o con ocasión a ellas pertenecen al <b>EMPLEADOR</b> todo lo
+      anterior sin perjuicio de los derechos morales de autor que permanecerán
+      en cabeza del creador de la obra, de acuerdo con la ley 23 de 1982 y la
+      decisión 351 de la Comisión de la Comunidad Andina de Naciones del Acuerdo
+      de Cartagena.
+    </p>
+
+    <p>
+      <b>DÉCIMA - MODIFICACIÓN DE LAS CONDICIONES LABORALES. EL TRABAJADOR </b>
+      acepta desde ahora expresamente todas las modificaciones determinadas por
+      el <b> EMPLEADOR,</b> en ejercicio de su poder subordinante, de sus
+      condiciones laborales, siempre y cuando que tales modificaciones no
+      afecten su honor, dignidad o sus derechos mínimos ni impliquen desmejoras
+      sustanciales o graves perjuicios en sus condiciones laborales o de
+      remuneración, de conformidad con lo dispuesto en el artículo 23 del Código
+      Sustantivo de Trabajo. modificado por el artículo 1 de la ley 50 de 1.990.
+      Los gastos que se originen con el traslado de lugar de prestación del
+      servicio serán cubiertos por el <b> EMPLEADOR</b>, de conformidad con el
+      numeral 8 del Artículo 57 del Código Sustantivo de Trabajo.
+    </p>
+
+    <p>
+      <b> DÉCIMA PRIMERA - CONFIDENCIALIDAD.</b>Por la labor que desempeña el
+      trabajador y por la naturaleza de la información y conocimiento que debe
+      tener de la empresa para poder cumplir a cabalidad sus funciones, se
+      compromete a no consultar, comentar, entregar y/o transferir ninguna clase
+      de información confidencial, ni aún después de terminado el presente
+      contrato. La inobservancia de ésta cláusula por parte del trabajador se
+      tendrá como una grave violación a sus obligaciones y prohibiciones
+      pudiendo <b> EL EMPLEADOR </b> alegarla como justa causa para dar por
+      terminado el presente contrato sin perjuicio de las acciones de orden
+      civil o penal a que haya lugar no obstante sin embargo en caso de que el
+      presente contrato haya terminado, podrá <b> EL EMPLEADOR </b>reclamar
+      <b> AL TRABAJADOR</b> el pago de daños y/o perjuicios, así como ejercer
+      las acciones de orden civil y penal a que hubiere lugar. Se entenderá como
+      información confidencial, toda información escrita, oral, gráfica, visual,
+      o tangible por cualquiera de los sentidos o de cualquier otra índole,
+      contenida en medios escritos, o electromagnéticos, discos ópticos,
+      microfilmes, películas, o cualquier otros instrumentos similares,
+      proporcionada por <b> EL EMPLEADOR</b>, su empresa matriz, sus empresas
+      filiales, subsidiarias, relacionadas, accionistas, consejeros, empleados,
+      clientes, inversionistas, abogados, consultores y demás personas o
+      empresas que se hubieren relacionado en algún momento con cualquiera de
+      dichas personas, la que incluye de manera enunciativa mas no limitativa
+      información personal de sus socios, accionistas inversionistas, empleados
+      , clientes, información técnica, financiera y comercial relativa a nombre
+      de accionistas, clientes o socios potenciales, o distribuidores,
+      información demográfica, reportes, propuestas, estrategias, proyectos de
+      negocios, estructura organizacional, composición de la sociedad y de la
+      corporación, planes, proyecciones de mercado, datos, ideas, conceptos,
+      estudios, equipos, resúmenes, programas, estadística, folletos,
+      procedimientos, políticas, sistemas, programas de computación, mapas,
+      regulación, normas, logística y cualquier otra información industrial,
+      comercial o de cualquier otra índole, junto con fórmulas, recetas,
+      mecanismos, patrones, métodos, técnicas, procesos de análisis, marcas
+      registradas o no registradas, nombres comerciales, documentos de trabajo,
+      compilaciones, comparaciones, estudios o cualquier otro documento que haya
+      sido preparado por EL EMPLEADOR, su empresa matriz, sus empresas filiales,
+      subsidiarias, relacionadas, accionistas, consejeros, empleados, clientes,
+      inversionistas, abogados, consultores y demás personas o empresas que se
+      hubieren relacionado en algún momento con cualquiera de dichas personas y
+      le sea revelada o proporcionada al Trabajador con motivo de sus funciones
+      o cualquiera operación o proyecto.
+    </p>
+
+    <p>
+      <b> PARÁGRAFO:</b> La anterior obligación de confidencialidad complementa
+      y forma parte integral del Acuerdo de Confidencialidad que
+      <b> el EMPLEADOR</b> ha suscrito de manera previa a la celebración del
+      presente contrato con el TRABAJADOR.
+    </p>
+
+    <p>
+      <b> DÉCIMA SEGUNDA- DIRECCIÓN DEL TRABAJADOR. EL TRABAJADOR</b> se
+      compromete a informar por escrito al <b> EMPLEADOR</b> cualquier cambio de
+      dirección teniéndose como suya para todos los efectos, la última dirección
+      registrada en su hoja de vida. Lo anterior de acuerdo con el Parágrafo 1
+      del artículo 29 de la ley 789 de 2.002 norma que modificó el art.65 del
+      Código Sustantivo de Trabajo.
+    </p>
+
+    <p>
+      <b> DÉCIMA TERCERA - FORMALIDAD DE LAS MODIFICACIONES.</b> Cualquier
+      modificación o adición a las estipulaciones contenidas en el presente
+      contrato requerirá, para su validez, que conste por escrito, bien en
+      anotación puesta a continuación de este y firmada por ambas partes, o bien
+      en comunicaciones cruzadas entre ellos.
+    </p>
+
+    <p>
+      <b> PARÁGRAFO.</b> Las partes declaran que en el presente contrato se
+      entienden incorporadas en lo pertinente en cuanto no se opongan a lo aquí
+      estipulado, todas las disposiciones legales que regulan las relaciones
+      entre empleadores y trabajadores y especialmente en lo dispuesto en
+      cualquier tiempo por el reglamento interno de trabajo del
+      <b> EMPLEADOR</b>, cuyo contenido es conocido y aceptado por
+      <b> EL TRABAJADOR</b>.
+    </p>
+
+    <p>
+      <b> DÉCIMA CUARTA - TRATAMIENTO DE DATOS PERSONALES</b>. El empleado
+      autoriza de manera libre y voluntaria a <b> LA EMPRESA</b> a recopilar,
+      utilizar, transferir, almacenar, consultar, procesar, y en general a dar
+      tratamiento a la información personal que éste ha suministrado a
+      <b> LA EMPRESA</b>, de conformidad con lo dispuesto en la ley 1581 de 2012
+      y el Decreto reglamentario 1377 de 2013, la cual se encuentra contenida en
+      las bases de datos y archivo de propiedad de <b> LA EMPRESA</b>, para los
+      fines internos que sean necesarios, tales como asuntos relacionados con su
+      documento de identificación, nacionalidad, país de residencia, dirección,
+      teléfono, estado civil, correo electrónico corporativo y personal, salario
+      y cuenta bancaria.
+    </p>
+
+    <p>
+      <b>DÉCIMA QUINTA - NORMATIVIDAD.</b> Las Partes, conforme lo aceptan en
+      este contrato se someterán a todo lo estatuido en el Código Sustantivo de
+      Trabajo y demás normas sobre derechos, obligaciones y prohibiciones
+      emanados del contrato de trabajo.
+    </p>
+
+    <p>
+      <b> DÉCIMA SEXTA - EFECTOS DE ESTE CONTRATO.</b> Las partes de común
+      acuerdo reconocen que el presente contrato ha tenido efectos desde la
+      fecha en que <b> EL EMPLEADO</b> inició la prestación del servicio en
+      favor de <b> LA EMPRESA</b> y que rige con los mismos hacia el futuro,
+      pudiendo las partes convenir por escrito modificaciones al mismo, que
+      formen parte integral del presente escrito.
+    </p>
+
+    <p>
+      <b> DECIMA OCTAVA- IMPUESTOS:</b> Cada una de las Partes será responsable
+      del pago de los impuestos, contribuciones al Sistema de Seguridad Social y
+      aportes parafiscales, y del cumplimiento de los deberes formales y
+      obligaciones correlativas que les correspondan de acuerdo con lo que
+      señale la Ley.
+    </p>
+
+    <p>
+      Para constancia se firma en dos ejemplares del mismo tenor y valor, ante
+      testigos, un ejemplar de los cuales recibe <b> EL TRABAJADOR</b> en este
+      acto, en la ciudad de __________. el día <span>{ salario?.inicio }</span>
+    </p>
+  </body>
+</html>

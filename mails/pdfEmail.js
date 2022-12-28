@@ -4,6 +4,8 @@ const FS = require("fs");
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 async function pdfEmail(email, user, content, file, nameFile) {
+  console.log('%cMyProject%cline:65%cnameFiles', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(179, 214, 110);padding:3px;border-radius:2px', email, nameFile)
+
   let msg = {
     from: 'info@formuapp.com',
     to: email,

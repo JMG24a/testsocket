@@ -28,7 +28,7 @@ const generateFile = async(req, res, next) => {
 
   //datos para enviar email
   if(email){
-      data.email = email
+    data.email = email
   }
 
   //Validar que el URL sí traiga el tipo de archivo

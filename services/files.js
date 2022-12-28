@@ -39,6 +39,7 @@ generatePDFFile = (data, nameFile, res = response) => {
     },
   };
 
+  console.log(formatProcedureStages(procedure.stages))
   const document = {
     html: html,
     data: formatProcedureStages(procedure.stages) || {},

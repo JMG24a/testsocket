@@ -14,7 +14,7 @@ function formatProcedureStages(procedureStages = {}) {
     for(const stageName in procedureStages) {
         const procedureStage = procedureStages[stageName]
 
-        if(typeof procedureStage !== "object") {
+        if(typeof procedureStage !== "object" || Array.isArray(procedureStage)) {
             newProcedureStages[stageName] = procedureStage
         } else {
             newProcedureStages[stageName] = {}

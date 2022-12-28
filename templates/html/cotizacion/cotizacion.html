@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Hello world!</title>
+    <!-- prettier-ignore -->
+    <link rel="stylesheet" href="{cotizacion.css}" accesskey="true">
+    <!-- prettier-ignore -->
+    <link rel="stylesheet" href="{../main.css}" accesskey="true">
+  </head>
+  <body>
+    <table style="width: 100%;">
+        <tbody>
+            <tr style="width: 100%;">
+                <td style="min-width: calc(100% - 50px);">
+                    <p>Cotización No. <b>{{quotation.number}}</b></p>
+
+                    <div class="header">
+                        <p style="margin-bottom: 5px;"><i>Información del cliente</i></p>
+                        <p><b>{{quotation.companyName}}</b></p>
+                        <p>{{quotation.accountName}}</p>
+                        <p>{{quotation.accountPhone}}</p>
+                        <p>{{quotation.accountEmail}}</p>
+                    </div>
+                </td>
+
+                <td style="min-width: 50px; max-width: 50px;">
+                    {{#ifCond company.logo "!==" ""}}
+                        <img src="{{company.logo}}" style="max-width: 100%; width: 100%;"/>
+                    {{/ifCond}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p style="margin-bottom: 15px; text-align: right;"><i>Fecha: {{quotation.dateFormatoFecha}}</i></p>
+    <table class="mainTable">
+        <thead>
+            <tr>
+                <th>Imagen</th>
+                <th>Cantidad</th>
+                <th>Descripción del producto</th>
+                <th>V. Unitario</th>
+                <th>Sub-Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each products}}
+            <tr>
+                <td>
+                    {{#ifCond this.image "!==" ""}}
+                        <img src="{{this.image}}" style="max-width: 100px; width: 100px;"/>
+                    {{/ifCond}}
+                </td>
+                <td><b>{{this.unity}}</b></td>
+                <td class="tableInfoCell">
+                    <p><b>{{this.name}}</b></p>
+                    <p>{{this.description}}</p>
+                </td>
+                <td><p><b>${{this.price}}</b></p></td>
+                <td><p><b>${{this.subtotal}}</b></p></td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    <section class="ammountsSection">
+        <table class="fila">
+            <tbody>
+                <tr>
+                    <td class="columna">
+                        <p style="margin: 5px;">
+                            <b>Tiempo de Entrega:</b>
+                            <span style="font-weight: 300;">{{quotation.deliveryTime}}</span>
+                        </p>
+                        <p style="margin: 5px;">
+                            <b>Forma de Pago:</b>
+                            <span style="font-weight: 300;">{{quotation.paymentMethod}}</span>
+                        </p>
+                        <p style="margin: 5px;">
+                            <b>Observaciones Adicionales:</b>
+                        </p>
+                        <p style="margin: 5px;">
+                            <span style="font-weight: 300;">{{quotation.observations}}</span>
+                        </p>
+                    </td>
+        
+                    <td class="columna info">
+                        <table>
+                            <tbody>
+                            <tr>
+                                <td style="text-align: right; padding-bottom: 10px;">Subtotal:</td>
+                                <td style="padding: 0 0 10px 10px;">{{quotation.subtotalFormatoDinero}}</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: right; padding-bottom: 10px;">IVA:</td>
+                                <td style="padding: 0 0 10px 10px;">{{quotation.ivaFormatoDinero}}</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: right; padding-bottom: 10px;">Envio:</td>
+                                <td style="padding: 0 0 10px 10px;">{{quotation.shippingValueFormatoDinero}}</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: right; padding-bottom: 10px;">Total:</td>
+                                <td style="padding: 0 0 10px 10px;">{{quotation.totalFormatoDinero}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section class="footer">
+        <p>{{company.name}}</p>
+        <p>NIT {{company.nit}}</p>
+        <p>{{company.phone}}</p>
+        <p>{{company.email}}</p>
+        <p>{{company.webPage}}</p>
+    </section>
+  </body>
+</html>

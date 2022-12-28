@@ -3,9 +3,6 @@ const { Router } = require("express")
 const router = Router()
 const boom = require("@hapi/boom")
 
-const ALLOWED_ORIENTATIONS = ["portrait", "landscape"]
-const ALLLOWED_FORMATS = ["Letter", "A3", "A4", "A5", "Legal", "Tabloid"]
-
 const Procedures = require('../models/Procedures');
 
 const {
@@ -18,6 +15,9 @@ const {
   generateJPGFile
 } = require('../services/files');
 const { validateToken } = require('../auth/middleware/jwt');
+
+const ALLOWED_ORIENTATIONS = ["portrait", "landscape"]
+const ALLLOWED_FORMATS = ["Letter", "A3", "A4", "A5", "Legal", "Tabloid"]
 
 const generateFile = async(req, res, next) => {
   //almacen de datos
@@ -38,12 +38,21 @@ const generateFile = async(req, res, next) => {
   };
 
   //Acceder a la información del trámite
-  const { id, pdfOptions } = req.body;
+  const { id, pdfOptions, documentData } = req.body;
 
   try {
-    const procedure = await Procedures.findById(id)
-      .populate("idForm")
-      .populate("idUsers");
+    let procedure;
+
+    if(id) {
+      procedure = await Procedures.findById(id)
+        .populate("idForm")
+        .populate("idUsers");
+    }
+
+    if(!procedure && typeof documentData === "object" && documentData !== null) {
+      procedure = {};
+      procedure.stages = documentData;
+    }
 
     if(!procedure){
       throw boom.notFound('No se encontró ningún trámite.')

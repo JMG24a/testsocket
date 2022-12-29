@@ -6,21 +6,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 async function pdfEmail(email, user, content, file, nameFile) {
   console.log('%cMyProject%cline:65%cnameFiles', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(179, 214, 110);padding:3px;border-radius:2px', email, nameFile)
 
-  let msg = {
-    from: 'info@formuapp.com',
-    to: email,
-    templateId: 'd-6f353852a3544b0fae750b25f03f6b7b',
-    dynamicTemplateData: {
-      email: email,
-      userName: userName,
-    },
-    subject: `FormuApp tramite PDF enviado por ${user.name}`,
-    html: `
-      <div>
-        ${content}
-      </div>
-      `,
-  }
+  let msg = {}
 
   if(file !== null){
     const root = file.toString("base64");
@@ -48,6 +34,22 @@ async function pdfEmail(email, user, content, file, nameFile) {
         }
       ]
     };
+  }else{
+    msg = {
+      from: 'info@formuapp.com',
+      to: email,
+      templateId: 'd-6f353852a3544b0fae750b25f03f6b7b',
+      dynamicTemplateData: {
+        email: email,
+        userName: userName,
+      },
+      subject: `FormuApp tramite PDF enviado por ${user.name}`,
+      html: `
+        <div>
+          ${content}
+        </div>
+        `,
+    }
   }
 
   sgMail

@@ -62,7 +62,7 @@ generatePDFFile = (data, nameFile, res = response) => {
 };
 
 generateEmailFile = async (data, nameFile, res = response) => {
-  const { email, procedure } = data;
+  const { email, subject = "", message = "", procedure } = data;
   if (!email | !procedure) {
     throw boom.badData('La información necesaria está incompleta');
   }
@@ -85,9 +85,10 @@ generateEmailFile = async (data, nameFile, res = response) => {
 
   try {
     const result = await pdf.create(document, options);
-    const content = `<b>Formuapp</b>`;
+    const content = `<b>${message}</b>`;
     await pdfEmail(
       email,
+      subject,
       procedure.idUsers[0],
       content,
       result,

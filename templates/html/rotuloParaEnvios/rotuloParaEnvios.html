@@ -12,9 +12,6 @@
     <table style="width: 100%">
       <tr>
         <td style="line-height: 20px" class="remitente">
-          {{#ifCond datosDelRemitente.nombreVendedor "===" "Juan"}}
-          <p style="color: red;">Hola mundo</p>
-          {{/ifCond}}
           <h1 style="text-align: left; font-size: 1.2em">REMITENTE</h1>
           <p>
             <b
@@ -32,11 +29,13 @@
           <p>{{datosDelRemitente.sitioWebVendedor}}</p>
         </td>
         <td style="text-align: right">
-          <img
-            src="https://res.cloudinary.com/db6izsiwj/image/upload/v1670597146/nnmvrfk7n2yb20s5edcq.png"
-            alt=""
-            width="250"
-          />
+          {{#ifCond datosDelRemitente.logoVendedor "!==" ""}}
+            <img
+              src="{{datosDelRemitente.logoVendedor}}"
+              alt=""
+              width="250"
+            />
+          {{/ifCond}}
         </td>
       </tr>
     </table>
